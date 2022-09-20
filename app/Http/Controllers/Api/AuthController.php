@@ -22,6 +22,10 @@ class AuthController extends Controller
         $this->stripe = new StripeClient(env('STRIPE_SECRET_KEY'));
     }
 
+    public function test2(){
+        return true;
+    }
+
     public function register(Request $request){
         $validator = Validator::make($request->all(),[
             'email'     =>  'required|unique:users,email',
