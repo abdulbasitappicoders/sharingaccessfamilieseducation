@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Broadcast;
 // use App\Broadcasting\SafePrivateChannel;
 /*
 |--------------------------------------------------------------------------
-| Broadcast Channels
+| Broadcast Channels 
 |--------------------------------------------------------------------------
 |
 | Here you may register all of the event broadcasting channels that your

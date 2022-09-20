@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use App\Models\{UserChildren,UserPaymentMethod,UserVehicle,UserLicense,userAvailable,ChatList,
+use App\Models\{UserChildren,UserPaymentMethod,UserVehicle,UserLicense,UserAvailable,ChatList,
     ChatListMessage,ContactUs,Review,Notification,Ride,RideRequestedTo};
 
 
