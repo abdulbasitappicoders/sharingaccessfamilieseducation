@@ -92,7 +92,7 @@ if (!function_exists('findDistance')) {
      */
     function findDistance($destination,$origin)
     {
-        $link = 'https://maps.googleapis.com/maps/api/distancematrix/json?destinations='.$destination.'&origins='.$origin.'&key=AIzaSyBBVMEPDktEjcindc7_NjCpFWsSWVspyKI';
+        $link = 'https://maps.googleapis.com/maps/api/distancematrix/json?destinations='.$destination.'&origins='.$origin.'&key=AIzaSyCRYfRwttAsnD0vflBvUQ4lFiGytXnInz4';
         $res = json_decode(file_get_contents($link), true);
         return $res;
     }
