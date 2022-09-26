@@ -236,7 +236,7 @@ class ProfileController extends Controller
                 $user->status = 0;
                 $user->save();
                 $user->delete();
-                return apiresponse(true,'Account deleted');
+                return apiresponse(true,'Account deleted',1);
             }else{
                 return apiresponse(false,'Account not found');
             }
