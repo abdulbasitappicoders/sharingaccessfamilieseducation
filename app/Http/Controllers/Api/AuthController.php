@@ -143,6 +143,10 @@ class AuthController extends Controller
                     'user' => $user
                 ];
             }else{
+                $user = User::where('email',$request->email)->withTrashed()->first();
+                if($user){
+                    return apiresponse(false, 'Your account has been deleted!');
+                }
                 $stripe = new StripeClient(env("STRIPE_SECRET_KEY"));
                 $stripeCustomer = $stripe->customers->create([
                     'email' => $request->email,
