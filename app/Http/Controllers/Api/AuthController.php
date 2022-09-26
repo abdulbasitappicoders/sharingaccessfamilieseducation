@@ -112,7 +112,12 @@ class AuthController extends Controller
                     return apiresponse(false, 'Invalid Credentials');
                 }
             } else {
-                return apiresponse(false, 'User not Found!');
+                $user = User::where('email',$request->email)->withTrashed()->first();
+                if($user){
+                    return apiresponse(false, 'Your account has been deleted!');
+                }else{
+                    return apiresponse(false, 'User not Found!');
+                }
             }
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());

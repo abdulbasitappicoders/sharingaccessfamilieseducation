@@ -53,6 +53,7 @@
       transform: rotate(-44deg);
     }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body class="font-muli">
     <div id="main_content">
@@ -72,31 +73,31 @@
                     <nav class="sidebar-nav">
                         <ul class="metismenu">
                             <li class="border-top">
-                            <a href="index.html"><span class="ml-3 text-white">Dashboard</span></a>
+                            <a href="{{route('admin.home')}}"><span class="ml-3 text-white">Dashboard</span></a>
                             </li>
                             <li class="border-top">
-                                <a href="rider.html"><span class="ml-3 text-white">Rider</span></a>
+                                <a href="{{route('admin.rider')}}"><span class="ml-3 text-white">Rider</span></a>
                             </li>
                             <li class="border-top">
-                                <a href="driver.html"><span class="ml-3 text-white">Driver</span></a>
+                                <a href="{{route('admin.driver')}}"><span class="ml-3 text-white">Driver</span></a>
                             </li>
                             <li class="border-top">
-                                <a href="community-group.html"><span class="ml-3 text-white">Community Group</span></a>
+                                <a href="{{route('admin.community_group')}}"><span class="ml-3 text-white">Community Group</span></a>
                             </li>
                             <li class="border-bottom border-top">
                                 <a href="payment.html"><span class="ml-3 text-white">Payment</span></a>
                             </li>
                             <li class="border-bottom">
-                                <a href="help.html"><span class="ml-3 text-white">Help</span></a>
+                                <a href="{{route('admin.help')}}"><span class="ml-3 text-white">Help</span></a>
                             </li>
                             <li class="border-bottom">
                                 <a href="queries.html"><span class="ml-3 text-white">Queries</span></a>
                             </li>
                             <li class="border-bottom">
-                                <a href="term-service.html"><span class="ml-3 text-white">Terms & Service</span></a>
+                                <a href="{{route('admin.termsCondition')}}"><span class="ml-3 text-white">Terms & Service</span></a>
                             </li>
                             <li class="border-bottom">
-                                <a href="privacy-policy.html"><span class="ml-3 text-white">Privacy & Policy</span></a>
+                                <a href="{{route('admin.privacyAndPolicy')}}"><span class="ml-3 text-white">Privacy & Policy</span></a>
                             </li>
                         </ul>
                     </nav>

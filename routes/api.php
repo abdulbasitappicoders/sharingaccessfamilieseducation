@@ -39,6 +39,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
     Route::post('updateIsBoard',[ProfileController::class, 'updateIsBoard'])->name('updateIsBoard');
     Route::post('getUser',[ProfileController::class, 'getUser'])->name('getUser');
     Route::post('childDelete',[ProfileController::class, 'childDelete'])->name('childDelete');
+    Route::get('deleteUser',[ProfileController::class, 'deleteUser'])->name('deleteUser');
 
     //Chat Module
     Route::post('chatLists',[ChatController::class, 'chatLists'])->name('chatLists');

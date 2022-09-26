@@ -228,4 +228,20 @@ class ProfileController extends Controller
             return apiresponse(false, $e->getMessage());
         }
     }
+
+    public function deleteUser(){
+        try {
+            $user = User::find(Auth::user()->id);
+            if($user){
+                $user->status = 0;
+                $user->save();
+                $user->delete();
+                return apiresponse(true,'Account deleted');
+            }else{
+                return apiresponse(false,'Account not found');
+            }
+        } catch (Exception $e) {
+            return apiresponse(false, $e->getMessage());
+        }
+    }
 }
