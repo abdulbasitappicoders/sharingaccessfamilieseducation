@@ -91,7 +91,7 @@
                                 <a href="{{route('admin.help')}}"><span class="ml-3 text-white">Help</span></a>
                             </li>
                             <li class="border-bottom">
-                                <a href="queries.html"><span class="ml-3 text-white">Queries</span></a>
+                                <a href="{{route('admin.queries')}}"><span class="ml-3 text-white">Queries</span></a>
                             </li>
                             <li class="border-bottom">
                                 <a href="{{route('admin.termsCondition')}}"><span class="ml-3 text-white">Terms & Service</span></a>

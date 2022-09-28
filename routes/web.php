@@ -48,4 +48,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     //privacyAndPolicy Module
     Route::get('admin/privacyAndPolicy', [PageController::class, 'privacyAndPolicy'])->name('admin.privacyAndPolicy');
     Route::post('admin/update_privacyAndPolicy', [PageController::class, 'update_privacyAndPolicy'])->name('admin.update_privacyAndPolicy');
+
+    //Queries Module
+    Route::get('admin/queries', [PageController::class, 'queries'])->name('admin.queries');
+    Route::get('admin/query_user/{id}', [PageController::class, 'query_user'])->name('admin.query_user');
 });

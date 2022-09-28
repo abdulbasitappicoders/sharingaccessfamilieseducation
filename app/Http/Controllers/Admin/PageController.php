@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Page;
+use App\Models\{Page,ContactUs,User};
+use Illuminate\Support\Facades\Crypt;
 
 class PageController extends Controller
 {
@@ -64,4 +65,28 @@ class PageController extends Controller
             return back()->with('message','Terms And Condition updated');
         }
     }
+
+    //Queries Module
+    public function queries(){
+        $queries = ContactUs::with('user')->orderBy('id','DESC')->simplePaginate(10);
+        return view('queries.index',compact('queries'));
+    }
+
+    public function query_user($id){
+        $user = User::find(Crypt::decryptString($id));
+        if($user){
+            return view('queries.user',compact('user'));;
+        }else{
+            return back()->with('message','User not found');
+        }
+        
+    }
+
+    // public function update_privacyAndPolicy(Request $request){
+    //     $privacyPolicy = Page::find($request->id);
+    //     $privacyPolicy->privacyPolicy = $request->privacyPolicy;
+    //     if($privacyPolicy->save()){
+    //         return back()->with('message','Terms And Condition updated');
+    //     }
+    // }
 }
