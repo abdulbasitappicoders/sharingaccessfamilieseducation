@@ -127,6 +127,8 @@ class AuthController extends Controller
     public function socialLogin(Request $request){
 
         $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
             'username' => 'required',
             'email' => 'required',
         ]);
