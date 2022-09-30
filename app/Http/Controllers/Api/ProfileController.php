@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User,RidePayment,UserChildren,UserLicense,UserVehicle,userAvailable,Ride,Review,DriverInsurance};
+use App\Models\{User,RidePayment,UserChildren,UserLicense,UserVehicle,UserAvailable,Ride,Review,DriverInsurance};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Exception;
