@@ -36,21 +36,21 @@ class ProfileController extends Controller
                         $license['user_id'] = Auth::user()->id;
                         $userLicense = UserLicense::where('user_id',Auth::user()->id)->first();
                         if($userLicense){
-                            if ( $request->filled($request->license['card_front'])) {
+                            if (isset($request->license['card_front']) && $request->license['card_front'] != null ) {
                                 $res = files_upload($request->license['card_front'], 'card');
                                 $license['card_front'] = $res;
                             }
-                            if ( $request->filled($request->license['card_back'])) {
+                            if (isset($request->license['card_back']) && $request->license['card_back'] != null) {
                                 $res = files_upload($request->license['card_back'], 'card');
                                 $license['card_back'] = $res;
                             }
                             UserLicense::where('user_id',Auth::user()->id)->update($license);
                         }else{
-                            if ( $request->filled($request->license['card_front'])) {
+                            if ( isset($request->license['card_front']) && $request->license['card_front'] != null ) {
                                 $res = files_upload($request->license['card_front'], 'card');
                                 $license['card_front'] = $res;
                             }
-                            if ( $request->filled($request->license['card_back'])) {
+                            if ( isset($request->license['card_back']) && $request->license['card_back'] != null) {
                                 $res = files_upload($request->license['card_back'], 'card');
                                 $license['card_back'] = $res;
                             }
