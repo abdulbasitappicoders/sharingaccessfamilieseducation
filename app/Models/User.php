@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\{UserChildren,UserPaymentMethod,UserVehicle,UserLicense,UserAvailable,ChatList,
-    ChatListMessage,ContactUs,Review,Notification,Ride,RideRequestedTo};
+    ChatListMessage,ContactUs,Review,Notification,Ride,RideRequestedTo,DriverInsurance};
 
 
 class User extends Authenticatable
@@ -18,6 +18,8 @@ class User extends Authenticatable
     public const driver = 'driver'; 
     public const rider = 'rider'; 
 
+
+    protected $with = ['riderInsurance'];
     /**
      * The attributes that are mass assignable.
      *
@@ -80,6 +82,11 @@ class User extends Authenticatable
     public function riderPayment()
 	{
         return $this->hasMany(RidePayment::class,'id','rider_id');
+	}
+
+    public function riderInsurance()
+	{
+        return $this->hasMany(DriverInsurance::class);
 	}
 
     public function chatLists()

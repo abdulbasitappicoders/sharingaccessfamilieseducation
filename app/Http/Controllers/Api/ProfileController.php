@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User,RidePayment,UserChildren,UserLicense,UserVehicle,userAvailable,Ride,Review};
+use App\Models\{User,RidePayment,UserChildren,UserLicense,UserVehicle,userAvailable,Ride,Review,DriverInsurance};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Exception;
@@ -64,6 +64,33 @@ class ProfileController extends Controller
                             userAvailable::create($available);
                         }
                     }
+                    if($request->filled('insurance')){
+                        // return $request->insurance;
+                        $insurance = $request->insurance;
+                        $insurance['user_id'] = Auth::user()->id;
+                        $userInsurance = DriverInsurance::where('user_id',Auth::user()->id)->first();
+                        if($userInsurance){
+                            if (isset($request->insurance['front']) && $request->insurance['front'] != null) {
+                                $res = files_upload($request->insurance['front'], 'insurance_front');
+                                $insurance['front'] = $res;
+                            }
+                            if ( isset($request->insurance['back']) && $request->insurance['back'] != null) {
+                                $res = files_upload($request->insurance['back'], 'insurance_back');
+                                $insurance['back'] = $res;
+                            }
+                            DriverInsurance::where('user_id',Auth::user()->id)->update($insurance);
+                        }else{
+                            if ( isset($request->insurance['front']) && $request->insurance['front'] != null) {
+                                $res = files_upload($request->insurance['front'], 'insurance_front');
+                                $insurance['front'] = $res;
+                            }
+                            if ( isset($request->insurance['back']) && $request->insurance['back'] != null) {
+                                $res = files_upload($request->insurance['back'], 'insurance_back');
+                                $insurance['back'] = $res;
+                            }
+                            DriverInsurance::create($insurance);
+                        }
+                    }
                     if($request->filled('vehicle')){
                         $vehicle = $request->vehicle;
                         $vehicle['user_id'] = Auth::user()->id;
@@ -90,7 +117,7 @@ class ProfileController extends Controller
                     
                 }
             }
-            $data = User::where('id',Auth::user()->id)->with('childrens','childrens.payment_method','licence','vehicle','UserPaymentMethods','userAvailability')->first();
+            $data = User::where('id',Auth::user()->id)->with('childrens','childrens.payment_method','licence','vehicle','UserPaymentMethods','userAvailability','riderInsurance')->first();
             $rides = Ride::where('driver_id',$data->id)
             ->where('status','completed')->count();
             if(Auth::user()->role == 'driver'){
