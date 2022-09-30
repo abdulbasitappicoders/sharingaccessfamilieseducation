@@ -57,6 +57,7 @@ class ProfileController extends Controller
                             UserLicense::create($license);
                         }
                     }
+                    die("dead");
                     if(isset($request->availability) && $request->filled('availability')){
                         userAvailable::where('user_id',Auth::user()->id)->delete();
                         foreach($request->availability as $available){
