@@ -31,32 +31,34 @@ class ProfileController extends Controller
             $res = User::find(Auth::user()->id)->update($data);
             if($res){
                 if(Auth::user()->role == 'driver'){
-                    // if(isset($request->license) && $request->filled('license')){
-                    //     $license = $request->license;
-                    //     $license['user_id'] = Auth::user()->id;
-                    //     $userLicense = UserLicense::where('user_id',Auth::user()->id)->first();
-                    //     if($userLicense){
-                    //         if (isset($request->license['card_front']) && $request->license['card_front'] != null ) {
-                    //             $res = files_upload($request->license['card_front'], 'card');
-                    //             $license['card_front'] = $res;
-                    //         }
-                    //         if (isset($request->license['card_back']) && $request->license['card_back'] != null) {
-                    //             $res = files_upload($request->license['card_back'], 'card');
-                    //             $license['card_back'] = $res;
-                    //         }
-                    //         UserLicense::where('user_id',Auth::user()->id)->update($license);
-                    //     }else{
-                    //         if ( isset($request->license['card_front']) && $request->license['card_front'] != null ) {
-                    //             $res = files_upload($request->license['card_front'], 'card');
-                    //             $license['card_front'] = $res;
-                    //         }
-                    //         if ( isset($request->license['card_back']) && $request->license['card_back'] != null) {
-                    //             $res = files_upload($request->license['card_back'], 'card');
-                    //             $license['card_back'] = $res;
-                    //         }
-                    //         UserLicense::create($license);
-                    //     }
-                    // }
+                    if(isset($request->license) && $request->filled('license')){
+                        $license = $request->license;
+                        $license['user_id'] = Auth::user()->id;
+                        $userLicense = UserLicense::where('user_id',Auth::user()->id)->first();
+                        if($userLicense){
+                            //isset($request->license['card_front']) && $request->license['card_front'] != null
+                            if (array_key_exists("card_front",$request->license)) {
+                                $res = files_upload($request->license['card_front'], 'card');
+                                $license['card_front'] = $res;
+                            }
+                            //isset($request->license['card_back']) && $request->license['card_back'] != null
+                            if (array_key_exists("card_back",$request->license)) {
+                                $res = files_upload($request->license['card_back'], 'card');
+                                $license['card_back'] = $res;
+                            }
+                            UserLicense::where('user_id',Auth::user()->id)->update($license);
+                        }else{
+                            if (array_key_exists("card_front",$request->license)) {
+                                $res = files_upload($request->license['card_front'], 'card');
+                                $license['card_front'] = $res;
+                            }
+                            if (array_key_exists("card_back",$request->license)) {
+                                $res = files_upload($request->license['card_back'], 'card');
+                                $license['card_back'] = $res;
+                            }
+                            UserLicense::create($license);
+                        }
+                    }
                     if(isset($request->availability) && $request->filled('availability')){
                         userAvailable::where('user_id',Auth::user()->id)->delete();
                         foreach($request->availability as $available){
