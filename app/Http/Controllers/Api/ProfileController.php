@@ -57,14 +57,14 @@ class ProfileController extends Controller
                             UserLicense::create($license);
                         }
                     }
-                    if($request->filled('availability')){
+                    if(isset($request->availability) && $request->filled('availability')){
                         userAvailable::where('user_id',Auth::user()->id)->delete();
                         foreach($request->availability as $available){
                             $available['user_id'] = Auth::user()->id;
                             userAvailable::create($available);
                         }
                     }
-                    if($request->filled('insurance')){
+                    if(isset($request->insurance) && $request->filled('insurance')){
                         // return $request->insurance;
                         $insurance = $request->insurance;
                         $insurance['user_id'] = Auth::user()->id;
@@ -91,7 +91,7 @@ class ProfileController extends Controller
                             DriverInsurance::create($insurance);
                         }
                     }
-                    if($request->filled('vehicle')){
+                    if(isset($request->vehicle) && $request->filled('vehicle')){
                         $vehicle = $request->vehicle;
                         $vehicle['user_id'] = Auth::user()->id;
                         $userVehicle = UserVehicle::where('user_id',Auth::user()->id)->first();
@@ -102,7 +102,7 @@ class ProfileController extends Controller
                         }
                     }
                 }else{
-                    if(isset($request->childrens)){
+                    if(isset($request->childrens) && $request->filled('childrens')){
                         $childrens = $request->childrens;
                         foreach($childrens as $children){
                             // return gettype($children);
