@@ -31,7 +31,7 @@ class ProfileController extends Controller
             $res = User::find(Auth::user()->id)->update($data);
             if($res){
                 if(Auth::user()->role == 'driver'){
-                    if($request->filled('license')){
+                    if(isset($request->license) && $request->filled('license')){
                         $license = $request->license;
                         $license['user_id'] = Auth::user()->id;
                         $userLicense = UserLicense::where('user_id',Auth::user()->id)->first();
@@ -57,7 +57,6 @@ class ProfileController extends Controller
                             UserLicense::create($license);
                         }
                     }
-                    die("dead");
                     if(isset($request->availability) && $request->filled('availability')){
                         userAvailable::where('user_id',Auth::user()->id)->delete();
                         foreach($request->availability as $available){
