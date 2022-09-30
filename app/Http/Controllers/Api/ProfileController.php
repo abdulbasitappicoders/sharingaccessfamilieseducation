@@ -37,22 +37,22 @@ class ProfileController extends Controller
                         $userLicense = UserLicense::where('user_id',Auth::user()->id)->first();
                         if($userLicense){
                             //isset($request->license['card_front']) && $request->license['card_front'] != null
-                            if (array_key_exists("card_front",$request->license)) {
+                            if (array_key_exists("card_front",$license)) {
                                 $res = files_upload($request->license['card_front'], 'card');
                                 $license['card_front'] = $res;
                             }
                             //isset($request->license['card_back']) && $request->license['card_back'] != null
-                            if (array_key_exists("card_back",$request->license)) {
+                            if (array_key_exists("card_back",$license)) {
                                 $res = files_upload($request->license['card_back'], 'card');
                                 $license['card_back'] = $res;
                             }
                             UserLicense::where('user_id',Auth::user()->id)->update($license);
                         }else{
-                            if (array_key_exists("card_front",$request->license)) {
+                            if (array_key_exists("card_front",$license)) {
                                 $res = files_upload($request->license['card_front'], 'card');
                                 $license['card_front'] = $res;
                             }
-                            if (array_key_exists("card_back",$request->license)) {
+                            if (array_key_exists("card_back",$license)) {
                                 $res = files_upload($request->license['card_back'], 'card');
                                 $license['card_back'] = $res;
                             }
