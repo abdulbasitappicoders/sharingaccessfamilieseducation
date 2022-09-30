@@ -102,7 +102,7 @@ class ProfileController extends Controller
                         }
                     }
                 }else{
-                    if($request->filled('childrens')){
+                    if(isset($request->childrens)){
                         $childrens = $request->childrens;
                         foreach($childrens as $children){
                             // return gettype($children);
