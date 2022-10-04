@@ -10,8 +10,21 @@ use Illuminate\Support\Facades\Crypt;
 class PageController extends Controller
 {
 
-    public function verifyEmail(){
-        return view('mail.verification');
+    public function verifyEmail($id,$code){
+        $user = User::find($id);
+        if($user){
+            if($user->confirmation_code == $code){
+                $user->confirmation_code = null;
+                $user->is_verified = 1;
+                if($user->save()){
+                    return redirect('/');
+                }
+            }else{
+                return "Link expired";
+            }
+        }else{
+            return "User not found";
+        }
     }
 
     //Community Group Module

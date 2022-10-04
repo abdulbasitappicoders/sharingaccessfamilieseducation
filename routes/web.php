@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{UserController,PageController};
+use App\Http\Controllers\{SiteController};
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +14,13 @@ use App\Http\Controllers\Admin\{UserController,PageController};
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [SiteController::class, 'index'])->name('home');
+Route::get('privacy_policy', [SiteController::class, 'privacy_policy'])->name('privacy_policy');
+Route::get('term_and_condition', [SiteController::class, 'term_and_condition'])->name('term_and_condition');
 
-Route::get('/', function () {
-    return view('login');
-});
 
 Auth::routes();
-Route::get('verifyEmail', [PageController::class, 'verifyEmail'])->name('verifyEmail');
+Route::get('verifyEmail/{id}/{code}', [PageController::class, 'verifyEmail'])->name('verifyEmail');
 // Route::post('verifyEmail', 'AuthController@')->name('verifyEmail');
 
 Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.home');
