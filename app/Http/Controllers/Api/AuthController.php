@@ -118,7 +118,7 @@ class AuthController extends Controller
                         return apiresponse(false, 'Invalid Credentials');
                     }
                 }else{
-                    return apiresponse(false, 'Account not verified');
+                    return apiresponse(false, 'An email has been sent to your registered email address. Please click on verify to verify your account.');
                 }
             } else {
                 $user = User::where('email',$request->email)->withTrashed()->first();
