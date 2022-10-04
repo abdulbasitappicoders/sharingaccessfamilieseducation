@@ -9,6 +9,7 @@ use Stripe\StripeClient;
 use Illuminate\Support\Facades\Hash;
 use App\Models\{User,Ride,RidePayment};
 use Auth;
+use Mail;
 use Exception;
 
 
@@ -35,6 +36,7 @@ class AuthController extends Controller
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
         try {
+            $code = rand(10000,99999);
             $stripeCustomer = $this->stripe->customers->create([
                 'email' => $request->email,
                 'name' => isset($request->username)?$request->username:$request->fist_name.' '.$request->last_name,
@@ -42,12 +44,15 @@ class AuthController extends Controller
             $data = $request->except(['password']);
             $data['stripe_customer_id'] = $stripeCustomer->id;
             $data['password'] = Hash::make($request->password);
+            $data['confirmation_code'] = $code;
             if ($request->hasFile('image')) {
                 $res = files_upload($request->image, 'profile');
                 $data['image'] = $res;
             }
             $user = User::create($data);
+            $authData = ['code' => $code,'user_id' => $user->id];
             if($user){
+                \Mail::to($request->email)->send(new \App\Mail\VerificationEmail($authData));
                 if($user->role == 'driver'){
                     $rides = Ride::where('driver_id',$user->id)
                     ->where('status','completed')->count();
@@ -79,37 +84,41 @@ class AuthController extends Controller
         try {
             $user = User::where('email', $request->email)->with('licence','vehicle','childrens','UserPaymentMethods','childrens.payment_method','userAvailability')->first();
             if ($user) {
-                if (Hash::check($request->password, $user->password)) {
-                    if ($request->has('device_id') and !empty($request->device_id)) {
-                        User::find($user->id)->update(['device_id' => $request->device_id]);
-                        $user = User::where('id',$user->id)->with('licence','vehicle','childrens','childrens.payment_method','userAvailability')->first();
+                if($user->is_verified == 1){
+                    if (Hash::check($request->password, $user->password)) {
+                        if ($request->has('device_id') and !empty($request->device_id)) {
+                            User::find($user->id)->update(['device_id' => $request->device_id]);
+                            $user = User::where('id',$user->id)->with('licence','vehicle','childrens','childrens.payment_method','userAvailability')->first();
+                        }
+                        if($user->role == 'rider'){
+                            $rides = Ride::where('rider_id',$user->id)
+                            ->where('status','completed')
+                            ->with('driver','rider','rideLocations','ridePayment','review')->count();
+                        }else{
+                            $rides = Ride::where('driver_id',$user->id)
+                            ->where('status','completed')
+                            ->with('driver','rider','rideLocations','ridePayment','review')->count();
+                        }
+                        $user->login_count = $user->login_count+1;
+                        $user->save();
+                        if($user->role == 'driver'){
+                            $total_earnings = RidePayment::where('driver_id', $user->id)->sum('total_amount');
+                        }else{
+                            $total_earnings = RidePayment::where('rider_id', $user->id)->sum('total_amount');
+                        }
+                        $user->total_earnings = $total_earnings;
+                        $user->total_rides = $rides;
+                        $data = [
+                            'token' => $user->createToken('customer-Token')->accessToken,
+                            'user' => $user,
+                            'csrf_token' =>  csrf_field() 
+                        ];
+                        return apiresponse(true, 'Login Success', $data);
+                    } else {
+                        return apiresponse(false, 'Invalid Credentials');
                     }
-                    if($user->role == 'rider'){
-                        $rides = Ride::where('rider_id',$user->id)
-                        ->where('status','completed')
-                        ->with('driver','rider','rideLocations','ridePayment','review')->count();
-                    }else{
-                        $rides = Ride::where('driver_id',$user->id)
-                        ->where('status','completed')
-                        ->with('driver','rider','rideLocations','ridePayment','review')->count();
-                    }
-                    $user->login_count = $user->login_count+1;
-                    $user->save();
-                    if($user->role == 'driver'){
-                        $total_earnings = RidePayment::where('driver_id', $user->id)->sum('total_amount');
-                    }else{
-                        $total_earnings = RidePayment::where('rider_id', $user->id)->sum('total_amount');
-                    }
-                    $user->total_earnings = $total_earnings;
-                    $user->total_rides = $rides;
-                    $data = [
-                        'token' => $user->createToken('customer-Token')->accessToken,
-                        'user' => $user,
-                        'csrf_token' =>  csrf_field() 
-                    ];
-                    return apiresponse(true, 'Login Success', $data);
-                } else {
-                    return apiresponse(false, 'Invalid Credentials');
+                }else{
+                    return apiresponse(false, 'Account not verified');
                 }
             } else {
                 $user = User::where('email',$request->email)->withTrashed()->first();
