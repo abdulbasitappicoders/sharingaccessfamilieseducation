@@ -19,6 +19,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('verifyEmail', [PageController::class, 'verifyEmail'])->name('verifyEmail');
+// Route::post('verifyEmail', 'AuthController@')->name('verifyEmail');
 
 Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.home');
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth','is_admin']], function () {

@@ -237,6 +237,10 @@ class AuthController extends Controller
         }
     }
 
+    public function verifyEmail(){
+
+    }
+
     public function test(Request $request){
         // if ($request->hasFile('image')) {
         //     $res = files_upload($request->image, 'profile');

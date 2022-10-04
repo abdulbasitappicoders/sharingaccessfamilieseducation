@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Crypt;
 class PageController extends Controller
 {
 
+    public function verifyEmail(){
+        return view('mail.verification');
+    }
+
     //Community Group Module
     public function community_group(){
         $community = Page::first();
