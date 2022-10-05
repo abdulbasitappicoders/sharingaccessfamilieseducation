@@ -14,7 +14,7 @@ use App\Http\Controllers\{SiteController};
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [SiteController::class, 'index'])->name('home');
+Route::get('/', [SiteController::class, 'index'])->name('/');
 Route::get('privacy_policy', [SiteController::class, 'privacy_policy'])->name('privacy_policy');
 Route::get('term_and_condition', [SiteController::class, 'term_and_condition'])->name('term_and_condition');
 

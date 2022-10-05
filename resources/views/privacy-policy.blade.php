@@ -41,7 +41,7 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-10 text-center mt-0 mt-md-5 pt-0 ">
                                 <div class="title-heading mb-5">
-                                    <a href="index.html"><img src="{{asset('landing/images/logo-light.png')}}" class="l-dark" alt="logo"></a>
+                                    <a href="{{route('/')}}"><img src="{{asset('landing/images/logo-light.png')}}" class="l-dark" alt="logo"></a>
                                     <h1 class="heading text-white mb-3 mt-3">Privacy Policy</h1>
 
                                 </div>
