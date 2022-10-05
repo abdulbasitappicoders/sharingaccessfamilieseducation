@@ -56,11 +56,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     //Queries Module
     Route::get('admin/queries', [PageController::class, 'queries'])->name('admin.queries');
     Route::get('admin/query_user/{id}', [PageController::class, 'query_user'])->name('admin.query_user');
-<<<<<<< HEAD
-});
-=======
 
     //Payments Module
     Route::get('admin/payments', [PageController::class, 'payments'])->name('admin.payments');
 });
->>>>>>> f293039782fba73c8f5af213d3f484b36f39a9dd
