@@ -30,6 +30,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::get('admin/driver', [UserController::class, 'driver'])->name('admin.driver');
     Route::get('admin/driver_licence/{id}', [UserController::class, 'driver_licence'])->name('admin.driver_licence');
     Route::post('admin/driver_status', [UserController::class, 'driver_status'])->name('admin.driver_status');
+    Route::get('admin/driver_insurance/{id}', [UserController::class, 'driver_insurance'])->name('admin.driver_insurance');
 
     //Rider Module
     Route::get('admin/rider', [UserController::class, 'rider'])->name('admin.rider');
@@ -55,4 +56,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     //Queries Module
     Route::get('admin/queries', [PageController::class, 'queries'])->name('admin.queries');
     Route::get('admin/query_user/{id}', [PageController::class, 'query_user'])->name('admin.query_user');
+
+    //Payments Module
+    Route::get('admin/payments', [PageController::class, 'payments'])->name('admin.payments');
 });

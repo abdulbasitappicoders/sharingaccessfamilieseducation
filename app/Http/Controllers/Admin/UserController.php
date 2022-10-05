@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\{User};
 
 class UserController extends Controller
 {
@@ -22,6 +22,11 @@ class UserController extends Controller
     public function driver_licence($id){
         $licence = User::where('id',$id)->with('licence','vehicle')->first();
         return view('driver.licence',compact('licence'));
+    }
+
+    public function driver_insurance($id){
+        $insurance = User::where('id',$id)->with('riderInsurance')->first();
+        return view('driver.insurance-details',compact('insurance'));
     }
 
     public function driver_status(Request $request){
@@ -47,4 +52,8 @@ class UserController extends Controller
         $childrens = User::where('id',$id)->with('childrens')->first();
         return view('rider.children',compact('childrens'));
     }
+
 }
+
+
+

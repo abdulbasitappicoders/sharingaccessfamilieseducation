@@ -52,7 +52,7 @@
                     </td>
                     <td>
                         <a href="{{route('admin.driver_licence',$user->id)}}" class="btn btn-icon btn-info mb-2">Vehicle Info</a><br>
-                        <a href="insurance-details.html" class="btn btn-icon btn-warning">Insurance Details</a>
+                        <a href="{{route('admin.driver_insurance',$user->id)}}" class="btn btn-icon btn-warning">Insurance Details</a>
                         <a href="" onclick="UserStatus({{$user->id}})" data-toggle="modal" data-target="#exampleModal" class="btn btn-icon btn-secondary">Status</a>
                     </td>
                 </tr>

@@ -85,7 +85,7 @@
                                 <a href="{{route('admin.community_group')}}"><span class="ml-3 text-white">Community Group</span></a>
                             </li>
                             <li class="border-bottom border-top">
-                                <a href="payment.html"><span class="ml-3 text-white">Payment</span></a>
+                                <a href="{{route('admin.payments')}}"><span class="ml-3 text-white">Payment</span></a>
                             </li>
                             <li class="border-bottom">
                                 <a href="{{route('admin.help')}}"><span class="ml-3 text-white">Help</span></a>
