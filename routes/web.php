@@ -14,7 +14,7 @@ use App\Http\Controllers\{SiteController};
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [SiteController::class, 'index'])->name('home');
+Route::get('/', [SiteController::class, 'index'])->name('/');
 Route::get('privacy_policy', [SiteController::class, 'privacy_policy'])->name('privacy_policy');
 Route::get('term_and_condition', [SiteController::class, 'term_and_condition'])->name('term_and_condition');
 
@@ -30,6 +30,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::get('admin/driver', [UserController::class, 'driver'])->name('admin.driver');
     Route::get('admin/driver_licence/{id}', [UserController::class, 'driver_licence'])->name('admin.driver_licence');
     Route::post('admin/driver_status', [UserController::class, 'driver_status'])->name('admin.driver_status');
+    Route::get('admin/driver_insurance/{id}', [UserController::class, 'driver_insurance'])->name('admin.driver_insurance');
 
     //Rider Module
     Route::get('admin/rider', [UserController::class, 'rider'])->name('admin.rider');
@@ -55,4 +56,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     //Queries Module
     Route::get('admin/queries', [PageController::class, 'queries'])->name('admin.queries');
     Route::get('admin/query_user/{id}', [PageController::class, 'query_user'])->name('admin.query_user');
+<<<<<<< HEAD
 });
+=======
+
+    //Payments Module
+    Route::get('admin/payments', [PageController::class, 'payments'])->name('admin.payments');
+});
+>>>>>>> f293039782fba73c8f5af213d3f484b36f39a9dd

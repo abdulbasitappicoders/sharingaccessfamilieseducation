@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Page,ContactUs,User};
+use App\Models\{Page,ContactUs,User,RidePayment};
 use Illuminate\Support\Facades\Crypt;
 
 class PageController extends Controller
@@ -97,6 +97,11 @@ class PageController extends Controller
             return back()->with('message','User not found');
         }
         
+    }
+
+    public function payments(){
+        $payments = RidePayment::with('ride','driver','rider','payment_method')->simplePaginate(10);
+        return view('payment.index',compact('payments'));
     }
 
     // public function update_privacyAndPolicy(Request $request){
