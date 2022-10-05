@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\{Ride,User,RideType,RidePayment};
 
 class HomeController extends Controller
 {
@@ -23,6 +24,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $data['total_riders'] = User::where('role','rider')->count();
+        $data['total_drivers'] = User::where('role','rider')->count();
+        $data['total_types'] = RideType::count();
+        $data['total_rides'] = Ride::whereIn('status',['accepted','canceled','completed'])->count();
+        $data['total_running_rides'] = Ride::where('status','accepted')->count();
+        $data['total_canceled_rides'] = Ride::where('status','canceled')->count();
+        $data['total_completed_rides'] = Ride::where('status','completed')->count();
+        $data['revenue'] = Ride::where('status','completed')->count();
+        return view('home',compact('data'));
     }
 }
