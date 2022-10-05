@@ -37,8 +37,8 @@
                         @endif
                         </div>
                     </td>
-                    <td>{{$payment->driver->username}}</td>
-                    <td>{{$payment->rider->username}}</td>
+                    <td>{{$payment->driver ? $payment->driver->username:"N/A"}}</td>
+                    <td>{{$payment->rider ? $payment->rider->username:"N/A"}}</td>
                     <td>{{date('d-m-Y', strtotime($payment->created_at))}}</td>
                     <td>{{date('g:i A', strtotime($payment->created_at))}}</td>
                     <td>${{$payment->total_amount}}</td>
