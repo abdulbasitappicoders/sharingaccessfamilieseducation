@@ -472,12 +472,12 @@ class RideController extends Controller
         try {
             if(Auth::user()->role == 'rider'){
                 $rides = Ride::where('rider_id',Auth::user()->id)
-                ->where('type','Schedule')
+                ->where('type','schedule')
                 ->whereIn('status',['accepted','confirmed'])
                 ->with('driver','driver.vehicle','driver.licence','rider','rideLocations','ridePayment')->orderBy("id","DESC")->paginate(10);
             }else{
                 $rides = Ride::where('driver_id',Auth::user()->id)
-                ->where('type','Schedule')
+                ->where('type','schedule')
                 ->whereIn('status',['accepted','confirmed'])
                 ->with('driver','driver.vehicle','driver.licence','rider','rideLocations','ridePayment',)->orderBy("id","DESC")->paginate(10);
             }
@@ -506,14 +506,13 @@ class RideController extends Controller
     
     public function canceledRides(){
         try {
-            
             if(Auth::user()->role == 'rider'){
                 $rides = Ride::where('rider_id',Auth::user()->id)
-                ->where('status','rejected')
+                ->where('status','canceled')
                 ->with('driver','rider','rideLocations','ridePayment','review')->paginate(10);
             }else{
                 $rides = Ride::where('driver_id',Auth::user()->id)
-                ->where('status','rejected')
+                ->where('status','canceled')
                 ->with('driver','rider','rideLocations','ridePayment','review')->paginate(10);
             }
             return apiresponse(true,'Rides found',$rides);
@@ -540,13 +539,17 @@ class RideController extends Controller
     }
 
     public function latestRide(){
-        try {   
+        try { 
             if(Auth::user()->role == 'driver'){
+                // return Date("Y-m-d H:i:s"); //2022-10-06 14:47:18
                 $rideUpdated = Ride::where('driver_id',Auth::user()->id)->with('driver','rider','rideLocations')
                 ->whereIn('status',['confirmed','accepted'])
                 ->orderBy('id','desc')
                 ->first();  
                 if($rideUpdated){
+                    if($rideUpdated->type == 'schedule' && !($rideUpdated->schedule_start_time > Date("Y-m-d H:i:s"))){
+                        return apiresponse(true,'Ride not found');
+                    }
                     $chatList = ChatList::where('from',$rideUpdated->rider_id)->where('to',$rideUpdated->driver_id)->first();
                     if(!$chatList){
                         $chatList = ChatList::where('to',$rideUpdated->rider_id)->where('from',$rideUpdated->driver_id)->first();
@@ -579,9 +582,13 @@ class RideController extends Controller
             }else{
                 $rideUpdated = Ride::where('rider_id',Auth::user()->id)->with('driver','rider','rideLocations')
                 ->whereIn('status',['confirmed','accepted'])
+                ->where('type','normal')
                 ->orderBy('id','desc')
                 ->first(); 
                 if($rideUpdated){
+                    if($rideUpdated->type == 'schedule' && !($rideUpdated->schedule_start_time > Date("Y-m-d H:i:s"))){
+                        return apiresponse(true,'Ride not found');
+                    }
                     foreach($rideUpdated->rideLocations as $location){
                         if($location->ride_order == 1){
                             $destination = $location->latitude.','.$location->longitude;
