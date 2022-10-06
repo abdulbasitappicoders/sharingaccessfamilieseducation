@@ -546,8 +546,10 @@ class RideController extends Controller
                 ->whereIn('status',['confirmed','accepted'])
                 ->orderBy('id','desc')
                 ->first();  
+                $upcomingTime = Date("Y-m-d H:i:s",strtotime('+1 hour'));
                 if($rideUpdated){
-                    if($rideUpdated->type == 'schedule' && !($rideUpdated->schedule_start_time > Date("Y-m-d H:i:s"))){
+                    // return Date("Y-m-d H:i:s");
+                    if($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $upcomingTime)){
                         return apiresponse(true,'Ride not found');
                     }
                     $chatList = ChatList::where('from',$rideUpdated->rider_id)->where('to',$rideUpdated->driver_id)->first();
@@ -586,7 +588,7 @@ class RideController extends Controller
                 ->orderBy('id','desc')
                 ->first(); 
                 if($rideUpdated){
-                    if($rideUpdated->type == 'schedule' && !($rideUpdated->schedule_start_time > Date("Y-m-d H:i:s"))){
+                    if($rideUpdated->type == 'schedule' && !($rideUpdated->schedule_start_time > Date("Y-m-d H:i:s")) && !($rideUpdated->schedule_start_time < Date("Y-m-d H:i:s"))){
                         return apiresponse(true,'Ride not found');
                     }
                     foreach($rideUpdated->rideLocations as $location){
