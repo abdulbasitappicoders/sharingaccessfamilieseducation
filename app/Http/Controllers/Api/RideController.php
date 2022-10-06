@@ -491,9 +491,8 @@ class RideController extends Controller
         try {
             if(Auth::user()->role == 'rider'){
                 $rides = Ride::where('rider_id',Auth::user()->id)
-                ->where('status','completed')
+                ->whereIn('status',['completed','canceled'])
                 ->with('driver','rider','rideLocations','ridePayment','review','ridePayment.payment_method')->orderBy("id","DESC")->paginate(10);
-                
             }else{
                 $rides = Ride::where('driver_id',Auth::user()->id)
                 ->whereIn('status',['completed','canceled'])
