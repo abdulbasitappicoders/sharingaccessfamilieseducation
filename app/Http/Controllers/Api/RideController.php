@@ -66,9 +66,9 @@ class RideController extends Controller
                     $requestedTo->driver_id = $resUser->id;
                     $requestedTo->ride_id = $res->id;
                     $requestedTo->save();
-                    $title = 'You have a new message from ' . Auth::user()->username;
-                    $body = 'You have a new message from ' . Auth::user()->username;
-                    SendNotification($resUser->device_id, $title, $body,(array) Ride::where('id',$res->id)->with(['driver','rider','rideLocations','rideLocations.children'])->first());
+                    $title = 'You have a new ride request from ' . Auth::user()->username;
+                    $body = 'You have a new ride request from ' . Auth::user()->username;
+                    SendNotification($resUser->device_id, $title, $body);
                     saveNotification($title,$body,'ride_request',Auth::user()->id,$resUser->id);
                 }
                 foreach($request->ride_locations as $location){
@@ -209,7 +209,7 @@ class RideController extends Controller
                 $rideUpdated->vehicle = $rideUpdated->driver->vehicle;
                 $title = 'You have a new notification from ' . Auth::user()->username;
                 $body = 'You have a new notification from ' . Auth::user()->username;
-                SendNotification($ride->rider->device_id, $title, $body,(array)$rideUpdated);
+                SendNotification($ride->rider->device_id, $title, $body);
                 saveNotification($title,$body,'ride_accepted',Auth::user()->id,$ride->rider_id);
                 broadcast(new \App\Events\AcceptRideEvent($rideUpdated))->toOthers();
 
@@ -241,7 +241,7 @@ class RideController extends Controller
                 $rideUpdated->save();
                 $title = 'You have a new notification from ' . Auth::user()->username;
                 $body = 'You have a new notification from ' . Auth::user()->username;
-                SendNotification($rideUpdated->driver->device_id, $title, $body,(array)$rideUpdated);
+                SendNotification($rideUpdated->driver->device_id, $title, $body);
                 saveNotification($title,$body,'ride_confirmed',Auth::user()->id,$rideUpdated->driver_id);
                 foreach($rideUpdated->rideLocations as $location){
                     if($location->ride_order == 1){
@@ -300,7 +300,7 @@ class RideController extends Controller
                     $ride->save();
                     $title = 'You have a new notification from ' . Auth::user()->username;
                     $body = 'You have a new notification from ' . Auth::user()->username;
-                    SendNotification($ride->rider->device_id, $title, $body,(array)$ride);
+                    SendNotification($ride->rider->device_id, $title, $body);
                     saveNotification($title,$body,'ride_started',Auth::user()->id,$ride->rider_id);
                     $rideStartLocation = RideLocation::where('ride_id',$ride->id)->where('ride_order','1')->first();
                     $rideStartLocation->status = 'completed';
