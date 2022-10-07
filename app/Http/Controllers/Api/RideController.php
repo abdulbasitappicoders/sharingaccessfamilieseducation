@@ -648,9 +648,7 @@ class RideController extends Controller
                 $arr = [];
                 $destination = "";
                 foreach($requestedRides as $rRide){
-                    
                     $ride = Ride::where('id',$rRide->ride_id)->where('status','requested')->with('driver','rider','rideLocations')->first();
-                    return $ride;
                     if($ride){
                         // $chatList = ChatList::where('from',$ride->rider_id)->where('to',$ride->driver_id)->first();
                         // if(!$chatList){
