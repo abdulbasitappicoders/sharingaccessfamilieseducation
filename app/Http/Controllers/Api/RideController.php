@@ -365,6 +365,7 @@ class RideController extends Controller
             $rideStartLocation->status = 'canceled';
             $rideStartLocation->save();
             $rideUpdated = Ride::where('id',$rideStartLocation->id)->with('driver','rider','rideLocations','rideLocations.children')->first();
+            RideRequestedTo::where('ride_id',$rideUpdated->id)->delete();
             //Send notification
             broadcast(new \App\Events\AcceptRideEvent($rideUpdated))->toOthers();
             broadcast(new \App\Events\DriverCancelRide($rideUpdated))->toOthers();
