@@ -645,6 +645,7 @@ class RideController extends Controller
         try {
             $requestedRides = RideRequestedTo::where('driver_id',Auth::user()->id)->get();
                 $arr = [];
+                $destination = "";
                 foreach($requestedRides as $rRide){
                     $ride = Ride::where('id',$rRide->ride_id)->where('status','requested')->with('driver','rider','rideLocations')->first();
                     if($ride){
