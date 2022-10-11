@@ -36,6 +36,7 @@ class UserPaymentMethodController extends Controller
             'card_number' => 'required',
             'exp_date' => 'required',
             'cvc' => 'required',
+            'name' => 'required',
         ]);
         if($validate->fails()){
             return apiresponse(false, implode("\n", $validate->errors()->all()));
@@ -48,6 +49,7 @@ class UserPaymentMethodController extends Controller
                 'exp_month' => $date[0],
                 'exp_year' => $date[1],
                 'cvc' => $request->cvc,
+                'name'  => $request->name,
             ],
             ]);
             $stripeCustomer = $this->stripe->customers->retrieve(Auth::user()->stripe_customer_id);
@@ -62,6 +64,7 @@ class UserPaymentMethodController extends Controller
                 'exp_date'          => $request->exp_date,
                 'brand'             => $source->brand,
                 'end_number'        => $source->last4,
+                'name'              => $request->name,
             ]);
             $data['data'] = $UserPaymentMethod;
             return apiresponse(true,'Card saved',$UserPaymentMethod);

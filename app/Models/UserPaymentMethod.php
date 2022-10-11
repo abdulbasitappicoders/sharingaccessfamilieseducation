@@ -12,6 +12,7 @@ class UserPaymentMethod extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'brand',
         'stripe_source_id',
         'end_number',
