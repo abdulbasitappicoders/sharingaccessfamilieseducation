@@ -240,7 +240,8 @@ class AuthController extends Controller
         try {
             $pass = Hash::make($request->password);
             User::where('email', $request->email)->update(['password' => $pass]);
-            return apiresponse(true, "password updated successfully");
+            $data = ['data' => []];
+            return apiresponse(true, "password updated successfully", $data);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
