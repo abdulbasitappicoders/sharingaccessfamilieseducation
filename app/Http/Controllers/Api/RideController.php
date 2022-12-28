@@ -11,12 +11,17 @@ use Exception;
 Use \Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Collection;
+use Stripe\StripeClient;
 
 
 
 class RideController extends Controller
 {
     protected $total_distance = 0;
+    public function __construct()
+    {
+        $this->stripe = new StripeClient(env('STRIPE_SECRET_KEY'));
+    }
 
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
@@ -37,10 +42,10 @@ class RideController extends Controller
             $distances = DB::select('SELECT id,latitude, longitude,vehicle_type,role, SQRT(
                 POW(69.1 * (latitude - '.$request->pickUpLat.'), 2) +
                 POW(69.1 * ('.$request->pickUpLong.' - longitude) * COS(latitude / 57.3), 2)) AS distance
-                FROM users 
-                WHERE role = \'driver\' 
-                AND is_online = \'1\' 
-                AND vehicle_type = \''.$request->vehicle_type.'\' 
+                FROM users
+                WHERE role = \'driver\'
+                AND is_online = \'1\'
+                AND vehicle_type = \''.$request->vehicle_type.'\'
                 HAVING distance < 25 ORDER BY distance
             ;');
             if($distances){
@@ -77,7 +82,7 @@ class RideController extends Controller
                     $rideLocation->longitude = $location['longitude'];
                     $rideLocation->latitude = $location['latitude'];
                     if(isset($location['children_id']) && $location['children_id'] != 'null' && $location['children_id'] != null){
-                        $rideLocation->user_children_id = $location['children_id']; 
+                        $rideLocation->user_children_id = $location['children_id'];
                     }
                     $rideLocation->ride_order = $location['ride_order'];
                     $rideLocation->ride_id = $res->id;
@@ -111,9 +116,9 @@ class RideController extends Controller
             $distances = DB::select('SELECT id,latitude, longitude,vehicle_type,role, SQRT(
                 POW(69.1 * (latitude - '.$request->lat.'), 2) +
                 POW(69.1 * ('.$request->long.' - longitude) * COS(latitude / 57.3), 2)) AS distance
-                FROM users 
-                WHERE role = \'driver\' 
-                AND is_online = \'1\' 
+                FROM users
+                WHERE role = \'driver\'
+                AND is_online = \'1\'
                 HAVING distance < 25 ORDER BY distance
             ;');
             if($distances){
@@ -167,7 +172,7 @@ class RideController extends Controller
                         $res['price'][$type->name] = round($rawDistance*$type->price,2);
                     }
                     $distanceArray[] = $res;
-                    
+
                     $origin = $destination;
                 }
                 $car = $totalDistance*0.0005;
@@ -177,7 +182,7 @@ class RideController extends Controller
                 $data['total_time'] = $totalTime;
                 $data['routes_data'] = $distanceArray;
                 foreach($ride_types as $type){
-                    
+
                     $data['total_prices'][]= ['id' => $type->id,'name' => $type->name, 'price' => round($totalDistance*$type->price,2)];;
                 }
                 // $data['total_prices'][]['total_car_price'] = $car;
@@ -251,7 +256,7 @@ class RideController extends Controller
                 }
                 $user = User::find($rideUpdated->driver_id);
                 $origin = $user->latitude.','.$user->longitude;
-                
+
                 $res = findDistance($destination,$origin);
                 if($res['rows'][0]['elements'][0]['status'] == 'ZERO_RESULTS'){
                     return apiresponse(false,"Invalid location");
@@ -314,7 +319,7 @@ class RideController extends Controller
                     }
                     $user = User::find($rideUpdated->driver_id);
                     $origin = $user->latitude.','.$user->longitude;
-                    
+
                     $res = findDistance($destination,$origin);
                     $rideUpdated->vehicle = $rideUpdated->driver->vehicle;
                     $rideUpdated->time_and_distance = $res['rows'][0]['elements'][0]['duration']['text'];
@@ -324,7 +329,7 @@ class RideController extends Controller
                 }else{
                     return apiresponse(false, 'Ride not confirmed');
                 }
-                
+
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
@@ -344,7 +349,7 @@ class RideController extends Controller
             $rideStartLocation->save();
 
             $rideUpdated = Ride::where('id',$request->ride_id)->with('driver','rider','rideLocations','rideLocations.children')->first();
-            
+
             //Send notification
             return apiresponse(true, 'Ride dropped',$rideUpdated);
 
@@ -383,7 +388,7 @@ class RideController extends Controller
         if ($validator->fails()) {
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
-        try {            
+        try {
             $requestedRide = RideRequestedTo::where('ride_id',$request->ride_id)->where('driver_id',Auth::user()->id)->first();
             if($requestedRide->delete()){
                 $rideUpdated = Ride::where('id',$rideStartLocation->id)->with('driver','rider','rideLocations','rideLocations.children')->first();
@@ -392,15 +397,15 @@ class RideController extends Controller
             }else{
                 return apiresponse(false, 'Something went wrong');
             }
-            
+
             //Send notification
             // broadcast(new \App\Events\AcceptRideEvent($rideUpdated))->toOthers();
-            
+
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
     }
-    
+
 
     public function rideComplete(Request $request){
         $validator = Validator::make($request->all(), [
@@ -410,8 +415,8 @@ class RideController extends Controller
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
         try {
-            
-            
+
+
             $rideStartLocation = RideLocation::where('ride_id',$request->ride_id)->orderBy('ride_order','desc')->first();
             $rideStartLocation->status = 'completed';
             $rideStartLocation->save();
@@ -435,7 +440,7 @@ class RideController extends Controller
             //     $totalTime += $rawTime;
             //     $origin = $destination;
             // }
-            
+
             // $ride_type = RideType::where('type',$rideStartLocation->vehicle_type)->first();
             $ride = Ride::where('id',$request->ride_id)->first();
             if($ride->status == 'completed'){
@@ -445,6 +450,13 @@ class RideController extends Controller
             $ride->status = 'completed';
             $ride->save();
             $card = UserPaymentMethod::where('user_id',$ride->rider_id)->first();
+            $payment = $this->stripe->charges->create([
+                "amount" => 100 * ($ride->estimated_price),
+                "currency" => "USD",
+                "source" => $card->stripe_source_id,
+                "customer" => auth()->user()->stripe_customer_id,
+                "description" => "Membership Booking."
+            ]);
             if($ride->save()){
                 $ridePayment = new RidePayment();
                 $ridePayment->ride_id = $ride->id;
@@ -485,7 +497,7 @@ class RideController extends Controller
             return apiresponse(true,'Rides found',$rides);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
-        }   
+        }
     }
 
     public function pastRides(){
@@ -502,9 +514,9 @@ class RideController extends Controller
             return apiresponse(true,'Rides found',$rides);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
-        }   
+        }
     }
-    
+
     public function canceledRides(){
         try {
             if(Auth::user()->role == 'rider'){
@@ -519,7 +531,7 @@ class RideController extends Controller
             return apiresponse(true,'Rides found',$rides);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
-        }   
+        }
     }
 
     public function totalRides(){
@@ -536,17 +548,17 @@ class RideController extends Controller
             return apiresponse(true,'Rides found',$rides);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
-        }  
+        }
     }
 
     public function latestRide(){
-        try { 
+        try {
             if(Auth::user()->role == 'driver'){
                 // return Date("Y-m-d H:i:s"); //2022-10-06 14:47:18
                 $rideUpdated = Ride::where('driver_id',Auth::user()->id)->with('driver','rider','rideLocations')
                 ->whereIn('status',['confirmed','accepted'])
                 ->orderBy('id','desc')
-                ->first();  
+                ->first();
                 $upcomingTime = Date("Y-m-d H:i:s",strtotime('+1 hour'));
                 if($rideUpdated){
                     // return Date("Y-m-d H:i:s");
@@ -573,7 +585,7 @@ class RideController extends Controller
                     }
                     $user = User::find($rideUpdated->driver_id);
                     $origin = $user->latitude.','.$user->longitude;
-                    
+
                     $res = findDistance($destination,$origin);
                     $rideUpdated->vehicle = $rideUpdated->driver->vehicle;
                     $rideUpdated->total_messages = $chatCount;
@@ -587,7 +599,7 @@ class RideController extends Controller
                 ->whereIn('status',['confirmed','accepted'])
                 ->where('type','normal')
                 ->orderBy('id','desc')
-                ->first(); 
+                ->first();
                 if($rideUpdated){
                     if($rideUpdated->type == 'schedule' && !($rideUpdated->schedule_start_time > Date("Y-m-d H:i:s")) && !($rideUpdated->schedule_start_time < Date("Y-m-d H:i:s"))){
                         return apiresponse(true,'Ride not found');
@@ -600,7 +612,7 @@ class RideController extends Controller
                     }
                     $user = User::find($rideUpdated->driver_id);
                     $origin = $user->latitude.','.$user->longitude;
-                    
+
                     $res = findDistance($destination,$origin);
                     $rideUpdated->vehicle = $rideUpdated->driver->vehicle;
                     $rideUpdated->time_and_distance = $res['rows'][0]['elements'][0]['duration']['text'];
@@ -611,16 +623,16 @@ class RideController extends Controller
             }
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
-        }  
+        }
     }
 
     public function lastRide(){
-        try {   
+        try {
             if(Auth::user()->role == 'driver'){
                 $rideUpdated = Ride::where('driver_id',Auth::user()->id)->with('driver','rider','rideLocations','ridePayment')
                 ->whereIn('status',['completed','canceled'])
                 ->orderBy('id','desc')
-                ->first();  
+                ->first();
                 if($rideUpdated){
                     return apiresponse(true,'Ride found',$rideUpdated);
                 }else{
@@ -630,7 +642,7 @@ class RideController extends Controller
                 $rideUpdated = Ride::where('rider_id',Auth::user()->id)->with('driver','rider','rideLocations','ridePayment')
                 ->where('status','completed')
                 ->orderBy('id','desc')
-                ->first(); 
+                ->first();
                 if($rideUpdated){
                     return apiresponse(true,'Ride found',$rideUpdated);
                 }else{
@@ -639,7 +651,7 @@ class RideController extends Controller
             }
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
-        }  
+        }
     }
 
     public function driverRequestedRides(){
@@ -679,16 +691,16 @@ class RideController extends Controller
                     }
                 }
                 return apiresponse(true,'Rides Found',$arr);
-            
+
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
-        }  
+        }
     }
-    
+
 
     public function test(){
         // $destination = "";
-        // $arr = [ 
+        // $arr = [
         //     0 =>[
         //             'lat' => '40.659569',
         //             'long' => '-73.933783',
@@ -703,8 +715,8 @@ class RideController extends Controller
         //     $destination .=$dest['lat'].",".$dest['long'];
         // }
         // return $destination;
-        // return findDistance($destination,$origin); 
+        // return findDistance($destination,$origin);
         return RideLocation::with('children')->get();
-        
+
     }
 }
