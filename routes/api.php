@@ -28,8 +28,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     Route::post('socialLogin',[AuthController::class, 'socialLogin'])->name('socialLogin');
     Route::post('sendForgotPasswordEmail', 'AuthController@sendForgotPasswordEmail')->name('sendForgotPasswordEmail');
     Route::post('verifyForgotPin', 'AuthController@verifyForgotPin');
-    
-    // Route::post('resetPassword', 'AuthController@resetPassword');
+    Route::post('resetPassword', 'AuthController@resetPassword');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:api'], function () {
