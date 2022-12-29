@@ -88,7 +88,7 @@ class RideController extends Controller
                     $rideLocation->ride_id = $res->id;
                     $rideLocation->save();
                 }
-                $response['users'] = $users;
+                $response['users'] = $users->pluck('id')->array();
                 $response['ride'] = Ride::where('id',$res->id)->with(['driver','rider','rideLocations','rideLocations.children'])->first();
                 return $response;
                 broadcast(new \App\Events\InitialRideEvent($response))->toOthers();
