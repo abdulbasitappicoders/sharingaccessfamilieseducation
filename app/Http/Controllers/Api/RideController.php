@@ -457,13 +457,13 @@ class RideController extends Controller
             $ride->status = 'completed';
             $ride->save();
             $card = UserPaymentMethod::where('user_id',$ride->rider_id)->first();
-            $payment = $this->stripe->charges->create([
-                "amount" => 100 * ($ride->estimated_price),
-                "currency" => "USD",
-                "source" => $card->stripe_source_id,
-                "customer" => auth()->user()->stripe_customer_id,
-                "description" => "Membership Booking."
-            ]);
+            // $payment = $this->stripe->charges->create([
+            //     "amount" => 100 * ($ride->estimated_price),
+            //     "currency" => "USD",
+            //     "source" => $card->stripe_source_id,
+            //     "customer" => auth()->user()->stripe_customer_id,
+            //     "description" => "Membership Booking."
+            // ]);
             if($ride->save()){
                 $ridePayment = new RidePayment();
                 $ridePayment->ride_id = $ride->id;
