@@ -20,7 +20,8 @@ class ProfileController extends Controller
         $user = Auth::user()->token();
         User::findOrFail($user->id)->update(['device_id' => null]);
         $user->revoke();
-        return apiresponse(true, 'You have been logged out successfully');
+        $data = ['data' => []];
+        return apiresponse(true, 'You have been logged out successfully', $data);
     }
 
     public function updateProfile(Request $request){
