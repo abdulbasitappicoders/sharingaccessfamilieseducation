@@ -12,6 +12,7 @@ Use \Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Collection;
 use Stripe\StripeClient;
+use Illuminate\Support\Arr;
 
 
 
@@ -88,7 +89,7 @@ class RideController extends Controller
                     $rideLocation->ride_id = $res->id;
                     $rideLocation->save();
                 }
-                $response['users'] = $users->pluck('id')->array();
+                $response['users'] = Arr::pluck($users['users'], 'id');
                 $response['ride'] = Ride::where('id',$res->id)->with(['driver','rider','rideLocations','rideLocations.children'])->first();
                 return $response;
                 broadcast(new \App\Events\InitialRideEvent($response))->toOthers();
