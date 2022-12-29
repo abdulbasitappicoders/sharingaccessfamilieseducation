@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Laravel\Passport\TokenRepository;
 use Illuminate\Http\Request;
 use App\Models\{User,RidePayment,UserChildren,UserLicense,UserVehicle,UserAvailable,Ride,Review,DriverInsurance};
 use Illuminate\Support\Facades\Validator;
@@ -17,8 +16,8 @@ class ProfileController extends Controller
 {
     public function logout()
     {
-        $user = Auth::user()->token();
-        User::findOrFail($user->id)->update(['device_id' => null]);
+        $user = auth()->user()->token();
+        User::findOrFail(auth()->user()->id)->update(['device_id' => null]);
         $user->revoke();
         $data = ['data' => []];
         return apiresponse(true, 'You have been logged out successfully', $data);
