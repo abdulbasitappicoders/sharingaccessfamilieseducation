@@ -93,7 +93,7 @@ class RideController extends Controller
                 $updatedUsers = [];
                 $users = Arr::pluck($users, 'id');
                 foreach($users as $user){
-                    $updatedUsers = ['id' => $user];
+                    $updatedUsers[] = ['id' => $user];
                 }
                 $response['users'] = $updatedUsers;
                 $response['ride'] = Ride::where('id',$res->id)->with(['driver','rider','rideLocations','rideLocations.children'])->first();
