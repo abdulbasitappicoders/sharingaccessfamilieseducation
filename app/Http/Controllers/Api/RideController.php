@@ -91,7 +91,6 @@ class RideController extends Controller
                 }
                 $response['users'] = Arr::pluck($users, 'id');
                 $response['ride'] = Ride::where('id',$res->id)->with(['driver','rider','rideLocations','rideLocations.children'])->first();
-                return $response;
                 broadcast(new \App\Events\InitialRideEvent($response))->toOthers();
                 if($res){
                     return apiresponse(true,'Searching for driver', $response);
