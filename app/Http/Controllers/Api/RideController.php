@@ -89,7 +89,13 @@ class RideController extends Controller
                     $rideLocation->ride_id = $res->id;
                     $rideLocation->save();
                 }
-                $response['users'] = Arr::pluck($users, 'id');
+                //creating array with index id => 21 like
+                $updatedUsers = [];
+                $users = Arr::pluck($users, 'id');
+                foreach($users as $user){
+                    $updatedUsers = ['id' => $user];
+                }
+                $response['users'] = $updatedUsers;
                 $response['ride'] = Ride::where('id',$res->id)->with(['driver','rider','rideLocations','rideLocations.children'])->first();
                 broadcast(new \App\Events\InitialRideEvent($response))->toOthers();
                 if($res){
