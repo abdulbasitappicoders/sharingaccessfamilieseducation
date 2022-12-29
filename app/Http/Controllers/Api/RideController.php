@@ -90,6 +90,7 @@ class RideController extends Controller
                 }
                 $response['users'] = $users;
                 $response['ride'] = Ride::where('id',$res->id)->with(['driver','rider','rideLocations','rideLocations.children'])->first();
+                return $response;
                 broadcast(new \App\Events\InitialRideEvent($response))->toOthers();
                 if($res){
                     return apiresponse(true,'Searching for driver', $response);
