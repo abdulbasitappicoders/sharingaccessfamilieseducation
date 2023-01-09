@@ -197,7 +197,7 @@ class AuthController extends Controller
             } else {
                 $user->confirmation_code = $code;
                 if($user->save()) {
-                    // Mail::to($user->email)->send(new ForgotPassword($user));
+                    \Mail::to($user->email)->send(new \App\Mail\sendForgotPasswordEmail($code));
                     return apiresponse(true, 'Password reset link sent to your email', $user);
                 } else {
                     return apiresponse(false, 'Some error occurred. Please try again');
