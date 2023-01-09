@@ -36,7 +36,7 @@
                             <td>{{isset($children)?$children->grade:"N/A"}}</td>
                             <td>{{isset($children)?$children->age:"N/A"}}</td>
                             <td>{{isset($children)?$children->school_name:"N/A"}}</td>
-                            <td>{{isset($children->payment_method)?$children->number->type:"N/A"}}</td>
+                            <td>{{isset($children->number->type)?$children->number->type:"N/A"}}</td>
                             <td>{{isset($children->payment_method)?$children->payment_method->type:"N/A"}}</td>
                         </tr>
                         @endforeach
