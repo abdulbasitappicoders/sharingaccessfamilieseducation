@@ -33,11 +33,11 @@
                             <td>
                                 <div class="font-15">{{$children?$children->last_name:"N/A"}}</div>
                             </td>
-                            <td>{{$children?$children->grade:"N/A"}}</td>
-                            <td>{{$children?$children->age:"N/A"}}</td>
-                            <td>{{$children?$children->school_name:"N/A"}}</td>
-                            <td>{{$children->payment_method?$children->number->type:"N/A"}}</td>
-                            <td>{{$children->payment_method?$children->payment_method->type:"N/A"}}</td>
+                            <td>{{isset($children)?$children->grade:"N/A"}}</td>
+                            <td>{{isset($children)?$children->age:"N/A"}}</td>
+                            <td>{{isset($children)?$children->school_name:"N/A"}}</td>
+                            <td>{{isset($children->payment_method)?$children->number->type:"N/A"}}</td>
+                            <td>{{isset($children->payment_method)?$children->payment_method->type:"N/A"}}</td>
                         </tr>
                         @endforeach
                     </tbody>
