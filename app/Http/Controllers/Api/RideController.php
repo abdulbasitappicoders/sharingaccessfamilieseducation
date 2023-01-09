@@ -40,6 +40,10 @@ class RideController extends Controller
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
         try {
+            $previousRide = Ride::where('rider_id', auth()->user()->id)->where('status', 'requested')->where('type','normal')->first();
+            if($previousRide) {
+                return apiresponse(false, __('Ride already booked'), ['data' => null]);
+            }
             $distances = DB::select('SELECT id,latitude, longitude,vehicle_type,role, SQRT(
                 POW(69.1 * (latitude - '.$request->pickUpLat.'), 2) +
                 POW(69.1 * ('.$request->pickUpLong.' - longitude) * COS(latitude / 57.3), 2)) AS distance
