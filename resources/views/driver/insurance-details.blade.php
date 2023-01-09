@@ -22,12 +22,12 @@
                     <tbody>
                         <tr>
                             <td>
-                                <div class="font-15">{{$insurance->riderInsurance[0]?$insurance->riderInsurance[0]->name:"N/A"}}</div>
+                                <div class="font-15">{{isset($insurance->riderInsurance[0])?$insurance->riderInsurance[0]->name:"N/A"}}</div>
                             </td>
                             <td>
-                                <div class="font-15">{{$insurance->riderInsurance[0]?$insurance->riderInsurance[0]->number:"N/A"}}</div>
+                                <div class="font-15">{{isset($insurance->riderInsurance[0])?$insurance->riderInsurance[0]->number:"N/A"}}</div>
                             </td>
-                            <td>{{$insurance->riderInsurance[0]?$insurance->riderInsurance[0]->exp_date:"N/A"}}/td>
+                            <td>{{isset($insurance->riderInsurance[0])?$insurance->riderInsurance[0]->exp_date:"N/A"}}/td>
                         </tr>
                         
                     </tbody>
