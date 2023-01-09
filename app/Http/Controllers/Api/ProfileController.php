@@ -65,6 +65,8 @@ class ProfileController extends Controller
                             $available['user_id'] = Auth::user()->id;
                             userAvailable::create($available);
                         }
+                    } else {
+                        userAvailable::where('user_id', auth()->user()->id)->delete();
                     }
                     if(isset($request->insurance) && $request->filled('insurance')){
                         // return $request->insurance;
