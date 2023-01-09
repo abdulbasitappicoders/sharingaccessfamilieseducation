@@ -191,7 +191,7 @@ class AuthController extends Controller
 
         try {   
             $user = User::where('email', $request->email)->first();
-            $code = substr(md5(rand()), 0, 4);
+            $code = rand(1000, 9999);
             if (!$user) {
                 return apiresponse(false, 'Email does not exist');
             } else {
