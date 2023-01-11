@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use Stripe\StripeClient;
-use App\Models\PaymentMethod;
+use App\Models\UserPaymentMethod as PaymentMethod;
 
 class StripeService
 {

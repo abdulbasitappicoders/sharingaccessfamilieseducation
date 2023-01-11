@@ -123,20 +123,19 @@ class UserPaymentMethodController extends Controller
         }
         try {
             $card = UserPaymentMethod::find($request->card_id);
-            if($card){
-                $res = $this->stripe->customers->deleteSource(
-                    Auth::user()->stripe_customer_id,
-                    $card->stripe_source_id,
-                    []
-                  );
-                  if($res){
+            $user = $request->user();
+            $stripeService = new StripeService();
+            if($card) {
+                $stripeCustomer = $stripeService->getCustomer($user);
+                if ($stripeCustomer) {
+                    $stripeService->deleteSource($stripeCustomer->id, $card->stripe_source_id);
                     $card->delete();
                     $data['card_id'] = $request->card_id;
                     return apiresponse(true,'Card deleted',$data);
-                  }
-            }else{
-                return apiresponse(false,'Card Not found');
+                }
             }
+                return apiresponse(false,'Card Not found');
+
         } catch(Exception $e){
             return apiresponse(false, $e->getMessage());
         }
