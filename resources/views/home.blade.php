@@ -51,7 +51,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-6 riders">
+        {{-- <div class="col-xl-3 col-lg-6 riders">
             <div class="card card-inverse card-warning">
                 <div class="card-block bg-warning">
                     <div class="rotate">
@@ -61,20 +61,21 @@
                     <h1 class="display-1">$9.84</h1>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row mb-3">
-    <div class="col-xl-3 col-lg-6 riders">
-        <div class="card card-inverse card-success">
-            <div class="card-block bg-warning">
-                <div class="rotate">
-                    <i class="fa fa-taxi fa-5x"></i>
+        </div> --}}
+        <div class="col-xl-3 col-lg-6 riders">
+            <div class="card card-inverse card-success">
+                <div class="card-block bg-warning">
+                    <div class="rotate">
+                        <i class="fa fa-taxi fa-5x"></i>
+                    </div>
+                    <h6 class="text-uppercase">Total No of Ride</h6>
+                    <h1 class="display-1">{{$data['total_rides']}}</h1>
                 </div>
-                <h6 class="text-uppercase">Total No of Ride</h6>
-                <h1 class="display-1">{{$data['total_rides']}}</h1>
             </div>
         </div>
     </div>
+    <div class="row mb-3">
+   
     <div class="col-xl-3 col-lg-6 riders">
         <div class="card card-inverse card-info">
             <div class="card-block bg-info">
