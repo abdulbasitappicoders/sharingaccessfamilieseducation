@@ -140,7 +140,7 @@
     </div>
     <!-- Start Main project js, jQuery, Bootstrap -->
     <script src="{{asset('assets/bundles/lib.vendor.bundle.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+   
     <!-- Start Plugin Js -->
     <script src="{{asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('assets/plugins/dropify/js/dropify.min.js')}}"></script>
