@@ -11,6 +11,8 @@ use Exception;
 use Auth;
 use Pusher\Pusher;
 use App\Events\SafePrivateEvent;
+use App\Services\StripeService;
+
 
 
 
@@ -43,20 +45,12 @@ class UserCardController extends Controller
             return apiresponse(false, implode("\n", $validate->errors()->all()));
         }
         try {
-            $date = explode("/", $request->exp_date);
-            $token = $this->stripe->tokens->create([
-            'card' => [
-                'number' => $request->card_number,
-                'exp_month' => $date[0],
-                'exp_year' => $date[1],
-                'cvc' => $request->cvc,
-            ],
-            ]);
-            $stripeCustomer = $this->stripe->customers->retrieve(Auth::user()->stripe_customer_id);
-            $willBeDefault = ($stripeCustomer->default_source == null) ? true : false;
-            $source = $this->stripe->customers->createSource(Auth::user()->stripe_customer_id, [
-                'source' => $token
-            ]);
+            $user = auth()->user();
+            $stripeService = new StripeService();
+            $token = $stripeService->createToken($request);
+            $stripeCustomer = $stripeService->getCustomer($user);
+            $willBeDefault = $stripeCustomer->default_source == null ? true : false;
+            $source = $stripeService->createSource($stripeCustomer->id, $token);
             $userCard = UserCard::create([
                 'user_id'           => Auth::user()->id,
                 'stripe_source_id'  => $source->id,

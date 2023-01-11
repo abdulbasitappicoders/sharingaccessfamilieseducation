@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\{Ride,RideLocation,User,RideType,UserChildren,RideRequestedTo,RidePayment,ChatList,ChatListMessage,UserPaymentMethod};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\StripeService;
 use Auth;
 use DB;
 use Exception;
@@ -186,15 +187,15 @@ class RideController extends Controller
 
                     $origin = $destination;
                 }
-                $car = $totalDistance*0.0005;
-                $suv = $totalDistance*0.0008;
-                $mini_van = $totalDistance*0.0007;
+                $car = $totalDistance*0.99;
+                $suv = $totalDistance*0.99;
+                $mini_van = $totalDistance*0.99;
                 $data['total_distance'] = $totalDistance;
                 $data['total_time'] = $totalTime;
                 $data['routes_data'] = $distanceArray;
                 foreach($ride_types as $type){
 
-                    $data['total_prices'][]= ['id' => $type->id,'name' => $type->name, 'price' => round($totalDistance*$type->price,2)];;
+                    $data['total_prices'][]= ['id' => $type->id,'name' => $type->name, 'price' => round($totalDistance*$type->price,3)];
                 }
                 // $data['total_prices'][]['total_car_price'] = $car;
                 // $data['total_prices'][]['total_mini_van_price'] = $mini_van;
@@ -426,8 +427,6 @@ class RideController extends Controller
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
         try {
-
-
             $rideStartLocation = RideLocation::where('ride_id',$request->ride_id)->orderBy('ride_order','desc')->first();
             $rideStartLocation->status = 'completed';
             $rideStartLocation->save();
@@ -460,7 +459,13 @@ class RideController extends Controller
             $ride->end_time = Carbon::now();
             $ride->status = 'completed';
             $ride->save();
-            $card = UserPaymentMethod::where('user_id',$ride->rider_id)->first();
+            $card = UserPaymentMethod::where('user_id',$ride->rider_id)->where('default', 1)->first();
+            $driverProfile = User::find($ride->rider_id);
+            $stripeService = new StripeService();
+            $Charge = $stripeService->createCharge($ride->estimated_price, $driverProfile->stripe_customer_id, $card->stripe_source_id);
+            if($Charge->status != 'succeeded') {
+                return apiResponse(false, __('payment Not completed'));
+            }
             // $payment = $this->stripe->charges->create([
             //     "amount" => 100 * ($ride->estimated_price),
             //     "currency" => "USD",

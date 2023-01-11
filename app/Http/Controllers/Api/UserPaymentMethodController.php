@@ -11,15 +11,10 @@ use App\Events\SafePrivateEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\{UserPaymentMethod,User,ChatListMessage,UserChildren};
+use App\Services\StripeService;
 
 class UserPaymentMethodController extends Controller
 {
-    public $stripe = "";
-
-    public function __construct()
-    {
-        $this->stripe = new StripeClient(env('STRIPE_SECRET_KEY'));
-    }
 
     public function index(){
         try {
@@ -42,21 +37,12 @@ class UserPaymentMethodController extends Controller
             return apiresponse(false, implode("\n", $validate->errors()->all()));
         }
         try {
-            $date = explode("/", $request->exp_date);
-            $token = $this->stripe->tokens->create([
-            'card' => [
-                'number' => $request->card_number,
-                'exp_month' => $date[0],
-                'exp_year' => $date[1],
-                'cvc' => $request->cvc,
-                'name'  => $request->name,
-            ],
-            ]);
-            $stripeCustomer = $this->stripe->customers->retrieve(Auth::user()->stripe_customer_id);
-            $willBeDefault = ($stripeCustomer->default_source == null) ? true : false;
-            $source = $this->stripe->customers->createSource(Auth::user()->stripe_customer_id, [
-                'source' => $token
-            ]);
+            $user = auth()->user();
+            $stripeService = new StripeService();
+            $token = $stripeService->createToken($request);
+            $stripeCustomer = $stripeService->getCustomer($user);
+            $willBeDefault = $stripeCustomer->default_source == null ? true : false;
+            $source = $stripeService->createSource($stripeCustomer->id, $token);
             $UserPaymentMethod = UserPaymentMethod::create([
                 'user_id'           => Auth::user()->id,
                 'stripe_source_id'  => $source->id,

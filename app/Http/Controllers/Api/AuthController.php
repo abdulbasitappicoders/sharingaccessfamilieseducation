@@ -5,24 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Stripe\StripeClient;
 use Illuminate\Support\Facades\Hash;
 use App\Models\{User,Ride,RidePayment};
+use App\Services\StripeService;
 use Auth;
 use Mail;
 use Exception;
 
-
 class AuthController extends Controller
 {
-
-    public $stripe = "";
-
-    public function __construct()
-    {
-        $this->stripe = new StripeClient(env('STRIPE_SECRET_KEY'));
-    }
-
     public function test2(){
         return true;
     }
@@ -37,12 +28,9 @@ class AuthController extends Controller
         }
         try {
             $code = rand(10000,99999);
-            $stripeCustomer = $this->stripe->customers->create([
-                'email' => $request->email,
-                'name' => isset($request->username)?$request->username:$request->fist_name.' '.$request->last_name,
-            ]);
+            $stripeService = new StripeService();
             $data = $request->except(['password']);
-            $data['stripe_customer_id'] = $stripeCustomer->id;
+            $data['stripe_customer_id'] = $stripeService->createCustomer($request)->id;
             $data['password'] = Hash::make($request->password);
             $data['confirmation_code'] = $code;
             if ($request->hasFile('image')) {
@@ -158,13 +146,10 @@ class AuthController extends Controller
                 if($user){
                     return apiresponse(false, 'Your account has been deleted!');
                 }
-                $stripe = new StripeClient(env("STRIPE_SECRET_KEY"));
-                $stripeCustomer = $stripe->customers->create([
-                    'email' => $request->email,
-                    'name' => $request->username,
-                ]);
+                $stripeService = new StripeService();
+
                 $data = $request->all();
-                $data['stripe_customer_id'] = $stripeCustomer->id;
+                $data['stripe_customer_id'] = $stripeService->createCustomer($request)->id;
                 $data['role'] = 'rider';
                 $user = User::create($data);
                 $user = User::find($user->id);
