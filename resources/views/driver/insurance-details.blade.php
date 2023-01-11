@@ -27,7 +27,7 @@
                             <td>
                                 <div class="font-15">{{isset($insurance->riderInsurance[0])?$insurance->riderInsurance[0]->number:"N/A"}}</div>
                             </td>
-                            <td>{{isset($insurance->riderInsurance[0])?$insurance->riderInsurance[0]->exp_date:"N/A"}}/td>
+                            <td>{{isset($insurance->riderInsurance[0])?$insurance->riderInsurance[0]->exp_date:"N/A"}}</td>
                         </tr>
                         
                     </tbody>
