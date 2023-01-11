@@ -184,14 +184,14 @@
     var myChart = new Chart(ctx, {
     type: 'pie',
     data: {
-        labels: ["Total Drivers", "Active Drivers", " Pending Drivers"],
+        labels: ["Total Drivers", "Total Rides", " Total Riders"],
         datasets: [{
         backgroundColor: [
             "#200d51",
             "#f6921e",
             "#000"
         ],
-        data: [27, 19,  8]
+        data: [{{$data['total_drivers']}}, {{$data['total_rides']}},  {{$data['total_riders']}}]
         }]
     }
     });

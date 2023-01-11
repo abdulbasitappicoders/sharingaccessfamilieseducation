@@ -110,7 +110,7 @@
         </div>
     </div>
     </div>
-    <h1><strong>Driver Statistics</strong></h1>
+    <h1><strong>Statistics</strong></h1>
     <div>
         <canvas id="myChart" height="100" ></canvas>
     </div>

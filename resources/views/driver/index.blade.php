@@ -47,7 +47,7 @@
                         @if($user->status == 1)
                         <button class="btn btn-success">Active</button>
                         @else
-                        <button class="btn btn-danger">Deactive</button>
+                        <button class="btn btn-danger" style="background-color: red;">Deactive</button>
                         @endif
                     </td>
                     <td>
