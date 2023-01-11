@@ -13,7 +13,7 @@ class NotificationController extends Controller
 {
     public function index(){
         try {
-            $notifications = Notification::where('reciever_id',Auth::user()->id)->with('sender','reciever')->paginate(10);
+            $notifications = Notification::where('reciever_id',Auth::user()->id)->with('sender','reciever')->orderBy('id', 'DESC')->paginate(10);
             return apiresponse(true,"Notificatons",$notifications);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
