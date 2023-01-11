@@ -34,7 +34,7 @@
                             <td>
                                 <div class="font-15">{{$licence->licence?$licence->licence->model:"N/A"}}</div>
                             </td>
-                            <td>{{$licence->vehicle?$licence->vehicle->year:"N/A"}}/td>
+                            <td>{{$licence->vehicle?$licence->vehicle->year:"N/A"}}</td>
                             <td>{{$licence->vehicle?$licence->vehicle->color:"N/A"}}</td>
                             <td>{{$licence->vehicle?$licence->vehicle->license_plate:"N/A"}}</td>
                             <td>{{$licence->vehicle?$licence->vehicle->booking_type:"N/A"}}</td>
