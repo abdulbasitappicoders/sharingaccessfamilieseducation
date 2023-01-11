@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         $data['total_riders'] = User::where('role','rider')->count();
-        $data['total_drivers'] = User::where('role','rider')->count();
+        $data['total_drivers'] = User::where('role','driver')->count();
         $data['total_types'] = RideType::count();
         $data['total_rides'] = Ride::whereIn('status',['accepted','canceled','completed'])->count();
         $data['total_running_rides'] = Ride::where('status','accepted')->count();
