@@ -178,22 +178,5 @@
         $(".page-wrapper").addClass("toggled");
     });
 </script>
-<script type="text/javascript">
-    
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var myChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ["Total Drivers", "Total Rides", " Total Riders"],
-        datasets: [{
-        backgroundColor: [
-            "#200d51",
-            "#f6921e",
-            "#000"
-        ],
-        data: [{{$data['total_drivers']}}, {{$data['total_rides']}},  {{$data['total_riders']}}]
-        }]
-    }
-    });
-</script>
+
 </html>
