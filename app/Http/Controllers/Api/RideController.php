@@ -195,7 +195,7 @@ class RideController extends Controller
                 $data['routes_data'] = $distanceArray;
                 foreach($ride_types as $type){
 
-                    $data['total_prices'][]= ['id' => $type->id,'name' => $type->name, 'price' => round($totalDistance*$type->price,3)];
+                    $data['total_prices'][]= ['id' => $type->id,'name' => $type->name, 'price' => round($totalDistance*$type->price,2)];
                 }
                 // $data['total_prices'][]['total_car_price'] = $car;
                 // $data['total_prices'][]['total_mini_van_price'] = $mini_van;
