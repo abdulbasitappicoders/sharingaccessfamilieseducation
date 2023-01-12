@@ -10,6 +10,8 @@ class RideLocation extends Model
 {
     use HasFactory;
 
+    protected $with = ['children'];
+
 
 
     protected $table = 'ride_locations';
