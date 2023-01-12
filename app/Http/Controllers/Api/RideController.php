@@ -41,7 +41,9 @@ class RideController extends Controller
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
         try {
-            $previousRide = Ride::where('rider_id', auth()->user()->id)->where('type','normal')->where('status', 'accepted')->orWhere('status', 'confirmed')->first();
+            $previousRide = Ride::where('rider_id', auth()->user()->id)->where('type','normal')->where(function($q){
+                $q->where('status', 'accepted')->orWhere('status', 'confirmed');
+            })->first();
             if($previousRide) {
                 return apiresponse(false, __('Ride already booked'), ['data' => null]);
             }
