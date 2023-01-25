@@ -156,7 +156,7 @@ class AuthController extends Controller
         $userAccount = UserAccount::where('stripe_account_id', $account_no)->first();
         $user = User::where('id', $userAccount->user_id)->first();
         try {
-            $account = $stripeService->getConnectUrl($userAccount->stripe_account_id);
+            $account = $stripeService->getConnectUrl($userAccount->stripe_account_id, $user->id);
             $user->update(['onboarding_url' => $account->url]);
 
 //            return apiresponse(true, 'Link has been generated successfully', $user);
