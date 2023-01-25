@@ -87,6 +87,18 @@
                             <li class="border-bottom border-top">
                                 <a href="{{route('admin.payments')}}"><span class="ml-3 text-white">Payment</span></a>
                             </li>
+                            <li class="border-bottom border-top">
+                                <a href="{{route('admin.radius_of_search')}}"><span class="ml-3 text-white">Radius Of Search</span></a>
+                            </li>
+                            <li class="border-bottom border-top">
+                                <a href="{{route('admin.emergency')}}"><span class="ml-3 text-white">Emergency Contact</span></a>
+                            </li>
+                            <li class="border-bottom border-top">
+                                <a href="{{route('admin.charges_per_miles')}}"><span class="ml-3 text-white">Charges Per Miles</span></a>
+                            </li>
+                            <li class="border-bottom border-top">
+                                <a href="{{route('admin.commission')}}"><span class="ml-3 text-white">Commission</span></a>
+                            </li>
                             <li class="border-bottom">
                                 <a href="{{route('admin.help')}}"><span class="ml-3 text-white">Help</span></a>
                             </li>
@@ -98,6 +110,9 @@
                             </li>
                             <li class="border-bottom">
                                 <a href="{{route('admin.privacyAndPolicy')}}"><span class="ml-3 text-white">Privacy & Policy</span></a>
+                            </li>
+                            <li class="border-bottom">
+                                <a href="{{route('admin.change_password')}}"><span class="ml-3 text-white">Change Password</span></a>
                             </li>
                         </ul>
                     </nav>

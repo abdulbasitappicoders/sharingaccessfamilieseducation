@@ -19,6 +19,9 @@ class RidePayment extends Model
         'user_card_id',
         'driver_id',
         'rider_id',
+        'driver_ammount',
+        'rider_amount',
+        'commission',
     ];
 
     public function ride()

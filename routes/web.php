@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{UserController,PageController};
+use App\Http\Controllers\Admin\{AdminController, ChargesPerMileController, CommissonController, EmergencyController, UserController,PageController, RadiusOfSearchController};
 use App\Http\Controllers\{SiteController};
 
 /*
@@ -31,6 +31,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::get('admin/driver_licence/{id}', [UserController::class, 'driver_licence'])->name('admin.driver_licence');
     Route::post('admin/driver_status', [UserController::class, 'driver_status'])->name('admin.driver_status');
     Route::get('admin/driver_insurance/{id}', [UserController::class, 'driver_insurance'])->name('admin.driver_insurance');
+    Route::get('admin/driver_fvc/{id}', [UserController::class, 'driver_fvc'])->name('admin.driver_fvc');
 
     //Rider Module
     Route::get('admin/rider', [UserController::class, 'rider'])->name('admin.rider');
@@ -59,4 +60,25 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
 
     //Payments Module
     Route::get('admin/payments', [PageController::class, 'payments'])->name('admin.payments');
+
+    //Change Password Module
+    Route::get('admin/changePassword', [AdminController::class, 'index'])->name('admin.change_password');
+    Route::post('admin/updatePassword', [AdminController::class, 'update'])->name('admin.update_password');
+
+    //Radius of search Module
+    Route::get('admin/radius_of_search', [RadiusOfSearchController::class, 'index'])->name('admin.radius_of_search');
+    Route::post('admin/update_miles', [RadiusOfSearchController::class, 'update'])->name('admin.update_miles');
+
+    //Emergency Module
+    Route::get('admin/emergency', [EmergencyController::class, 'index'])->name('admin.emergency');
+    Route::post('admin/update_emergency', [EmergencyController::class, 'update'])->name('admin.update_emergency');
+
+    //Charges Per Miles Module
+    Route::get('admin/charges_per_miles', [ChargesPerMileController::class, 'index'])->name('admin.charges_per_miles');
+    Route::post('admin/update_charges_per_miles', [ChargesPerMileController::class, 'update'])->name('admin.update_charges_per_miles');
+
+    //Commission Module
+    Route::get('admin/commission', [CommissonController::class, 'index'])->name('admin.commission');
+    Route::post('admin/update_commission', [CommissonController::class, 'update'])->name('admin.update_commission');
+
 });

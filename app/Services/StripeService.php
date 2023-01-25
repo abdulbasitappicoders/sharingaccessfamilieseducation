@@ -4,6 +4,10 @@ namespace App\Services;
 
 use Stripe\StripeClient;
 use App\Models\UserPaymentMethod as PaymentMethod;
+use Stripe\Account;
+use Stripe\AccountLink;
+use Stripe\Stripe;
+
 
 class StripeService
 {
@@ -12,6 +16,7 @@ class StripeService
     public function __construct()
     {
         $this->setStripe(new StripeClient(config('payment.STRIPE_SECRET_KEY')));
+        Stripe::setApiKey(config('payment.STRIPE_SECRET_KEY'));
     }
 
     /**
@@ -128,6 +133,72 @@ class StripeService
 
         PaymentMethod::where('stripe_source_id', $sourceId)->delete();
     }
+
+    public function createOnBoarding($user, $date)
+    {
+        return Account::create([
+            'type' => 'custom',
+            'country' => 'US',
+            'email' => $user->email,
+            'business_type' => 'individual',
+            'capabilities' => [
+                'card_payments' => ['requested' => true],
+                'transfers' => ['requested' => true],
+            ],
+            'business_profile' => [
+                'name' => $user->username,
+                'mcc' => '8999',
+                'product_description' => 'Professional Services',
+            ],
+            'email' => $user->email,
+            'individual' => [
+                // 'address' => [
+                //     'city'  =>  'New York',
+                //     'country'  =>  'US',
+                //     "line1" => "13th Street",
+                //     "line2" => "47 W 13th St",
+                //     "postal_code" => "10011",
+                //     "state" => "NY"
+                // ],
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'dob' => [
+                    'day' => explode('-', $date)[2],
+                    'month' => explode('-', $date)[1],
+                    'year' => explode('-', $date)[0]
+                ],
+                'phone' => null,//$user['phone'],
+                // 'ssn_last_4'    => '0000',
+            ]
+        ]);
+    }
+
+    public function getConnectUrl($account_no, $user_id)
+    {
+        try {
+            $account = AccountLink::create([
+                'account' => $account_no,
+                'refresh_url' => url('api/connectReAuth', $account_no),
+                'return_url' => url('api/connectReturn', $user_id),
+                'type' => 'account_onboarding'
+            ]);
+
+            return $account;
+        } catch (\Exception $exception) {
+            return apiresponse(false, $exception->getMessage());
+        }
+    }
+
+    public function bankTransfer($amount, $account_no)
+    {
+        return $this->getStripe()->transfers->create([
+            'amount' => $amount * 100,
+            'currency' => 'usd',
+            'destination' => $account_no
+        ]);
+    }
+    
 
     /**
      * @param $customerId

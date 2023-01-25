@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User,RidePayment,UserChildren,UserLicense,UserVehicle,UserAvailable,Ride,Review,DriverInsurance};
+use App\Models\{User,RidePayment,UserChildren,UserLicense,UserVehicle,UserAvailable,Ride,Review,DriverInsurance, UserFvc};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Exception;
@@ -32,79 +32,97 @@ class ProfileController extends Controller
             }
             $res = User::find(Auth::user()->id)->update($data);
             if($res){
-                if(Auth::user()->role == 'driver'){
-                    if(isset($request->license) && $request->filled('license')){
-                        $license = $request->license;
-                        $license['user_id'] = Auth::user()->id;
-                        $userLicense = UserLicense::where('user_id',Auth::user()->id)->first();
-                        if($userLicense){
-                            if (isset($request->license['card_front']) && $request->license['card_front'] != null) {
-                                $res = files_upload($request->license['card_front'], 'card');
-                                $license['card_front'] = $res;
+                    if(Auth::user()->role == 'driver'){
+                        if(isset($request->license) && $request->filled('license')){
+                            $license = $request->license;
+                            $license['user_id'] = Auth::user()->id;
+                            $userLicense = UserLicense::where('user_id',Auth::user()->id)->first();
+                            if($userLicense){
+                                if (isset($request->license['card_front']) && $request->license['card_front'] != null) {
+                                    $res = files_upload($request->license['card_front'], 'card');
+                                    $license['card_front'] = $res;
+                                }
+                                if (isset($request->license['card_back']) && $request->license['card_back'] != null) {
+                                    $res = files_upload($request->license['card_back'], 'card');
+                                    $license['card_back'] = $res;
+                                }
+                                UserLicense::where('user_id',Auth::user()->id)->update($license);
+                            }else{
+                                if (isset($request->license['card_front']) && $request->license['card_front'] != null) {
+                                    $res = files_upload($request->license['card_front'], 'card');
+                                    $license['card_front'] = $res;
+                                }
+                                if (isset($request->license['card_back']) && $request->license['card_back'] != null) {
+                                    $res = files_upload($request->license['card_back'], 'card');
+                                    $license['card_back'] = $res;
+                                }
+                                UserLicense::create($license);
                             }
-                            if (isset($request->license['card_back']) && $request->license['card_back'] != null) {
-                                $res = files_upload($request->license['card_back'], 'card');
-                                $license['card_back'] = $res;
-                            }
-                            UserLicense::where('user_id',Auth::user()->id)->update($license);
-                        }else{
-                            if (isset($request->license['card_front']) && $request->license['card_front'] != null) {
-                                $res = files_upload($request->license['card_front'], 'card');
-                                $license['card_front'] = $res;
-                            }
-                            if (isset($request->license['card_back']) && $request->license['card_back'] != null) {
-                                $res = files_upload($request->license['card_back'], 'card');
-                                $license['card_back'] = $res;
-                            }
-                            UserLicense::create($license);
                         }
-                    }
-                    if(isset($request->availability) && $request->filled('availability')){
-                        userAvailable::where('user_id',Auth::user()->id)->delete();
-                        foreach($request->availability as $available){
-                            $available['user_id'] = Auth::user()->id;
-                            userAvailable::create($available);
+                        if(isset($request->fvc) && $request->filled('fvc')){
+                            $fvc = $request->fvc;
+                            $fvc['user_id'] = Auth::user()->id;
+                            $userFvc = UserFvc::where('user_id',Auth::user()->id)->first();
+                            if($userFvc){
+                                if (isset($request->fvc['image']) && $request->fvc['image'] != null) {
+                                    $res = files_upload($request->fvc['image'], 'fvc');
+                                    $fvc['image'] = $res;
+                                }
+                                UserFvc::where('user_id',Auth::user()->id)->update($fvc);
+                            }else{
+                                if (isset($request->fvc['image']) && $request->fvc['image'] != null) {
+                                    $res = files_upload($request->fvc['image'], 'fvc');
+                                    $fvc['image'] = $res;
+                                }
+                                UserFvc::create($fvc);
+                            }
                         }
-                    } else {
-                        userAvailable::where('user_id', auth()->user()->id)->delete();
-                    }
-                    if(isset($request->insurance) && $request->filled('insurance')){
-                        // return $request->insurance;
-                        $insurance = $request->insurance;
-                        $insurance['user_id'] = Auth::user()->id;
-                        $userInsurance = DriverInsurance::where('user_id',Auth::user()->id)->first();
-                        if($userInsurance){
-                            if (isset($request->insurance['front']) && $request->insurance['front'] != null) {
-                                $res = files_upload($request->insurance['front'], 'insurance_front');
-                                $insurance['front'] = $res;
+                        if(isset($request->availability) && $request->filled('availability')){
+                            userAvailable::where('user_id',Auth::user()->id)->delete();
+                            foreach($request->availability as $available){
+                                $available['user_id'] = Auth::user()->id;
+                                userAvailable::create($available);
                             }
-                            if ( isset($request->insurance['back']) && $request->insurance['back'] != null) {
-                                $res = files_upload($request->insurance['back'], 'insurance_back');
-                                $insurance['back'] = $res;
-                            }
-                            DriverInsurance::where('user_id',Auth::user()->id)->update($insurance);
-                        }else{
-                            if ( isset($request->insurance['front']) && $request->insurance['front'] != null) {
-                                $res = files_upload($request->insurance['front'], 'insurance_front');
-                                $insurance['front'] = $res;
-                            }
-                            if ( isset($request->insurance['back']) && $request->insurance['back'] != null) {
-                                $res = files_upload($request->insurance['back'], 'insurance_back');
-                                $insurance['back'] = $res;
-                            }
-                            DriverInsurance::create($insurance);
+                        } else {
+                            userAvailable::where('user_id', auth()->user()->id)->delete();
                         }
-                    }
-                    if(isset($request->vehicle) && $request->filled('vehicle')){
-                        $vehicle = $request->vehicle;
-                        $vehicle['user_id'] = Auth::user()->id;
-                        $userVehicle = UserVehicle::where('user_id',Auth::user()->id)->first();
-                        if($userVehicle){
-                            UserVehicle::where('user_id',Auth::user()->id)->update($vehicle);
-                        }else{
-                            UserVehicle::create($vehicle);
+                        if(isset($request->insurance) && $request->filled('insurance')){
+                            // return $request->insurance;
+                            $insurance = $request->insurance;
+                            $insurance['user_id'] = Auth::user()->id;
+                            $userInsurance = DriverInsurance::where('user_id',Auth::user()->id)->first();
+                            if($userInsurance){
+                                if (isset($request->insurance['front']) && $request->insurance['front'] != null) {
+                                    $res = files_upload($request->insurance['front'], 'insurance_front');
+                                    $insurance['front'] = $res;
+                                }
+                                if ( isset($request->insurance['back']) && $request->insurance['back'] != null) {
+                                    $res = files_upload($request->insurance['back'], 'insurance_back');
+                                    $insurance['back'] = $res;
+                                }
+                                DriverInsurance::where('user_id',Auth::user()->id)->update($insurance);
+                            }else{
+                                if ( isset($request->insurance['front']) && $request->insurance['front'] != null) {
+                                    $res = files_upload($request->insurance['front'], 'insurance_front');
+                                    $insurance['front'] = $res;
+                                }
+                                if ( isset($request->insurance['back']) && $request->insurance['back'] != null) {
+                                    $res = files_upload($request->insurance['back'], 'insurance_back');
+                                    $insurance['back'] = $res;
+                                }
+                                DriverInsurance::create($insurance);
+                            }
                         }
-                    }
+                        if(isset($request->vehicle) && $request->filled('vehicle')){
+                            $vehicle = $request->vehicle;
+                            $vehicle['user_id'] = Auth::user()->id;
+                            $userVehicle = UserVehicle::where('user_id',Auth::user()->id)->first();
+                            if($userVehicle){
+                                UserVehicle::where('user_id',Auth::user()->id)->update($vehicle);
+                            }else{
+                                UserVehicle::create($vehicle);
+                            }
+                        }
                 }else{
                     if(isset($request->childrens) && $request->filled('childrens')){
                         $childrens = $request->childrens;
@@ -121,7 +139,7 @@ class ProfileController extends Controller
                     
                 }
             }
-            $data = User::where('id',Auth::user()->id)->with('childrens','childrens.payment_method','licence','vehicle','UserPaymentMethods','userAvailability','riderInsurance')->first();
+            $data = User::where('id',Auth::user()->id)->with('childrens','childrens.payment_method','licence','vehicle','UserPaymentMethods','userAvailability','riderInsurance','UserFvc')->first();
             $rides = Ride::where('driver_id',$data->id)
             ->where('status','completed')->count();
             if(Auth::user()->role == 'driver'){
@@ -156,6 +174,22 @@ class ProfileController extends Controller
             }else{
                 return apiresponse(false, 'child not found');
             }
+        } catch (Exception $e) {
+            return apiresponse(false, $e->getMessage());
+        }
+    }
+
+    public function makeUserAuthenticate()
+    {
+        try {
+            $user = auth()->user();
+            $checkUser = User::find($user->id);
+            if($checkUser) {
+                $checkUser->is_authenticated = 1;
+                $checkUser->save();
+                return apiresponse(true, __('User authenticated'), ['data' => auth()->user()]);
+            }
+            return apiresponse(false, __('User not found'), ['data' => null]);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }

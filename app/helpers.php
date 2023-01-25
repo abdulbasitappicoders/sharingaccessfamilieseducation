@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\ChargesPerMile;
+use App\Models\Commission;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
@@ -95,6 +98,34 @@ if (!function_exists('findDistance')) {
         $link = 'https://maps.googleapis.com/maps/api/distancematrix/json?destinations='.$destination.'&origins='.$origin.'&key=AIzaSyCRYfRwttAsnD0vflBvUQ4lFiGytXnInz4';
         $res = json_decode(file_get_contents($link), true);
         return $res;
+    }
+}
+
+if (!function_exists('commission')) {
+    /**
+     *
+     * Convert Address to lat lng
+     * @param string $address
+     * @return array|boolean
+     */
+    function commission()
+    {
+        $commission = Commission::first();
+        return $commission->commission;
+    }
+}
+
+if (!function_exists('charges_per_mile')) {
+    /**
+     *
+     * Convert Address to lat lng
+     * @param string $address
+     * @return array|boolean
+     */
+    function charges_per_mile()
+    {
+        $charges_per_mile = ChargesPerMile::first();
+        return $charges_per_mile->charges_per_mile;
     }
 }
 

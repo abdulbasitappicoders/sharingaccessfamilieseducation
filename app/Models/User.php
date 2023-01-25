@@ -19,7 +19,7 @@ class User extends Authenticatable
     public const rider = 'rider'; 
 
 
-    protected $with = ['riderInsurance'];
+    protected $with = ['riderInsurance', 'stripeAccount'];
     /**
      * The attributes that are mass assignable.
      *
@@ -47,6 +47,8 @@ class User extends Authenticatable
         'status',
         'role',
         'password',
+        'onboarding_url',
+        'is_authenticated',
     ];
 
     /**
@@ -92,6 +94,11 @@ class User extends Authenticatable
         return $this->hasMany(DriverInsurance::class);
 	}
 
+    public function UserFvc()
+	{
+        return $this->hasOne(UserFvc::class);
+	}
+
     public function chatLists()
 	{
         return $this->hasMany(ChatList::class);
@@ -105,6 +112,11 @@ class User extends Authenticatable
     public function licence()
 	{
         return $this->hasOne(UserLicense::class);
+	}
+
+    public function stripeAccount()
+	{
+        return $this->hasOne(UserAccount::class);
 	}
 
     public function vehicle()

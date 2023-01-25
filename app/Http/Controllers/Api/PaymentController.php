@@ -11,9 +11,9 @@ class PaymentController extends Controller
 {
     public function getPaymentHistory(){
         if(Auth::user()->role == 'driver'){
-            $paymentHistory = RidePayment::where('driver_id',Auth::user()->id)->with('driver','rider','ride','ride.rideLocations','payment_method')->get();
+            $paymentHistory = RidePayment::where('driver_id',Auth::user()->id)->with('driver','rider','ride','ride.rideLocations','payment_method')->orderBy('id', 'DESC')->get();
         }else{
-            $paymentHistory = RidePayment::where('rider_id',Auth::user()->id)->with('driver','rider','ride','ride.rideLocations','payment_method')->get();
+            $paymentHistory = RidePayment::where('rider_id',Auth::user()->id)->with('driver','rider','ride','ride.rideLocations','payment_method')->orderBy('id', 'DESC')->get();
         }
         if($paymentHistory){
             return apiresponse(true,"History found",$paymentHistory);

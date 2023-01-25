@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\
 {
 UserPaymentMethodController,AuthController,PageController,NotificationController,ProfileController,
 ChatController,ContactUsController,ReviewController,PaymentWithCardBankController,SavedLocationController,
-RideController,PaymentController,UserCardController
+RideController,PaymentController,UserCardController,GeneralController
 };
 
 
@@ -29,11 +29,16 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     Route::post('sendForgotPasswordEmail', 'AuthController@sendForgotPasswordEmail')->name('sendForgotPasswordEmail');
     Route::post('verifyForgotPin', 'AuthController@verifyForgotPin');
     Route::post('resetPassword', 'AuthController@resetPassword');
+    Route::get('connectReAuth/{account_no}', 'AuthController@connectReAuth');
+    Route::get('connectReturn/{id}', 'AuthController@connectReturn');
+    Route::get('getEmergencyNumber', 'GeneralController@getEmergencyNumber');
+    Route::post('checkAppVersion', 'GeneralController@checkAppVersion');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:api'], function () {
     Route::get('logout',[ProfileController::class, 'logout'])->name('logout');
     Route::post('updateProfile',[ProfileController::class, 'updateProfile'])->name('updateProfile');
+    Route::get('makeUserAuthenticate',[ProfileController::class, 'makeUserAuthenticate'])->name('makeUserAuthenticate');
     Route::post('updateLatLong',[ProfileController::class, 'updateLatLong'])->name('updateLatLong');
     Route::get('onlineOffline',[ProfileController::class, 'onlineOffline'])->name('onlineOffline');
     Route::post('updateIsBoard',[ProfileController::class, 'updateIsBoard'])->name('updateIsBoard');

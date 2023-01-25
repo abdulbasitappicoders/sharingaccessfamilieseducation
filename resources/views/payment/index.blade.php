@@ -20,8 +20,12 @@
                     <th class="text-white">Rider Name</th>
                     <th class="text-white">Ride Date</th>
                     <th class="text-white">Ride Time</th>
+                    <th class="text-white">Driver Amount</th>
+                    <th class="text-white">Rider amount</th>
+                    <th class="text-white">Commission</th>
+                    <th class="text-white">Commission Percentage</th>
+                    <th class="text-white">Is Paid</th>
                     <th class="text-white">Total Amount</th>
-                    <th class="text-white">Payment Method</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,8 +45,12 @@
                     <td>{{$payment->rider ? $payment->rider->username:"N/A"}}</td>
                     <td>{{date('d-m-Y', strtotime($payment->created_at))}}</td>
                     <td>{{date('g:i A', strtotime($payment->created_at))}}</td>
+                    <td>{{$payment->driver_ammount ? "$".$payment->driver_ammount:"N/A"}}</td>
+                    <td>{{$payment->rider_amount ? "$".$payment->rider_amount:"N/A"}}</td>
+                    <td>{{$payment->commission ? "$".$payment->commission:"N/A"}}</td>
+                    <td>{{$payment->commission_percentage ? $payment->commission_percentage."%":"N/A"}}</td>
+                    <td>{{$payment->is_paid ? "Yes":"No"}}</td>
                     <td>${{$payment->total_amount}}</td>
-                    <td>{{$payment->type}}</td>
                 </tr>
                 @endforeach
             </tbody>

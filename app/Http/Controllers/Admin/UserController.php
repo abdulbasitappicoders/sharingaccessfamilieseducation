@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User};
+use App\Models\{User, UserFvc};
 
 class UserController extends Controller
 {
@@ -15,7 +15,7 @@ class UserController extends Controller
 
     //Driver Module
     public function driver(){
-        $users = User::where('role','driver')->simplePaginate(10);
+        $users = User::where('role','driver')->orderBy('id','DESC')->simplePaginate(10);
         return view('driver.index',compact('users'));
     }
 
@@ -39,6 +39,13 @@ class UserController extends Controller
         if($user->save()){
             return back()->with('message','Status changed');
         }
+    }
+
+
+    public function driver_fvc($id)
+    {
+        $fvc = UserFvc::where('user_id',$id)->first();
+        return view('driver.fvc', compact('fvc'));
     }
 
 

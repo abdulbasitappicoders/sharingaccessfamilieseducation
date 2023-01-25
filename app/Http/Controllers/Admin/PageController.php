@@ -100,7 +100,7 @@ class PageController extends Controller
     }
 
     public function payments(){
-        $payments = RidePayment::with('ride','driver','rider','payment_method')->simplePaginate(10);
+        $payments = RidePayment::with('ride','driver','rider','payment_method')->orderBy('id', 'DESC')->simplePaginate(10);
         return view('payment.index',compact('payments'));
     }
 

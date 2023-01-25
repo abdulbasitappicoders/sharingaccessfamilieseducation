@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use App\Models\{User,Ride,RidePayment};
+use App\Models\{User,Ride,RidePayment, UserAccount};
 use App\Services\StripeService;
 use Auth;
 use Mail;
 use Exception;
+use Stripe\Account;
+use Stripe\Stripe;
+
 
 class AuthController extends Controller
 {
@@ -20,13 +23,17 @@ class AuthController extends Controller
 
     public function register(Request $request){
         $validator = Validator::make($request->all(),[
-            'email'     =>  'required|unique:users,email',
+            'email'     =>  'required|email',
             'password'  =>  'min:8',
         ]);
         if($validator->fails()){
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
         try {
+            $checkUser = User::where('email', $request->email)->where('role', $request->role)->first();
+            if($checkUser) {
+                return apiresponse(false, __($request->email.' with '.$request->role . ' role already exists'));
+            }
             $code = rand(10000,99999);
             $stripeService = new StripeService();
             $data = $request->except(['password']);
@@ -52,6 +59,11 @@ class AuthController extends Controller
                 }
                 $user->total_earnings = $total_earnings;
                 $user->total_rides = $rides;
+                $createStripeAccount = $stripeService->createOnBoarding($user, '1995-01-01');
+                $userStripeAccount = new UserAccount();
+                $userStripeAccount->user_id = $user->id;
+                $userStripeAccount->stripe_account_id = $createStripeAccount->id;
+                $userStripeAccount->save();
                 $data = [
                     'token' => $user->createToken('customer-Token')->accessToken,
                     'user' => $user
@@ -66,17 +78,18 @@ class AuthController extends Controller
     public function login(Request $request){
         $validator = Validator::make($request->all(), [
             'email'     => 'required|email|exists:users,email',
-            'password'  => 'required|min:8'
+            'password'  => 'required|min:8',
+            'role'      => 'required'
         ]);
         if ($validator->fails()) return apiresponse(false, implode("\n", $validator->errors()->all()));
         try {
-            $user = User::where('email', $request->email)->with('licence','vehicle','childrens','UserPaymentMethods','childrens.payment_method','userAvailability')->first();
+            $user = User::where('email', $request->email)->where('role', $request->role)->with('licence','vehicle','childrens','UserPaymentMethods','childrens.payment_method','userAvailability','UserFvc')->first();
             if ($user) {
                 if($user->is_verified == 1){
                     if (Hash::check($request->password, $user->password)) {
                         if ($request->has('device_id') and !empty($request->device_id)) {
                             User::find($user->id)->update(['device_id' => $request->device_id]);
-                            $user = User::where('id',$user->id)->with('licence','vehicle','childrens','childrens.payment_method','userAvailability')->first();
+                            $user = User::where('id',$user->id)->with('licence','vehicle','childrens','childrens.payment_method','userAvailability','UserFvc')->first();
                         }
                         if($user->role == 'rider'){
                             $rides = Ride::where('rider_id',$user->id)
@@ -85,7 +98,7 @@ class AuthController extends Controller
                         }else{
                             $rides = Ride::where('driver_id',$user->id)
                             ->where('status','completed')
-                            ->with('driver','rider','rideLocations','ridePayment','review')->count();
+                            ->with('driver','rider','rideLocations','ridePayment','review', 'UserFvc')->count();
                         }
                         $user->login_count = $user->login_count+1;
                         $user->save();
@@ -96,10 +109,13 @@ class AuthController extends Controller
                         }
                         $user->total_earnings = $total_earnings;
                         $user->total_rides = $rides;
+                        $stripeService = new StripeService();
+                        $onboarding_url = $stripeService->getConnectUrl($user->stripeAccount->stripe_account_id, $user->id);
                         $data = [
-                            'token' => $user->createToken('customer-Token')->accessToken,
-                            'user' => $user,
-                            'csrf_token' =>  csrf_field() 
+                            'token'     => $user->createToken('customer-Token')->accessToken,
+                            'user'      => $user,
+                            'csrf_token' =>  csrf_field() ,
+                            'onboarding_url' =>  $onboarding_url ,
                         ];
                         return apiresponse(true, 'Login Success', $data);
                     } else {
@@ -109,7 +125,7 @@ class AuthController extends Controller
                     return apiresponse(false, 'An email has been sent to your registered email address. Please click on verify to verify your account.');
                 }
             } else {
-                $user = User::where('email',$request->email)->withTrashed()->first();
+                $user = User::where('email',$request->email)->where('role', $request->role)->withTrashed()->first();
                 if($user){
                     return apiresponse(false, 'Your account has been deleted!');
                 }else{
@@ -121,6 +137,48 @@ class AuthController extends Controller
         }
     }
 
+    public function connectReAuth($account_no)
+    {
+        $stripeService = new StripeService();
+
+        $userAccount = UserAccount::where('stripe_account_id', $account_no)->first();
+        $user = User::where('id', $userAccount->user_id)->first();
+        try {
+            $account = $stripeService->getConnectUrl($userAccount->stripe_account_id);
+            $user->update(['onboarding_url' => $account->url]);
+
+//            return apiresponse(true, 'Link has been generated successfully', $user);
+            return view('connect-success', ['message' => 'Link has been generated successfully']);
+        } catch (Exception $exception) {
+//            return apiresponse(false, $exception->getMessage());
+            return view('connect-failed', ['message' => $exception->getMessage()]);
+        }
+    }
+
+    public function connectReturn($id)
+    {
+        $userAccount = UserAccount::where('user_id', $id)->first();
+        $user = User::where('id', $userAccount->user_id)->first();
+        try {
+            Stripe::setApiKey(config('payment.STRIPE_SECRET_KEY'));
+            $acc = Account::retrieve(
+                $userAccount->stripe_account_id,
+                []
+            );
+            if (!$acc->details_submitted) {
+                return view('connect-failed', ['message' => "Unable to complete connect account"]);
+//                return apiresponse(false, "Unable to complete connect account",);
+            }
+            $user->update(['is_broad' => '1']);
+            return view('connect-success', ['message' => 'Connect account has been verified successfully']);
+        //    return apiresponse(true, 'Connect account has been verified successfully', $user);
+        } catch (Exception $exception) {
+            dd($exception->getMessage());
+            return view('connect-failed', ['message' => $exception->getMessage()]);
+//            return apiresponse(false, $exception->getMessage());
+        }
+    }
+
     public function socialLogin(Request $request){
 
         $validator = Validator::make($request->all(), [
@@ -128,13 +186,14 @@ class AuthController extends Controller
             'last_name' => 'required',
             'username' => 'required',
             'email' => 'required',
+            'role' => 'required',
         ]);
         if ($validator->fails()) return apiresponse(false, implode("\n", $validator->errors()->all()));
         try {
-            $user = User::where('email',$request->email)->first();
+            $user = User::where('email',$request->email)->where('role', $request->role)->first();
             if($user){
                 if ($request->has('device_id') and !empty($request->device_id)) {
-                    User::find($user->id)->update(['device_id' => $request->device_id]);
+                    User::find($user->id)->update(['device_id' => $request->device_id, 'login_count' => $user->login_count+1]);
                     $user = User::find($user->id);
                 }
                 $data = [
@@ -153,6 +212,8 @@ class AuthController extends Controller
                 $data['role'] = 'rider';
                 $user = User::create($data);
                 $user = User::find($user->id);
+                $user->login_count = $user->login_count+1;
+                $user->save();
                 $data = [
                     'token' => $user->createToken('customer-Token')->accessToken,
                     'user' => $user
