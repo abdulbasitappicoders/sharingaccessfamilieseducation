@@ -55,7 +55,7 @@ class RideController extends Controller
                 WHERE role = \'driver\'
                 AND is_online = \'1\'
                 AND vehicle_type = \''.$request->vehicle_type.'\'
-                HAVING distance < 25 ORDER BY distance
+                HAVING distance < 100 ORDER BY distance
             ;');
             if($distances){
                 $data['rider_id'] = Auth::user()->id;
@@ -134,7 +134,7 @@ class RideController extends Controller
                 FROM users
                 WHERE role = \'driver\'
                 AND is_online = \'1\'
-                HAVING distance < 25 ORDER BY distance
+                HAVING distance < 100 ORDER BY distance
             ;');
             if($distances){
                 foreach($distances as $user){
