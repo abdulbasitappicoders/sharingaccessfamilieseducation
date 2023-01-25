@@ -57,7 +57,6 @@ class RideController extends Controller
                 AND vehicle_type = \''.$request->vehicle_type.'\'
                 HAVING distance < 100 ORDER BY distance
             ;');
-            return $distances;
             if($distances){
                 $data['rider_id'] = Auth::user()->id;
                 $data['request_time'] = Carbon::now();
