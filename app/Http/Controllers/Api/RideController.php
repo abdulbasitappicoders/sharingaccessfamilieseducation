@@ -74,8 +74,7 @@ class RideController extends Controller
                 // return gettype($res);
                 foreach($distances as $user){
                     $resUser = User::where('id',$user->id)->with('vehicle','toReview')->first();
-                    $resUser->distance = $user->distance;
-                    return $resUser->distance;
+                    $resUser->distance = 0;
                     $users[] = $resUser;
                     $requestedTo = new RideRequestedTo();
                     $requestedTo->driver_id = $resUser->id;
