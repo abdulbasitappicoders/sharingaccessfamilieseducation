@@ -84,6 +84,9 @@ class AuthController extends Controller
         if ($validator->fails()) return apiresponse(false, implode("\n", $validator->errors()->all()));
         try {
             $user = User::where('email', $request->email)->where('role', $request->role)->with('licence','vehicle','childrens','UserPaymentMethods','childrens.payment_method','userAvailability','UserFvc')->first();
+            if(!$user) {
+                return apiresponse(false, 'User not found', ['data' => null]);
+            }
             $stripeService = new StripeService();
             $userAccount = UserAccount::where('user_id', $user->id)->first();
             if(!$userAccount) {
