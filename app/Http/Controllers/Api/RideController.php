@@ -48,6 +48,7 @@ class RideController extends Controller
             if($previousRide) {
                 return apiresponse(false, __('Ride already booked'), ['data' => null]);
             }
+            $adminDistance = 
             $distances = DB::select('SELECT id,latitude, longitude,vehicle_type,role, SQRT(
                 POW(69.1 * (latitude - '.$request->pickUpLat.'), 2) +
                 POW(69.1 * ('.$request->pickUpLong.' - longitude) * COS(latitude / 57.3), 2)) AS distance
@@ -55,7 +56,7 @@ class RideController extends Controller
                 WHERE role = \'driver\'
                 AND is_online = \'1\'
                 AND vehicle_type = \''.$request->vehicle_type.'\'
-                HAVING distance < 100 ORDER BY distance
+                HAVING distance < '.radius_of_searches().' ORDER BY distance
             ;');
             if($distances){
                 $data['rider_id'] = Auth::user()->id;
@@ -403,6 +404,7 @@ class RideController extends Controller
             $ridePayment->driver_ammount = $newprice;
             $ridePayment->rider_amount = $price;
             $ridePayment->type =  $userPaymentMethod->type;
+            $ridePayment->is_paid =  0;
             $ridePayment->user_card_id = $userPaymentMethod->id;
             $ridePayment->driver_id = $ride->driver_id;
             $ridePayment->rider_id = $ride->rider_id;
@@ -519,6 +521,7 @@ class RideController extends Controller
             $ridePayment->driver_ammount = $newprice;
             $ridePayment->rider_amount = $price;
             $ridePayment->type =  $userPaymentMethod->type;
+            $ridePayment->is_paid =  0;
             $ridePayment->user_card_id = $userPaymentMethod->id;
             $ridePayment->driver_id = $ride->driver_id;
             $ridePayment->rider_id = $ride->rider_id;

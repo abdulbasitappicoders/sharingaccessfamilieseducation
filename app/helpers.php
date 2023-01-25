@@ -6,6 +6,7 @@ use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 use App\Models\Notification as ModelNotification;
+use App\Models\RadiusOfSearch;
 
 if (!function_exists('apiresponse')) {
     /**
@@ -112,6 +113,20 @@ if (!function_exists('commission')) {
     {
         $commission = Commission::first();
         return $commission->commission;
+    }
+}
+
+if (!function_exists('radius_of_searches')) {
+    /**
+     *
+     * Convert Address to lat lng
+     * @param string $address
+     * @return array|boolean
+     */
+    function radius_of_searches()
+    {
+        $radius_of_searches = RadiusOfSearch::first();
+        return $radius_of_searches->miles;
     }
 }
 
