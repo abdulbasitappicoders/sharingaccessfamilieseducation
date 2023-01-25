@@ -24,14 +24,14 @@
                     <tbody>
                         @foreach ($queries as $query)
                         <tr>
-                            <td>{{$query->id}}</td>
+                            <td>{{isset($query->id)?$query->id:"N/A"}}</td>
                             <td>
                             <div class="font-15">
-                                {{$query->type}}
+                                {{isset($query->type)?$query->type:"N/A"}}
                             </div>
                             </td>
-                            <td> {{$query->message}}</td>
-                            <td><a href="{{route('admin.query_user', Crypt::encryptString($query->user->id))}}" class="btn btn-icon btn-dark">User Info</a></td>
+                            <td> {{isset($query->message)?$query->message:"N/A"}}</td>
+                            <td><a href="{{route('admin.query_user', Crypt::encryptString(isset($query->user->id)?$query->user->id:1))}}" class="btn btn-icon btn-dark">User Info</a></td>
                         </tr>
                         @endforeach
                     </tbody>
