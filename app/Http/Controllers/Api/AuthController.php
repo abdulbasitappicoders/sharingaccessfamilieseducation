@@ -84,6 +84,15 @@ class AuthController extends Controller
         if ($validator->fails()) return apiresponse(false, implode("\n", $validator->errors()->all()));
         try {
             $user = User::where('email', $request->email)->where('role', $request->role)->with('licence','vehicle','childrens','UserPaymentMethods','childrens.payment_method','userAvailability','UserFvc')->first();
+            $stripeService = new StripeService();
+            $userAccount = UserAccount::where('user_id', $user->id)->first();
+            if(!$userAccount) {
+                $createStripeAccount = $stripeService->createOnBoarding($user, '1995-01-01');
+                $userStripeAccount = new UserAccount();
+                $userStripeAccount->user_id = $user->id;
+                $userStripeAccount->stripe_account_id = $createStripeAccount->id;
+                $userStripeAccount->save();
+            }
             if ($user) {
                 if($user->is_verified == 1){
                     if (Hash::check($request->password, $user->password)) {
@@ -109,7 +118,7 @@ class AuthController extends Controller
                         }
                         $user->total_earnings = $total_earnings;
                         $user->total_rides = $rides;
-                        $stripeService = new StripeService();
+                        
                         $onboarding_url = $stripeService->getConnectUrl($user->stripeAccount->stripe_account_id, $user->id);
                         $data = [
                             'token'     => $user->createToken('customer-Token')->accessToken,
