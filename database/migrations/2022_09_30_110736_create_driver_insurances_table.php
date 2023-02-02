@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('driver_insurances', function (Blueprint $table) {
             $table->id();
-            $table->strnig('name')->nullable();
+            $table->string('name')->nullable();
             $table->date('exp_date')->nullable();
             $table->string('number')->nullable();
             $table->foreignId('user_id')->nullable();

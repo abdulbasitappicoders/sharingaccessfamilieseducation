@@ -38,7 +38,7 @@ return new class extends Migration
             $table->boolean('is_broad')->default(0);
             $table->boolean('is_verified')->default(0);
             $table->rememberToken();
-            $table->timestamps('deleted_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
