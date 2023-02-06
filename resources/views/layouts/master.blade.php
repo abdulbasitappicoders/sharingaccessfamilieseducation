@@ -112,7 +112,7 @@
                                 <a href="{{route('admin.privacyAndPolicy')}}"><span class="ml-3 text-white">Privacy & Policy</span></a>
                             </li>
                             <li class="border-bottom nav-item dropdown" >
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{route('admin.privacyAndPolicy')}}"><span class="ml-3 text-white">Faq Management</span></a>
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"><span class="ml-3 text-white">Faq Management</span></a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="{{ route('admin.faq_categories') }}">Faq Categories</a></li>
                                     <li><a class="dropdown-item" href="{{ route('admin.faq_answers') }}">Faq Ans</a></li>
