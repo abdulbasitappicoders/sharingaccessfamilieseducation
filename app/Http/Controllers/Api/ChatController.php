@@ -41,10 +41,11 @@ class ChatController extends Controller
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
-        
+
     }
 
-    public function createChatList(Request $request){
+    public function createChatList(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
         ]);
@@ -52,39 +53,42 @@ class ChatController extends Controller
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
         try {
-            $chatList = ChatList::where('from',Auth::user()->id)->where('to',$request->user_id)->first();
-            if(!$chatList){
-                $chatList = ChatList::where('to',Auth::user()->id)->where('from',$request->user_id)->first();
+            $chatList = ChatList::where('from', Auth::user()->id)->where('to', $request->user_id)->first();
+            if (!$chatList) {
+                $chatList = ChatList::where('to', Auth::user()->id)->where('from', $request->user_id)->first();
             }
-            if(!$chatList){
+            if (!$chatList) {
                 $chatListData = [
                     'to' => $request->user_id,
                     'from' => Auth::user()->id,
                 ];
                 $chatList = ChatList::create($chatListData);
             }
-            return apiresponse(true, 'Chat list',$chatList);
+            return apiresponse(true, 'Chat list', $chatList);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
     }
 
-    public function sendMessage(Request $request){
+    public function sendMessage(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'type' => 'required',
             'ride_id' => 'required',
         ]);
+
         if ($validator->fails()) {
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
+
         try {
             $flag = false;
-            $chatList = ChatList::where('from',Auth::user()->id)->where('to',$request->user_id)->first();
-            if(!$chatList){
-                $chatList = ChatList::where('to',Auth::user()->id)->where('from',$request->user_id)->first();
+            $chatList = ChatList::where('from', Auth::user()->id)->where('to', $request->user_id)->first();
+            if (!$chatList) {
+                $chatList = ChatList::where('to', Auth::user()->id)->where('from', $request->user_id)->first();
             }
-            if(!$chatList){
+            if (!$chatList) {
                 $chatListData = [
                     'to' => $request->user_id,
                     'from' => Auth::user()->id,
@@ -99,29 +103,29 @@ class ChatController extends Controller
                 'from' => Auth::user()->id,
             ];
             $chatMessageSend = ChatListMessage::create($messageData);
-            if($chatMessageSend){
+            if ($chatMessageSend) {
                 $flag = true;
-                if($request->type != 'text'){
+                if ($request->type != 'text') {
                     $res = files_upload($request->file, 'MessageFile');
                     $messageFileData = [
                         'chat_list_message_id' => $chatMessageSend->id,
                         'name' => $res,
                     ];
-                    if(ChatListMessageFile::create($messageFileData)){
+                    if (ChatListMessageFile::create($messageFileData)) {
                         $flag = true;
                     }
                 }
-                if($flag){
-                    $messages = ChatListMessage::where('id',$chatMessageSend->id)->with('toUser','fromUser','messagesFiles')->first();
+                if ($flag) {
+                    $messages = ChatListMessage::where('id', $chatMessageSend->id)->with('toUser', 'fromUser', 'messagesFiles')->first();
                     $messages->ride_id = $request->ride_id;
-                    broadcast(new \App\Events\Message($messages,$request->ride_id))->toOthers();
+                    broadcast(new \App\Events\Message($messages, $request->ride_id))->toOthers();
                     $title = 'You have a new message from ' . Auth::user()->username;
                     $body = $messages->message;
                     // return $messages->toUser->device_id;
                     SendNotification($messages->toUser->device_id, $title, $body);
-                    saveNotification($title,$body,'message',$messages->from,$messages->to);
+                    saveNotification($title, $body, 'message', $messages->from, $messages->to);
                     return apiresponse(true, "Message sent", $messages);
-                }else{
+                } else {
                     return apiresponse(false, "Something went wrong");
                 }
             }
@@ -164,32 +168,74 @@ class ChatController extends Controller
         }
     }
 
-    public function destroy(Request $request){
-        $validator = Validator::make($request->all(),[
+    public function destroy(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
             'message_id' => 'required'
         ]);
-        if($validator->fails()){
-            return apiresponse(false, implode('/n',$validator->errors()->all()));
+
+        if ($validator->fails()) {
+            return apiresponse(false, implode('/n', $validator->errors()->all()));
         }
+
         try {
             $ChatListMessage = ChatListMessage::find($request->message_id);
-            if($ChatListMessage){
-                if($ChatListMessage->messagesFiles){
-                    foreach($ChatListMessage->messagesFiles as $file){
-                        $filename = public_path('images/MessageFile/'.$file->name);
-                        if(file_exists($filename)){
-                            File::delete($filename);
-                        }
-                        ChatListMessageFile::find($file->id)->delete();
+
+            if (!$ChatListMessage) {
+                return apiresponse(false, 'Message not found');
+            }
+
+            if ($ChatListMessage->messagesFiles) {
+                foreach ($ChatListMessage->messagesFiles as $file) {
+                    $filename = public_path('images/MessageFile/' . $file->name);
+                    if (file_exists($filename)) {
+                        File::delete($filename);
                     }
-                }
-                if($ChatListMessage->delete()){
-                    return apiresponse(true, 'Message deleted');
-                }else{
-                    return apiresponse(false, 'Something went wrong');
+                    ChatListMessageFile::find($file->id)->delete();
                 }
             }
-        } catch (Exception $e) {    
+
+            if ($ChatListMessage->delete()) {
+                return apiresponse(true, 'Message deleted');
+            } else {
+                return apiresponse(false, 'Something went wrong');
+            }
+        } catch (Exception $e) {
+            return apiresponse(false, $e->getMessage());
+        }
+    }
+
+    public function createSupportChatList(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'faq_category_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return apiresponse(false, implode("\n", $validator->errors()->all()));
+        }
+
+        try {
+            $staff = User::where('role', 'staff')->first();
+
+            if (!$staff) {
+                return apiresponse(false, "Staff not found");
+            }
+
+            $chatList = ChatList::where('faq_category_id', $request->faq_category_id)->where(function ($query) use ($staff) {
+                $query->where(['from' => Auth::user()->id, 'to' => $staff->id])->orWhere(['to' => Auth::user()->id, 'from' => $staff->id]);
+            })->first();
+
+            if (!$chatList) {
+                $chatListData = [
+                    'to' => $staff->id,
+                    'from' => Auth::user()->id,
+                    'faq_category_id' => $request->faq_category_id
+                ];
+                $chatList = ChatList::create($chatListData);
+            }
+            return apiresponse(true, 'Chat list', $chatList);
+        } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
     }
