@@ -27,17 +27,17 @@
         width: 45%;
       }
     }
-    
+
     .card {
       overflow: hidden;
     }
-    
+
     .card-block .rotate {
       z-index: 8;
       float: right;
       height: 100%;
     }
-    
+
     .card-block .rotate i {
       color: rgba(20, 20, 20, 0.15);
       position: absolute;
@@ -111,6 +111,13 @@
                             <li class="border-bottom">
                                 <a href="{{route('admin.privacyAndPolicy')}}"><span class="ml-3 text-white">Privacy & Policy</span></a>
                             </li>
+                            <li class="border-bottom nav-item dropdown" >
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{route('admin.privacyAndPolicy')}}"><span class="ml-3 text-white">Faq Management</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('admin.faq_categories') }}">Faq Categories</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.faq_answers') }}">Faq Ans</a></li>
+                                </ul>
+                            </li>
                             <li class="border-bottom">
                                 <a href="{{route('admin.change_password')}}"><span class="ml-3 text-white">Change Password</span></a>
                             </li>
@@ -127,7 +134,7 @@
                 <div class="container-fluid" style="background-color: #f6921e;">
                 <div class="page-header">
                     <div class="left">
-                    
+
                     </div>
                     <div class="right">
                     <!-- <a href="notifications.html"><i class="fas fa-bell" style="font-size: 20px; color: #fff; margin-right: 20px;"></i></a>  -->
@@ -155,7 +162,7 @@
     </div>
     <!-- Start Main project js, jQuery, Bootstrap -->
     <script src="{{asset('assets/bundles/lib.vendor.bundle.js')}}"></script>
-   
+
     <!-- Start Plugin Js -->
     <script src="{{asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('assets/plugins/dropify/js/dropify.min.js')}}"></script>

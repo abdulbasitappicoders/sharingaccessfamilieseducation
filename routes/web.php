@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\FAQController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{AdminController, ChargesPerMileController, CommissonController, EmergencyController, UserController,PageController, RadiusOfSearchController};
 use App\Http\Controllers\{SiteController};
@@ -26,6 +27,7 @@ Route::get('verifyEmail/{id}/{code}', [PageController::class, 'verifyEmail'])->n
 Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.home');
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth','is_admin']], function () {
     Route::get('admin/test', [UserController::class, 'index'])->name('admin.test');
+    //Driver Module
     //Driver Module
     Route::get('admin/driver', [UserController::class, 'driver'])->name('admin.driver');
     Route::get('admin/driver_licence/{id}', [UserController::class, 'driver_licence'])->name('admin.driver_licence');
@@ -80,5 +82,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     //Commission Module
     Route::get('admin/commission', [CommissonController::class, 'index'])->name('admin.commission');
     Route::post('admin/update_commission', [CommissonController::class, 'update'])->name('admin.update_commission');
+
+    // Faq Module
+    Route::get('admin/faq_categories', [FAQController::class, 'faqCategories'])->name('admin.faq_categories');
+    Route::get('admin/faq_answers', [FAQController::class, 'faqAnswers'])->name('admin.faq_answers');
 
 });
