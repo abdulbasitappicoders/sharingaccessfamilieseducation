@@ -17,7 +17,7 @@
 
 </head>
 <body class="font-muli theme-cyan gradient">
-    
+
 
 <div class="auth option2">
     <div class="auth_left">
@@ -31,7 +31,7 @@
                 <form method="POST" action="{{ route('login') }}">
                 @csrf
                     <div class="form-group">
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
                         @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -39,24 +39,12 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label class="form-label"><a href="forgot-password.html" class="mb-2 text-white float-right small">I forgot password</a></label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
                         @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-                    </div>
-                    <div class="form-group">
-                        {{-- <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" />
-                        <span class="text-white custom-control-label">Remember me</span>
-                        </label> --}}
-                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary btn-block" title="">Sign in</button>
@@ -64,7 +52,7 @@
                     </div>
                 </form>
             </div>
-        </div>        
+        </div>
     </div>
 </div>
 
