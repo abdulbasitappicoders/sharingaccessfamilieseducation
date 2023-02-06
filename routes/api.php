@@ -65,6 +65,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
     Route::post('chatMessages',[ChatController::class, 'chatMessages'])->name('chatMessages');
     Route::post('deleteMessage',[ChatController::class, 'destroy'])->name('deleteMessage');
     Route::post('createChatList',[ChatController::class, 'createChatList'])->name('createChatList');
+    Route::post('createSupportChatList',[ChatController::class, 'createSupportChatList'])->name('createSupportChatList');
 
     //Contact Us Module
     Route::post('contactUs',[ContactUsController::class, 'store'])->name('contactUs');
@@ -85,11 +86,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
     Route::get('getPaymentMethods',[UserPaymentMethodController::class, 'index'])->name('getPaymentMethods');
     Route::post('deleteCard',[UserPaymentMethodController::class, 'deleteCard'])->name('deleteCard');
 
-
     //Payment Module
     Route::get('getPaymentHistory',[PaymentController::class, 'getPaymentHistory'])->name('getPaymentHistory');
-
-
     Route::get('test',[UserCardController::class, 'test'])->name('test');
 
     //Payment With Card OR Bank module
@@ -118,7 +116,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
     Route::get('canceledRides',[RideController::class, 'canceledRides'])->name('canceledRides');
     Route::get('totalRides',[RideController::class, 'totalRides'])->name('totalRides');
     Route::post('availableDrivers',[RideController::class, 'availableDrivers'])->name('availableDrivers');
-
 
     //Saved Locations Modules
     Route::get('getSavedLocations',[SavedLocationController::class, 'index'])->name('getSavedLocations');

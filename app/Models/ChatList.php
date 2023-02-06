@@ -12,7 +12,8 @@ class ChatList extends Model
 
     protected $fillable = [
         'to',
-        'from'
+        'from',
+        'faq_category_id'
     ];
 
     public function messages()
@@ -21,12 +22,12 @@ class ChatList extends Model
 	}
 
     public function toUser()
-	{   
+	{
         return $this->belongsTo(User::class,'to','id');
 	}
 
     public function fromUser()
-	{   
+	{
         return $this->belongsTo(User::class,'from','id');
 	}
 }
