@@ -4,9 +4,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\
 {
-UserPaymentMethodController,AuthController,PageController,NotificationController,ProfileController,
-ChatController,ContactUsController,ReviewController,PaymentWithCardBankController,SavedLocationController,
-RideController,PaymentController,UserCardController,GeneralController
+    UserPaymentMethodController,
+    AuthController,
+    PageController,
+    NotificationController,
+    ProfileController,
+    ChatController,
+    ContactUsController,
+    ReviewController,
+    PaymentWithCardBankController,
+    SavedLocationController,
+    RideController,
+    PaymentController,
+    UserCardController,
+    GeneralController,
+    FaqController,
 };
 
 
@@ -33,6 +45,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     Route::get('connectReturn/{id}', 'AuthController@connectReturn');
     Route::get('getEmergencyNumber', 'GeneralController@getEmergencyNumber');
     Route::post('checkAppVersion', 'GeneralController@checkAppVersion');
+    Route::get('faqs', [FaqController::class, 'index'])->name('faqs');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:api'], function () {
@@ -56,7 +69,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
     //Contact Us Module
     Route::post('contactUs',[ContactUsController::class, 'store'])->name('contactUs');
 
-    //Review Module 
+    //Review Module
     Route::post('review',[ReviewController::class, 'review'])->name('review');
     Route::get('getRatingsAndReviews',[ReviewController::class, 'getRatingsAndReviews'])->name('getRatingsAndReviews');
 
@@ -71,7 +84,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
     Route::post('storeBank',[UserPaymentMethodController::class, 'storeBank'])->name('storeBank');
     Route::get('getPaymentMethods',[UserPaymentMethodController::class, 'index'])->name('getPaymentMethods');
     Route::post('deleteCard',[UserPaymentMethodController::class, 'deleteCard'])->name('deleteCard');
-    
+
 
     //Payment Module
     Route::get('getPaymentHistory',[PaymentController::class, 'getPaymentHistory'])->name('getPaymentHistory');
@@ -98,7 +111,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
     Route::post('calculateDistance',[RideController::class, 'calculateDistance'])->name('calculateDistance');
     Route::post('confirmRide',[RideController::class, 'confirmRide'])->name('confirmRide');
     Route::post('cancelRide',[RideController::class, 'cancelRide'])->name('cancelRide');
-    
+
     //General Ride
     Route::get('scheduleRides',[RideController::class, 'scheduleRides'])->name('scheduleRides');
     Route::get('pastRides',[RideController::class, 'pastRides'])->name('pastRides');
