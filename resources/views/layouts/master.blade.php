@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}" type="image/x-icon">
     <title>Safe Mobile App Admin Panel</title>
     <!-- Bootstrap Core and vandor -->
@@ -14,6 +15,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <!-- Core css -->
     <link rel="stylesheet" href="{{asset('assets/css/style.min.css')}}"/>
+
     <style type="text/css">
         @media screen and (max-width: 34em) {
       .row-offcanvas-left .sidebar-offcanvas {
@@ -112,7 +114,7 @@
                                 <a href="{{route('admin.privacyAndPolicy')}}"><span class="ml-3 text-white">Privacy & Policy</span></a>
                             </li>
                             <li class="border-bottom nav-item dropdown" >
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"><span class="ml-3 text-white">Faq Management</span></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><span class="ml-3 text-white">Faq Management</span></a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="{{ route('admin.faq_categories') }}">Faq Categories</a></li>
                                     <li><a class="dropdown-item" href="{{ route('admin.faq_answers') }}">Faq Ans</a></li>

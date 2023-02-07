@@ -85,6 +85,15 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
 
     // Faq Module
     Route::get('admin/faq_categories', [FAQController::class, 'faqCategories'])->name('admin.faq_categories');
+    Route::post('admin/insert_faq_categories', [FAQController::class, 'insertFaqCategories'])->name('admin.insert_faq_categories');
+    Route::get('admin/edit_faq_categories{id}', [FAQController::class, 'editFaqCategories'])->name('admin.edit_faq_categories');
+    Route::post('admin/update_faq_categories', [FAQController::class, 'updateFaqCategories'])->name('admin.update_faq_categories');
+    Route::delete('admin/delete_faq_categories/{id}', [FAQController::class, 'deleteFaqCategories'])->name('admin.delete_faq_categories');
+
     Route::get('admin/faq_answers', [FAQController::class, 'faqAnswers'])->name('admin.faq_answers');
+    Route::post('admin/insert_faq_answers', [FAQController::class, 'insertFaqAnswers'])->name('admin.insert_faq_answers');
+    Route::get('admin/edit_faq_answers/{id}', [FAQController::class, 'editFaqAnswers'])->name('admin.edit_faq_answers');
+    Route::post('admin/update_faq_answers', [FAQController::class, 'updateFaqAnswers'])->name('admin.update_faq_answers');
+    Route::delete('admin/delete_faq_answers/{id}', [FAQController::class, 'deleteFaqAnswers'])->name('admin.delete_faq_answers');
 
 });
