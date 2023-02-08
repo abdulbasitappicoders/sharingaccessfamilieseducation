@@ -14,6 +14,14 @@
         #category_faqs_length{
             margin-left: 18px;
         }
+        .setBtn{
+            color: #fff;
+            background-color: #000;
+            border-color: #000;
+        }
+        .btnSpace{
+            margin-left: 10px;
+        }
     </style>
 @endsection
 @section('content')
@@ -26,7 +34,7 @@
                 <div class="table-responsive">
                     <div class="all-users row">
                         <h4 class="text-dark font-weight-bold col-9">Faq Categories</h4>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="background-color: #0b0b0b">
+                        <button type="button" class="btn btn-primary setBtn" data-toggle="modal" data-target="#exampleModal" >
                             Add New Category
                         </button>
                         <br>
@@ -79,11 +87,11 @@
                                 <td>{{$faq->created_at??'N/A'}}</td>
                                 <td>
                                     <div style="display: flex;">
-                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2" data-id="{{ $faq->id }}" id="edit" href="" style="background-color: #0b0b0b">Edit</button>
+                                        <button class="btn btn-primary btn-sm setBtn" data-toggle="modal" data-target="#exampleModal2" data-id="{{ $faq->id }}" id="edit" href="" >Edit</button>
                                         <form action="{{ route('admin.delete_faq_categories',$faq->id) }}" method="POST">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm" role="button" style=" display: block ruby;">Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btnSpace" role="button" style=" display: block ruby;">Delete</button>
                                         </form>
                                     </div>
                                 </td>

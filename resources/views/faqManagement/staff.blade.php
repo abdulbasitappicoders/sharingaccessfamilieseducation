@@ -8,6 +8,14 @@
         .newfqbody {
             padding: 20px;
         }
+        .setBtn {
+            color: #fff;
+            background-color: #000;
+            border-color: #000;
+        }
+        .btnSpace{
+            margin-left: 10px;
+        }
     </style>
 @endsection
 @section('content')
@@ -21,7 +29,7 @@
                 <div class="table-responsive">
                     <div class="all-users row">
                         <h4 class="text-dark font-weight-bold col-9">Staff</h4>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="background-color: #0b0b0b">
+                        <button type="button" class="btn btn-primary setBtn" data-toggle="modal" data-target="#exampleModal" >
                             Add New Staff
                         </button>
                         <br>
@@ -83,11 +91,11 @@
                                     <td>{{($user->status == 1)?'Active':"In Active"}}</td>
                                     <td>
                                         <div style="display: flex;">
-                                            <button class="btn btn-primary btn-sm " data-toggle="modal" data-target="#exampleModal2" data-id="{{ $user->id }}" id="edit" href="" style="background-color: #0b0b0b">Edit</button>
+                                            <button class="btn btn-primary btn-sm setBtn ml-3" data-toggle="modal" data-target="#exampleModal2" data-id="{{ $user->id }}" id="edit" href="" >Edit</button>
                                             <form action="{{ route('admin.delete_staff',$user->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button type="submit" class="btn btn-danger btn-sm " role="button" style=" display: block ruby;">Delete</button>
+                                                <button type="submit" class="btn btn-danger btn-sm btnSpace" role="button" style=" display: block ruby;">Delete</button>
                                             </form>
                                         </div>
                                     </td>
@@ -165,20 +173,31 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-3">
+                                    {{--<div class="mb-3">
                                         <div class="form-group">
                                             <label for="selects">Vehicle Type</label>
                                             <select class="selects form-control" name="vehicle_type" id="vehicle_type">
                                                 <option value="car" selected>Car</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
-                                    <div class="mb-3">
+                                    {{--<div class="mb-3">
                                         <div class="form-group">
                                             <label for="selects">Role</label>
                                             <select class="selects form-control" name="role" id="role">
                                                 <option value="staff" selected>Staff</option>
+                                            </select>
+                                        </div>
+                                    </div>--}}
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="selects">Support Category</label>
+                                            <select class="selects form-control" name="support_category_id" id="selects">
+                                                <option value="" selected disabled>Select Support Category</option>
+                                                @foreach($faq_categories as $faq)
+                                                    <option value="{{ $faq->id }}">{{ $faq->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -192,6 +211,13 @@
 
                                     <div class="mb-3">
                                         <div class="form-group">
+                                            <label for="selects">Confirm Password</label>
+                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" value="" >
+                                        </div>
+                                    </div>
+
+                                   {{-- <div class="mb-3">
+                                        <div class="form-group">
                                             <label for="selects">Status</label>
                                             <select class="selects form-control" name="status" id="status">
                                                 <option value="" disabled selected>Select Status</option>
@@ -199,7 +225,7 @@
                                                 <option value="0">In Active</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -277,21 +303,30 @@
 
                                     <div class="mb-3">
                                         <div class="form-group">
+                                            <label for="selects">Support Category</label>
+                                            <select class="selects form-control" name="support_category_id" id="selects">
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                   {{-- <div class="mb-3">
+                                        <div class="form-group">
                                             <label for="selects">Vehicle Type</label>
                                             <select class="selects form-control" name="vehicle_type" id="vehicle_type">
                                                 <option value="car" selected>Car</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
-                                    <div class="mb-3">
+                                   {{-- <div class="mb-3">
                                         <div class="form-group">
                                             <label for="selects">Role</label>
                                             <select class="selects form-control" name="role" id="role">
                                                 <option value="staff" selected>Staff</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
                                     {{--<div class="mb-3">
                                         <div class="form-group">
@@ -300,7 +335,7 @@
                                         </div>
                                     </div>--}}
 
-                                    <div class="mb-3">
+                                    {{--<div class="mb-3">
                                         <div class="form-group">
                                             <label for="selects">Status</label>
                                             <select class="selects form-control" name="status" id="status1">
@@ -309,7 +344,7 @@
                                                 <option value="0">In Active</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -349,20 +384,21 @@
                         // alert('work')
                         console.log(data);
                         console.log(data);
-                        $('#id').val(data.id);
-                        $('#first_name1').val(data.first_name);
-                        $('#last_name1').val(data.last_name);
-                        $('#username1').val(data.username);
-                        $('#email1').val(data.email);
+                        $('#id').val(data.user_staff.id);
+                        $('#first_name1').val(data.user_staff.first_name);
+                        $('#last_name1').val(data.user_staff.last_name);
+                        $('#username1').val(data.user_staff.username);
+                        $('#email1').val(data.user_staff.email);
+                        $("select[name='support_category_id']").html(data.options);
                         // $('#password1').val(data.password);
 
                         // $("#gender1").prop('checked', true);
                         var $radios = $('input:radio[name=staffgender]');
                         if($radios.is(':checked') === false) {
-                            var value = data.gender;
+                            var value = data.user_staff.gender;
                             $radios.filter("[value='"+value+"']").prop('checked', true);
                         }
-                        $("select#status1").val(data.status);
+                        // $("select#status1").val(data.status);
                     },
                     error: function (data) {
                         console.log(data);
