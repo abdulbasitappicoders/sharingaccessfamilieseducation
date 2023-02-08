@@ -1,5 +1,15 @@
 @extends('layouts.master')
-
+@section('style')
+    <style>
+        .newfqheading h5 {
+            color: white;
+            font-weight: 600;
+        }
+        .newfqbody {
+            padding: 20px;
+        }
+    </style>
+@endsection
 @section('content')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @if(Session::has('message'))
@@ -11,7 +21,7 @@
                 <div class="table-responsive">
                     <div class="all-users row">
                         <h4 class="text-dark font-weight-bold col-9">Faq Answers</h4>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="background-color: #0b0b0b">
                             Add New Faq Ans:
                         </button>
                         <br>
@@ -41,7 +51,7 @@
                                 </div>
                             @endif
                     </div>
-                    <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
+                    <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="faqs" style="width: 968px;">
                         <thead class="bg-dark">
                         <tr>
                             <th class="text-white">S No</th>
@@ -53,20 +63,25 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @php
+                            $i = 1;
+                        @endphp
                         @foreach($faqs as $faq)
                             <tr>
-                                <td>{{$faq->id??''}}</td>
+                                <td>{{$i++}}</td>
                                 <td>{{$faq->faqCategory->name??'N/A'}}</td>
                                 <td>{!! $faq->question??'N/A' !!}</td>
                                 <td>{!! $faq->answer??'N/A' !!}</td>
                                 <td>{{$faq->created_at??'N/A'}}</td>
                                 <td>
-                                    <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" data-id="{{ $faq->id }}" id="edit" href="">Edit</a>
-                                    <form action="{{ route('admin.delete_faq_answers',$faq->id) }}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm mb-3 minclick" role="button" style=" display: block ruby;">Delete</button>
-                                    </form>
+                                    <div style="display: flex;">
+                                        <button class="btn btn-primary btn-sm " data-toggle="modal" data-target="#exampleModal2" data-id="{{ $faq->id }}" id="edit" href="" style="background-color: #0b0b0b">Edit</button>
+                                        <form action="{{ route('admin.delete_faq_answers',$faq->id) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm " role="button" style=" display: block ruby;">Delete</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -85,13 +100,13 @@
             <div class="modal-dialog ">
                 {{--            modal-dialog-centered--}}
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header newfqheading">
                         <h5 class="modal-title" id="exampleModalLabel">Add New Faq Answer</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body newfqbody">
                         <form action="{{ route('admin.insert_faq_answers') }}" method="POST" name="add_faq">
                             @csrf
                             <div class="row">
@@ -100,6 +115,7 @@
                                         <div class="form-group">
                                             <label for="selects">Category Name</label>
                                             <select class="selects form-control" name="faq_category_id" id="selects">
+                                                <option value="">Select </option>
                                                 @foreach($faq_categories as $faq)
                                                     <option value="{{ $faq->id }}">{{ $faq->name }}</option>
                                                 @endforeach
@@ -136,13 +152,13 @@
             <div class="modal-dialog ">
                 {{--            modal-dialog-centered--}}
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header newfqheading">
                         <h5 class="modal-title" id="exampleModalLabel">Edit Faq Answer</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body newfqbody">
                         <form action="{{ route('admin.update_faq_answers') }}" method="POST" name="add_faq" id="edit_faq_answers">
                             @csrf
                             <input type="hidden" name="id" id="id" value="">
@@ -187,7 +203,7 @@
         <script type="text/javascript">
 
             $(document).ready(function() {
-                $('.summernote').summernote();
+                $('#faqs').DataTable();
             });
 
             $(document).on("click",'#edit',function () {

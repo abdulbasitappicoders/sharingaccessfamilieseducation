@@ -96,4 +96,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::post('admin/update_faq_answers', [FAQController::class, 'updateFaqAnswers'])->name('admin.update_faq_answers');
     Route::delete('admin/delete_faq_answers/{id}', [FAQController::class, 'deleteFaqAnswers'])->name('admin.delete_faq_answers');
 
+    Route::get('admin/staff', [FAQController::class, 'getStaff'])->name('admin.staff');
+    Route::post('admin/insert_staff', [FAQController::class, 'insertStaff'])->name('admin.insert_staff');
+    Route::get('admin/edit_staff/{id}', [FAQController::class, 'editStaff'])->name('admin.edit_staff');
+    Route::post('admin/update_staff', [FAQController::class, 'updateStaff'])->name('admin.update_staff');
+    Route::delete('admin/delete_staff/{id}', [FAQController::class, 'deleteStaff'])->name('admin.delete_staff');
+
 });

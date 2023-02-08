@@ -1,5 +1,21 @@
 @extends('layouts.master')
-
+@section('style')
+    <style>
+        .newfqheading h5 {
+            color: white;
+            font-weight: 600;
+        }
+        .newfqbody {
+            padding: 20px;
+        }
+        .dataTables_filter{
+            margin-right: 18px;
+        }
+        #category_faqs_length{
+            margin-left: 18px;
+        }
+    </style>
+@endsection
 @section('content')
     @if(Session::has('message'))
         <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}</p>
@@ -10,7 +26,7 @@
                 <div class="table-responsive">
                     <div class="all-users row">
                         <h4 class="text-dark font-weight-bold col-9">Faq Categories</h4>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="background-color: #0b0b0b">
                             Add New Category
                         </button>
                         <br>
@@ -43,7 +59,7 @@
 
                     </div>
 
-                    <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
+                    <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="category_faqs" style="width: 960px;">
                         <thead class="bg-dark">
                         <tr>
                             <th class="text-white">S No</th>
@@ -53,18 +69,23 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @php
+                            $i = 1;
+                        @endphp
                         @foreach($faq_categories as $faq)
                             <tr>
-                                <td>{{$faq->id??''}}</td>
+                                <td>{{$i++}}</td>
                                 <td>{{$faq->name??'N/A'}}</td>
                                 <td>{{$faq->created_at??'N/A'}}</td>
                                 <td>
-                                    <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" data-id="{{ $faq->id }}" id="edit" href="">Edit</a>
-                                    <form action="{{ route('admin.delete_faq_categories',$faq->id) }}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm mb-3 minclick" role="button" style=" display: block ruby;">Delete</button>
-                                    </form>
+                                    <div style="display: flex;">
+                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2" data-id="{{ $faq->id }}" id="edit" href="" style="background-color: #0b0b0b">Edit</button>
+                                        <form action="{{ route('admin.delete_faq_categories',$faq->id) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm" role="button" style=" display: block ruby;">Delete</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -84,13 +105,13 @@
         <div class="modal-dialog ">
 {{--            modal-dialog-centered--}}
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header newfqheading">
                     <h5 class="modal-title" id="exampleModalLabel">Add New Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body newfqbody">
                     <form class="needs-validation" action="{{ route('admin.insert_faq_categories') }}" method="POST" name="event-form" id="form-event-add" novalidate>
                         @csrf
                         <div class="row">
@@ -120,13 +141,13 @@
         <div class="modal-dialog ">
             {{--            modal-dialog-centered--}}
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header newfqheading">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body newfqbody">
                     <form class="needs-validation" action="{{ route('admin.update_faq_categories') }}" method="POST" name="event-form" id="form-event-add" novalidate>
                         @csrf
                         <input type="hidden" name="id" id="id" value="">
@@ -153,6 +174,10 @@
     </div>
 
     <script>
+
+        $(document).ready(function() {
+            $('#category_faqs').DataTable();
+        });
         $(document).ready(function () {
             $(document).on("click",'#edit',function () {
 
