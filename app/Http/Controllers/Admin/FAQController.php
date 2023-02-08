@@ -160,23 +160,22 @@ class FAQController extends Controller
     public function getStaff()
     {
         $staffs = User::where('role','!=','admin')->orderBy('id','DESC')->get();
-//        dd($staffs);
-        return view('faqManagement.staff',compact('staffs'));
+        $faq_categories = FaqCategory::orderBy('id','DESC')->get();
+        return view('faqManagement.staff',compact('staffs','faq_categories'));
     }
 
     public function insertStaff(Request $request)
     {
         try {
             $request->validate([
-                "first_name"   => "required",
-                "last_name"    => "required",
-                "username"     => "required",
-                "email"        => "required",
-                "gender"       => "required",
-                "vehicle_type" => "required",
-                "role"         => "required",
-                "password"     => "required",
-                "status"       => "required",
+                "first_name"             => "required",
+                "last_name"              => "required",
+                "username"               => "required",
+                "email"                  => "required",
+                "gender"                 => "required",
+                "support_category_id"                 => "required",
+                "password"               => "required",
+                "confirm_password"       => "required|same:password",
             ]);
 
             $user = new User();
@@ -185,10 +184,11 @@ class FAQController extends Controller
             $user->username = $request->username;
             $user->email = $request->email;
             $user->gender = $request->gender;
-            $user->vehicle_type = $request->vehicle_type;
-            $user->role = $request->role;
+            $user->support_category_id = $request->support_category_id;
+            $user->vehicle_type = 'car';
+            $user->role = 'staff';
             $user->password = Hash::make($request->password);
-            $user->status = $request->status;
+            $user->status = 1;
 
             if ($user->save()) {
                 return back()->with('success', 'Staff created');
@@ -203,7 +203,14 @@ class FAQController extends Controller
     {
         try {
             $user_staff = User::find((int)$request->id);
-            return response()->json($user_staff);
+            $faq_categories = FaqCategory::orderBy('id','DESC')->get();
+            $options ='';
+            foreach ($faq_categories as $faq)
+            {
+                $select = ($faq->id == $user_staff->support_category_id)?"selected":'';
+                $options .= "<option value=\"$faq->id\" $select >$faq->name</option>";
+            }
+            return response()->json(['user_staff'=>$user_staff,'options'=>$options]);
         } catch (\Exception $exception) {
             return redirect()->route('admin.staff')->with('error', $exception->getMessage());
         }
@@ -218,10 +225,7 @@ class FAQController extends Controller
             $user->username = $request->username;
             $user->email = $request->email;
             $user->gender = $request->staffgender;
-            $user->vehicle_type = $request->vehicle_type;
-            $user->role = $request->role;
-//            $user->password = Hash::make($request->password);
-            $user->status = $request->status;
+            $user->support_category_id = $request->support_category_id;
 
             if ($user->save()) {
                 return back()->with('success', 'Staff Updated Successfully');

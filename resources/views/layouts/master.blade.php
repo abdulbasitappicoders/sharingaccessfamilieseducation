@@ -104,6 +104,14 @@
                             <li class="border-bottom border-top">
                                 <a href="{{route('admin.commission')}}"><span class="ml-3 text-white">Commission</span></a>
                             </li>
+                            <li class="border-bottom nav-item dropdown" >
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><span class="ml-3 text-white">Faq Management</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('admin.staff') }}">Staff</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.faq_categories') }}">Faq Categories</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.faq_answers') }}">Faq Ans</a></li>
+                                </ul>
+                            </li>
                             <li class="border-bottom">
                                 <a href="{{route('admin.help')}}"><span class="ml-3 text-white">Help</span></a>
                             </li>
@@ -115,14 +123,6 @@
                             </li>
                             <li class="border-bottom">
                                 <a href="{{route('admin.privacyAndPolicy')}}"><span class="ml-3 text-white">Privacy & Policy</span></a>
-                            </li>
-                            <li class="border-bottom nav-item dropdown" >
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><span class="ml-3 text-white">Faq Management</span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{ route('admin.faq_categories') }}">Faq Categories</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.faq_answers') }}">Faq Ans</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.staff') }}">Staff</a></li>
-                                </ul>
                             </li>
                             <li class="border-bottom">
                                 <a href="{{route('admin.change_password')}}"><span class="ml-3 text-white">Change Password</span></a>
