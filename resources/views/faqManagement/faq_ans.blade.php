@@ -75,12 +75,17 @@
                             $i = 1;
                         @endphp
                         @foreach($faqs as $faq)
+
                             <tr>
                                 <td>{{$i++}}</td>
-                                <td>{{$faq->faqCategory->name??'N/A'}}</td>
-                                <td>{!! $faq->question??'N/A' !!}</td>
-                                <td>{!! $faq->answer??'N/A' !!}</td>
-                                <td>{{$faq->created_at??'N/A'}}</td>
+                                <td>{{ $faq->faqCategory->name??'N/A' }}</td>
+                                <td>{{ $faq->question??'N/A' }}</td>
+                                <td>
+                                    <p data-id="{{ $faq->answer }}" id="read" data-toggle="modal" data-target="#exampleModal3">
+                                        {{ (strlen($faq->answer) > 20)?substr($faq->answer, 0, 20)." ... Read More ":$faq->answer??'N/A'  }}
+                                    </p>
+                                </td>
+                                <td>{{ $faq->created_at??'N/A' }}</td>
                                 <td>
                                     <div style="display: flex;">
                                         <button class="btn btn-primary btn-sm setBtn" data-toggle="modal" data-target="#exampleModal2" data-id="{{ $faq->id }}" id="edit" href="">Edit</button>
@@ -207,11 +212,39 @@
             </div>
         </div>
 
+        <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+            <div class="modal-dialog ">
+                {{--            modal-dialog-centered--}}
+                <div class="modal-content">
+                    <div class="modal-header newfqheading">
+                        <h5 class="modal-title" id="exampleModalLabel">Faq Answer </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body newfqbody">
+                        <p id="read_more">
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
         <script type="text/javascript">
 
             $(document).ready(function() {
                 $('#faqs').DataTable();
+            });
+
+            $(document).on("click",'#read',function () {
+                 var str = $(this).data('id').length;
+                 if (str >= 20){
+                     $("#read").css({"cursor":"pointer"});
+                 }
+                 $("#read_more").text($(this).data('id'));
             });
 
             $(document).on("click",'#edit',function () {
