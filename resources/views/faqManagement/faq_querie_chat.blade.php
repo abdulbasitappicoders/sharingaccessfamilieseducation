@@ -49,31 +49,35 @@
                                     <div class="chat-body">
                                         @forelse($chat_list_messages as $chat)
                                             @if($chat->chatList->to != $chat->from)
-                                                <div class="answer left">
-                                                    <div class="avatar">
-                                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                             alt="User name">
-                                                        <div class="status offline"></div>
+                                                @if($chat->type == 'text')
+                                                    <div class="answer left">
+                                                        <div class="avatar">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                 alt="User name">
+                                                            <div class="status offline"></div>
+                                                        </div>
+                                                        <div class="name">{{ ucfirst($chat->toUser->username)??'' }} </div>
+                                                        <div class="text">
+                                                            {{ $chat->message??'' }}
+                                                        </div>
+                                                        <div class="time">{{ $chat->created_at }}</div>
                                                     </div>
-                                                    <div class="name">{{ ucfirst($chat->toUser->username)??'' }} </div>
-                                                    <div class="text">
-                                                        {{ $chat->message??'' }}
-                                                    </div>
-                                                    <div class="time">{{ $chat->created_at }}</div>
-                                                </div>
+                                                @endif
                                             @else
+                                                @if($chat->type == 'text')
                                                 <div class="answer right">
                                                     <div class="avatar">
-                                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                             alt="User name">
-                                                        <div class="status offline"></div>
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                                 alt="User name">
+                                                            <div class="status offline"></div>
+                                                        </div>
+                                                        <div class="name">{{ ucfirst($chat->toUser->username)??'' }} </div>
+                                                        <div class="text">
+                                                            {{ $chat->message??'' }}
+                                                        </div>
+                                                        <div class="time">{{ $chat->created_at }}</div>
                                                     </div>
-                                                    <div class="name">{{ ucfirst($chat->toUser->username)??'' }} </div>
-                                                    <div class="text">
-                                                        {{ $chat->message??'' }}
-                                                    </div>
-                                                    <div class="time">{{ $chat->created_at }}</div>
-                                                </div>
+                                                @endif
                                             @endif
                                         @empty
                                         @endforelse

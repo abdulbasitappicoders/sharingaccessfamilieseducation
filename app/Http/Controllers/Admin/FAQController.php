@@ -7,6 +7,7 @@ use App\Models\ChatList;
 use App\Models\ChatListMessage;
 use App\Models\Faq;
 use App\Models\FaqCategory;
+use App\Models\SupportMessage;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -270,7 +271,7 @@ class FAQController extends Controller
    public function faqQurieChat($id)
    {
        $id = decrypt($id);
-       $chat_list_messages = ChatListMessage::where('chat_list_id',$id)->get();
+       $chat_list_messages = SupportMessage::where('chat_list_id',$id)->get();
        return view('faqManagement.faq_querie_chat',compact('chat_list_messages'));
    }
 }
