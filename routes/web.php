@@ -103,5 +103,5 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::delete('admin/delete_staff/{id}', [FAQController::class, 'deleteStaff'])->name('admin.delete_staff');
 
     Route::get('admin/faq_queries', [FAQController::class, 'getFaqQuries'])->name('admin.faq_queries');
-    Route::get('admin/faq_querie_chat/{id}', [FAQController::class, 'faqQurieChat'])->name('admin.faq_querie_chat');
+    Route::get('admin/faq_querie_chat/{id}', [FAQController::class, 'faqQuerieChats'])->name('admin.faq_querie_chat');
 });

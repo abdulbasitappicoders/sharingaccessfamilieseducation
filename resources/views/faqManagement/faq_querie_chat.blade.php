@@ -35,11 +35,9 @@
 
 
             {{-- ////////////////// --}}
-            <h4 class="text-dark font-weight-bold col-9">Faq Queries Chat</h4>
+{{--            <h4 class="text-dark font-weight-bold col-9 m-2">Chat</h4>--}}
             <div class="chatboxarea">
-
                 <br>
-
                 <div class="container">
                     <div class="content container-fluid bootstrap snippets bootdey">
                         <div class="row row-broken rowbroken">
@@ -49,6 +47,7 @@
                                     <div class="chat-body">
                                         @forelse($chat_list_messages as $chat)
                                             @if($chat->chatList->to != $chat->from)
+
                                                 @if($chat->type == 'text')
                                                     <div class="answer left">
                                                         <div class="avatar">
@@ -60,10 +59,12 @@
                                                         <div class="text">
                                                             {{ $chat->message??'' }}
                                                         </div>
-                                                        <div class="time">{{ $chat->created_at }}</div>
+                                                        <div class="time">{{ $chat->created_at->diffForHumans() }}</div>
                                                     </div>
                                                 @endif
+
                                             @else
+
                                                 @if($chat->type == 'text')
                                                 <div class="answer right">
                                                     <div class="avatar">
@@ -75,9 +76,10 @@
                                                         <div class="text">
                                                             {{ $chat->message??'' }}
                                                         </div>
-                                                        <div class="time">{{ $chat->created_at }}</div>
+                                                        <div class="time">{{ $chat->created_at->diffForHumans() }}</div>
                                                     </div>
                                                 @endif
+
                                             @endif
                                         @empty
                                         @endforelse
@@ -87,7 +89,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             {{-- ////////////////// --}}
@@ -96,8 +97,8 @@
 
     <script>
         $(function () {
-      $(".chat").niceScroll();
-    })
+            $(".chat").niceScroll();
+        })
     </script>
 
     @endsection
