@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChatList;
+use App\Models\ChatListMessage;
 use App\Models\Faq;
 use App\Models\FaqCategory;
 use App\Models\User;
@@ -260,8 +261,13 @@ class FAQController extends Controller
         return view('faqManagement.faq_queries', compact('faq_categories', 'chatlists'));
     }
 
-   public function faqQurieChat()
+   public function faqQurieChat($id)
    {
-       return view('faqManagement.faq_querie_chat');
+       $id = decrypt($id);
+       $chatuser = ChatList::find($id);
+       $chat_list_messages = ChatListMessage::where('chat_list_id',$id)->get();
+//       $messages = ChatListMessage::where("chat_list_id",$id)->where('from',$chatuser->fromUser->id)->orWhere('to',$chatuser->toUser->id)->get();
+//       dd($chat_list_messages);
+       return view('faqManagement.faq_querie_chat',compact('chat_list_messages'));
    }
 }
