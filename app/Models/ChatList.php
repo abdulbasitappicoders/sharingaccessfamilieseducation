@@ -36,4 +36,9 @@ class ChatList extends Model
     {
         return $this->belongsTo(FaqCategory::class, 'faq_category_id', 'id');
     }
+
+    public function supportMessages()
+    {
+        return $this->hasMany(SupportMessage::class);
+    }
 }

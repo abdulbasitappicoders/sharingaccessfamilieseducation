@@ -320,8 +320,8 @@ class ProfileController extends Controller
         }
 
         try {
-            $old_password = Hash::check($request->old_password, auth()->user()->password);
-            if (!$old_password) {
+            $checkPassword = Hash::check($request->old_password, auth()->user()->password);
+            if (!$checkPassword) {
                 return apiresponse(false, "Old password is incorrect");
             }
 

@@ -160,9 +160,9 @@ class FAQController extends Controller
 
     public function getStaff()
     {
-        $staffs = User::where('role','!=','admin')->orderBy('id','DESC')->get();
-        $faq_categories = FaqCategory::orderBy('id','DESC')->get();
-        return view('faqManagement.staff',compact('staffs','faq_categories'));
+        $staffs = User::where('role', 'staff')->orderBy('id', 'DESC')->get();
+        $faq_categories = FaqCategory::orderBy('id', 'DESC')->get();
+        return view('faqManagement.staff', compact('staffs', 'faq_categories'));
     }
 
     public function insertStaff(Request $request)
@@ -171,7 +171,6 @@ class FAQController extends Controller
             $request->validate([
                 "first_name"             => "required",
                 "last_name"              => "required",
-                "username"               => "required",
                 "email"                  => "required",
                 "gender"                 => "required",
                 "support_category_id"                 => "required",
@@ -182,7 +181,7 @@ class FAQController extends Controller
             $user = new User();
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
-            $user->username = $request->username;
+            $user->username = $request->first_name . ' ' . $request->last_name;
             $user->email = $request->email;
             $user->gender = $request->gender;
             $user->support_category_id = $request->support_category_id;
@@ -220,10 +219,17 @@ class FAQController extends Controller
     public function updateStaff(Request $request)
     {
         try {
+            $request->validate([
+                "first_name" => "required",
+                "last_name" => "required",
+                "gender" => "required",
+                "support_category_id" => "required",
+            ]);
+
             $user = User::find((int)$request->id);
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
-            $user->username = $request->username;
+            $user->username = $request->first_name . ' ' . $request->last_name;
             $user->email = $request->email;
             $user->gender = $request->staffgender;
             $user->support_category_id = $request->support_category_id;
