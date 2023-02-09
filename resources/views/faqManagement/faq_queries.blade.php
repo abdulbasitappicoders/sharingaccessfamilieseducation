@@ -148,7 +148,6 @@
             $(document).ready(function () {
                 $(document).on("change",'#faq_queries',function () {
                     var faq_category_id = this.value;
-
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -163,7 +162,6 @@
                         data: formData,
                         success: function(data) {
                             console.log(data.queries);
-                            // location.reload();
                             $(".table > tbody").html(data.queries);
                         },
                         error: function(data) {

@@ -270,7 +270,7 @@ class FAQController extends Controller
                $i++;
                $queries_from = $queries->fromUser->username??'N/A';
                $queries_to = $queries->toUser->username??'N/A';
-               $queries_support_category = $queries->supportCategory->name??'N/A';
+               $queries_support_category = $queries->category->name??'N/A';
                $chat = route('admin.faq_querie_chat');
                $options .= "<tr>
                          <td>$i</td>
@@ -282,7 +282,7 @@ class FAQController extends Controller
            }
            return response()->json(['queries' => $options,'status' => 200]);
        } catch (\Exception $exception) {
-           return redirect()->route('faqManagement.faq_queries')->with('error', $exception->getMessage());
+           return redirect()->route('admin.faq_queries')->with('error', $exception->getMessage());
        }
    }
 
