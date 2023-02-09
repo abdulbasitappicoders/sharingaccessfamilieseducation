@@ -73,8 +73,7 @@
                                 <th class="text-white">Username</th>
                                 <th class="text-white">Email</th>
                                 <th class="text-white">Gender</th>
-                                <th class="text-white">Vehicle Type</th>
-                                <th class="text-white">Role</th>
+                                <th class="text-white">Category</th>
                                 <th class="text-white">Status</th>
                                 <th class="text-white">Action</th>
                             </tr>
@@ -91,8 +90,7 @@
                                 <td>{{$user->username??'N/A'}}</td>
                                 <td>{{$user->email??'N/A'}}</td>
                                 <td>{{strtoupper($user->gender)??'N/A'}}</td>
-                                <td>{{strtoupper($user->vehicle_type)??'N/A'}}</td>
-                                <td>{{strtoupper($user->role)??'N/A'}}</td>
+                                <td>{{$user->supportCategory ? $user->supportCategory->name : '-'}}</td>
                                 <td>{{($user->status == 1)?'Active':"In Active"}}</td>
                                 <td>
                                     <div style="display: flex;">
@@ -252,13 +250,6 @@
                                         <label for="selects">Last Name</label>
                                         <input type="text" class="form-control" id="last_name1" name="last_name"
                                             value="">
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="selects">Username</label>
-                                        <input type="text" class="form-control" id="username1" name="username">
                                     </div>
                                 </div>
 
