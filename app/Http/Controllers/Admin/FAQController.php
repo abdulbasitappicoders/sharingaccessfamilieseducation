@@ -252,11 +252,12 @@ class FAQController extends Controller
         }
     }
 
-    public function getFaqQuries()
+    public function getFaqQuries(Request $request)
     {
-        $faqs = Faq::get();
-        $faq_categories = FaqCategory::orderBy('id','DESC')->get();
-        return view('faqManagement.faq_queries',compact('faqs','faq_categories'));
+//        $faqs = Faq::get();
+        $faq_categories = FaqCategory::orderBy('id', 'DESC')->get();
+        $chatlists = ChatList::where("faq_category_id", $request->category_id)->get();
+        return view('faqManagement.faq_queries', compact('faq_categories', 'chatlists'));
     }
 
    public function getQuries(Request $request)

@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Exception;
 use Auth;
 
-
-
 class ProfileController extends Controller
 {
     public function logout()
@@ -136,7 +134,7 @@ class ProfileController extends Controller
                             }
                         }
                     }
-                    
+
                 }
             }
             $data = User::where('id',Auth::user()->id)->with('childrens','childrens.payment_method','licence','vehicle','UserPaymentMethods','userAvailability','riderInsurance','UserFvc')->first();
@@ -162,7 +160,7 @@ class ProfileController extends Controller
         if ($validator->fails()) return apiresponse(false, implode("\n", $validator->errors()->all()));
         try {
             $child = UserChildren::find($request->child_id);
-            
+
             if($child){
                 if($child->delete()){
                     $user = User::where('id',$child->user_id)->with('childrens','childrens.payment_method','licence','vehicle','UserPaymentMethods','userAvailability')->first();
@@ -170,7 +168,7 @@ class ProfileController extends Controller
                 }else{
                     return apiresponse(false, 'Something went wrong');
                 }
-                
+
             }else{
                 return apiresponse(false, 'child not found');
             }
@@ -306,6 +304,32 @@ class ProfileController extends Controller
                 return apiresponse(false,'Account not found');
             }
         } catch (Exception $e) {
+            return apiresponse(false, $e->getMessage());
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required_with:password|min:8',
+            'new_password' => 'min:8|required_with:confirm_password|same:confirm_password|different:old_password',
+        ]);
+
+        if ($validator->fails()) {
+            return apiresponse(false, implode("\n", $validator->errors()->all()));
+        }
+
+        try {
+            $old_password = Hash::check($request->old_password, auth()->user()->password);
+            if (!$old_password) {
+                return apiresponse(false, "Old password is incorrect");
+            }
+
+            $data['password'] = Hash::make($request->new_password);
+            User::findOrFail(auth()->user()->id)->update($data);
+            return apiresponse(true, 'Password has been updated successfully', ['data' => $data]);
+
+        } catch (\Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
     }
