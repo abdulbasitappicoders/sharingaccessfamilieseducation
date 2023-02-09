@@ -110,6 +110,7 @@
                                     <li><a class="dropdown-item" href="{{ route('admin.staff') }}">Staff</a></li>
                                     <li><a class="dropdown-item" href="{{ route('admin.faq_categories') }}">Faq Categories</a></li>
                                     <li><a class="dropdown-item" href="{{ route('admin.faq_answers') }}">Faq Ans</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.faq_queries') }}">Faq Queries</a></li>
                                 </ul>
                             </li>
                             <li class="border-bottom">
