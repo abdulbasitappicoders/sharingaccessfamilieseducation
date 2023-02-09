@@ -31,13 +31,15 @@
                         <div class="card ">
                             <div class="card-body">
                                 <div class="form-group fitler">
-                                    <select name="faq_queries" id='faq_queries' class="form-control myselect" style="width: 200px">
-                                        <option value="" selected disabled>Select Support Category</option>
-                                       @forelse($faq_categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @empty
-                                       @endforelse
-                                    </select>
+                                    <form action="{{route('admin.faq_queries')}}" id="faqForm">
+                                        <select name="category_id" id="categories" class="form-control myselect" style="width: 200px">
+                                            <option value="" selected disabled>Select Support Category</option>
+                                           @forelse($faq_categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @empty
+                                           @endforelse
+                                        </select>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +82,15 @@
                             </tr>
                             </thead>
                             <tbody>
-
+                                @foreach($chatlists as $chatlist)
+                                    <tr>
+                                        <td>{{$chatlist->id}}</td>
+                                        <td>{{$chatlist->category ? $chatlist->category->name : null}}</td>
+                                        <td>{{$chatlist->fromUser ? $chatlist->fromUser->username : null}}</td>
+                                        <td>{{$chatlist->toUser ? $chatlist->toUser->username : null}}</td>
+                                        <td><a class='btn btn-success' href="#">View</a></td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <br>
@@ -145,10 +155,20 @@
             $(document).ready(function() {
                 $('#faqs').DataTable();
             });
+
             $(document).ready(function () {
                 $(document).on("change",'#faq_queries',function () {
                     var faq_category_id = this.value;
                     $.ajaxSetup({
+
+            $(document).ready(function () {
+                $(document).on("change",'#categories',function () {
+                    $('#faqForm').trigger('submit');
+
+                    // var faq_category_id = this.value;
+                    // $('#faqForm').form[0].submit();
+                    /*$.ajaxSetup({
+
                         headers: {
                             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                         }
@@ -167,7 +187,7 @@
                         error: function(data) {
                             console.log(data);
                         }
-                    });
+                    });*/
 
                 })
             });
