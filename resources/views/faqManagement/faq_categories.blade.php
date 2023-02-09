@@ -67,7 +67,7 @@
 
                     </div>
 
-                    <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="category_faqs" style="width: 960px;">
+                    <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="category_faqs" style="width: 1400px;">
                         <thead class="bg-dark">
                         <tr>
                             <th class="text-white">S No</th>
