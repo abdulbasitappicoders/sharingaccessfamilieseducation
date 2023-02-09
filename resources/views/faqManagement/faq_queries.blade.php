@@ -1,5 +1,27 @@
 @extends('layouts.master')
 @section('style')
+    <style>
+        .newfqheading h5 {
+            color: white;
+            font-weight: 600;
+        }
+        .newfqbody {
+            padding: 20px;
+        }
+        .setBtn{
+            color: #fff;
+            background-color: #000;
+            border-color: #000;
+        }
+        .btnSpace{
+            margin-left: 10px;
+        }
+        .bgcolor{
+            color: #fff;
+            background-color: #000;
+            border-color: #000;
+        }
+    </style>
 <style>
     .newfqheading h5 {
         color: white;
@@ -85,6 +107,22 @@
                                 <th class="text-white">Query User</th>
                                 <th class="text-white">Action</th>
                             </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($chatlists as $chatlist)
+                                    <tr>
+                                        <td>{{$chatlist->id}}</td>
+                                        <td>{{$chatlist->category ? $chatlist->category->name : null}}</td>
+                                        <td>{{$chatlist->fromUser ? $chatlist->fromUser->username : null}}</td>
+                                        <td>{{$chatlist->toUser ? $chatlist->toUser->username : null}}</td>
+                                        <td><a class='btn btn-primary bgcolor' href="{{ route('admin.faq_querie_chat',['id'=>encrypt($chatlist->id)]) }}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                    </div>
                         </thead>
                         <tbody>
                             @foreach($chatlists as $chatlist)

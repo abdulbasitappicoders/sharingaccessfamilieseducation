@@ -113,7 +113,6 @@
                         </tbody>
                     </table>
                     <br>
-                    {{-- {{ $faq_categories->links() }}--}}
                     <br>
                 </div>
             </div>
@@ -183,24 +182,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                {{--<div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="selects">Vehicle Type</label>
-                                        <select class="selects form-control" name="vehicle_type" id="vehicle_type">
-                                            <option value="car" selected>Car</option>
-                                        </select>
-                                    </div>
-                                </div>--}}
-
-                                {{--<div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="selects">Role</label>
-                                        <select class="selects form-control" name="role" id="role">
-                                            <option value="staff" selected>Staff</option>
-                                        </select>
-                                    </div>
-                                </div>--}}
                                 <div class="mb-3">
                                     <div class="form-group">
                                         <label for="selects">Support Category</label>
@@ -229,16 +210,7 @@
                                     </div>
                                 </div>
 
-                                {{-- <div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="selects">Status</label>
-                                        <select class="selects form-control" name="status" id="status">
-                                            <option value="" disabled selected>Select Status</option>
-                                            <option value="1">Active</option>
-                                            <option value="0">In Active</option>
-                                        </select>
-                                    </div>
-                                </div>--}}
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -255,7 +227,6 @@
     {{-- edit faq ans:--}}
     <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
         <div class="modal-dialog ">
-            {{-- modal-dialog-centered--}}
             <div class="modal-content">
                 <div class="modal-header newfqheading">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Staff</h5>
@@ -327,42 +298,6 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                {{-- <div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="selects">Vehicle Type</label>
-                                        <select class="selects form-control" name="vehicle_type" id="vehicle_type">
-                                            <option value="car" selected>Car</option>
-                                        </select>
-                                    </div>
-                                </div>--}}
-
-                                {{-- <div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="selects">Role</label>
-                                        <select class="selects form-control" name="role" id="role">
-                                            <option value="staff" selected>Staff</option>
-                                        </select>
-                                    </div>
-                                </div>--}}
-
-                                {{--<div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="selects">Password</label>
-                                        <input type="text" class="form-control" id="password1" name="password" value="">
-                                    </div>
-                                </div>--}}
-
-                                {{--<div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="selects">Status</label>
-                                        <select class="selects form-control" name="status" id="status1">
-                                            <option value="" disabled selected>Select Status</option>
-                                            <option value="1">Active</option>
-                                            <option value="0">In Active</option>
-                                        </select>
-                                    </div>
-                                </div>--}}
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -407,15 +342,12 @@
                         $('#username1').val(data.user_staff.username);
                         $('#email1').val(data.user_staff.email);
                         $("select[name='support_category_id']").html(data.options);
-                        // $('#password1').val(data.password);
 
-                        // $("#gender1").prop('checked', true);
                         var $radios = $('input:radio[name=staffgender]');
                         if($radios.is(':checked') === false) {
                             var value = data.user_staff.gender;
                             $radios.filter("[value='"+value+"']").prop('checked', true);
                         }
-                        // $("select#status1").val(data.status);
                     },
                     error: function (data) {
                         console.log(data);
