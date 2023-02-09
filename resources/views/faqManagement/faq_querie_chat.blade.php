@@ -55,7 +55,7 @@
                                                              alt="User name">
                                                         <div class="status offline"></div>
                                                     </div>
-                                                    <div class="name">{{ $chat->toUser->username??'' }} </div>
+                                                    <div class="name">{{ ucfirst($chat->toUser->username)??'' }} </div>
                                                     <div class="text">
                                                         {{ $chat->message??'' }}
                                                     </div>
@@ -68,7 +68,7 @@
                                                              alt="User name">
                                                         <div class="status offline"></div>
                                                     </div>
-                                                    <div class="name">{{ $chat->toUser->username??'' }} </div>
+                                                    <div class="name">{{ ucfirst($chat->toUser->username)??'' }} </div>
                                                     <div class="text">
                                                         {{ $chat->message??'' }}
                                                     </div>
