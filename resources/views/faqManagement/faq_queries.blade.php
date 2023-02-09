@@ -159,31 +159,6 @@
             $(document).ready(function () {
                 $(document).on("change",'#categories',function () {
                     $('#faqForm').trigger('submit');
-
-                    // var faq_category_id = this.value;
-                    // $('#faqForm').form[0].submit();
-                    /*$.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    var formData = {
-                        faq_category_id: faq_category_id
-                    };
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('admin.queries') }}",
-                        data: formData,
-                        success: function(data) {
-                            console.log(data.queries);
-                            // location.reload();
-                            $(".table > tbody").html(data.queries);
-                        },
-                        error: function(data) {
-                            console.log(data);
-                        }
-                    });*/
-
                 })
             });
         </script>
