@@ -18,7 +18,10 @@ class ChatResource extends JsonResource
     {
         $last_massage = null;
         if ($this->faq_category_id != null) {
-            $last_massage = SupportMessage::where('chat_list_id', $this->faq_category_id)->orderByDesc('id')->first();
+//            $last_massage = SupportMessage::where('chat_list_id', $this->faq_category_id)->orderByDesc('id')->first();
+            $last_massage = $this->supportMessages->last();
+        } else {
+            $last_massage = $this->messages->last();
         }
 
         return [
@@ -27,7 +30,7 @@ class ChatResource extends JsonResource
             'from' => $this->fromUser,
             'created_at' => $this->created_at,
             'category' => $this->category,
-            'last_message' => $last_massage == null ? $this->messages->last() : $last_massage,
+            'last_message' => $last_massage,
         ];
     }
 }

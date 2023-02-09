@@ -215,10 +215,15 @@ class ChatController extends Controller
         }
 
         try {
-            $staff = User::where('role', 'staff')->first();
+            $staffs = User::where('role', 'staff')->get();
 
-            if (!$staff) {
+            if ($staffs->count() == 0) {
                 return apiresponse(false, "Staff not found");
+            }
+
+            $staff = $staffs->where('support_category_id', $request->faq_category_id)->first();
+            if ($staff == null) {
+                $staff = $staffs->random(1)->first();
             }
 
             $chatList = ChatList::where('faq_category_id', $request->faq_category_id)->where(function ($query) use ($staff) {
@@ -244,7 +249,7 @@ class ChatController extends Controller
     {
         try {
             $chatLists = ChatList::where('from', Auth::user()->id)->orWhere('to', Auth::user()->id)
-                ->with('toUser', 'fromUser', 'messages', 'category')->orderBy('created_at', 'desc')->get();
+                ->with('toUser', 'fromUser', 'supportMessages', 'category')->orderBy('created_at', 'desc')->get();
 
             if ($chatLists->count() > 0) {
                 $chatLists = ChatResource::collection($chatLists);
