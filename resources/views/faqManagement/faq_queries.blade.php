@@ -98,7 +98,7 @@
                         @endif
                     </div>
                     <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="faqs"
-                        style="width: 1400px; margin:10px;git status">
+                        style="width: 1400px; margin:10px;">
                         <thead class="bg-dark">
                             <tr>
                                 <th class="text-white">S No</th>
@@ -120,24 +120,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <br>
-                        <br>
                     </div>
-                        </thead>
-                        <tbody>
-                            @foreach($chatlists as $chatlist)
-                            <tr>
-                                <td>{{$chatlist->id}}</td>
-                                <td>{{$chatlist->category ? $chatlist->category->name : null}}</td>
-                                <td>{{$chatlist->fromUser ? $chatlist->fromUser->username : null}}</td>
-                                <td>{{$chatlist->toUser ? $chatlist->toUser->username : null}}</td>
-                                <td><a class='btn btn-success' href="#">View</a></td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <br>
-                    <br>
                 </div>
             </div>
         </div>
