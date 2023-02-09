@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChatList;
 use App\Models\Faq;
 use App\Models\FaqCategory;
 use App\Models\User;
@@ -251,4 +252,42 @@ class FAQController extends Controller
         }
     }
 
+    public function getFaqQuries()
+    {
+        $faqs = Faq::get();
+        $faq_categories = FaqCategory::orderBy('id','DESC')->get();
+        return view('faqManagement.faq_queries',compact('faqs','faq_categories'));
+    }
+
+   public function getQuries(Request $request)
+   {
+       try {
+           $chat_list_queries = ChatList::where("faq_category_id",$request->faq_category_id)->get();
+           $i =0;
+           $options ='';
+           foreach ($chat_list_queries as $queries)
+           {
+               $i++;
+               $queries_from = $queries->fromUser->username??'N/A';
+               $queries_to = $queries->toUser->username??'N/A';
+               $queries_support_category = $queries->supportCategory->name??'N/A';
+               $chat = route('admin.faq_querie_chat');
+               $options .= "<tr>
+                         <td>$i</td>
+                         <td>$queries_support_category</td>
+                         <td>$queries_from</td>
+                         <td>$queries_to</td>
+                         <td><a class='btn btn-success' href='".$chat."'>View</a></td>
+                       </tr>";
+           }
+           return response()->json(['queries' => $options,'status' => 200]);
+       } catch (\Exception $exception) {
+           return redirect()->route('faqManagement.faq_queries')->with('error', $exception->getMessage());
+       }
+   }
+
+   public function faqQurieChat()
+   {
+       return view('faqManagement.faq_querie_chat');
+   }
 }

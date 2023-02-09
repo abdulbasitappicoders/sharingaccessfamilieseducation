@@ -30,4 +30,9 @@ class ChatList extends Model
 	{
         return $this->belongsTo(User::class,'from','id');
 	}
+
+	public function supportCategory()
+    {
+        return $this->belongsTo(FaqCategory::class,'faq_category_id');
+    }
 }
