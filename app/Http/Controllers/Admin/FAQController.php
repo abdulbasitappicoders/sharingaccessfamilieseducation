@@ -191,6 +191,7 @@ class FAQController extends Controller
             $user->role = 'staff';
             $user->password = Hash::make($request->password);
             $user->status = 1;
+            $user->is_verified = 1;
 
             if ($user->save()) {
                 return back()->with('success', 'Staff created');

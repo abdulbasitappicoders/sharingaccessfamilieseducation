@@ -104,13 +104,13 @@
                             <li class="border-bottom border-top">
                                 <a href="{{route('admin.commission')}}"><span class="ml-3 text-white">Commission</span></a>
                             </li>
-                            <li class="border-bottom nav-item dropdown" >
+                            <li class="border-bottom">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><span class="ml-3 text-white">Faq Management</span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{ route('admin.staff') }}">Staff</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.faq_categories') }}">Faq Categories</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.faq_answers') }}">Faq Ans</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.faq_queries') }}">Faq Queries</a></li>
+                                <ul class="sub-menu">
+                                    <li><a class="border-top border-bottom" href="{{ route('admin.staff') }}">Staff</a></li>
+                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_categories') }}">Faq Categories</a></li>
+                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_answers') }}">Faq Ans</a></li>
+                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_queries') }}">Faq Queries</a></li>
                                 </ul>
                             </li>
                             <li class="border-bottom">

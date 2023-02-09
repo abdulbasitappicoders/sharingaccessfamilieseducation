@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('user_payment_methods', function (Blueprint $table) {
             $table->id();
-            $table->string('brand')->nullable();
+            $table->string('name')->nullable();
             $table->string('title')->nullable();
             $table->string('stripe_source_id')->nullable();
             $table->integer('end_number')->nullable();

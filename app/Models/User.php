@@ -15,8 +15,8 @@ use App\Models\{UserChildren,UserPaymentMethod,UserVehicle,UserLicense,UserAvail
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
-    public const driver = 'driver'; 
-    public const rider = 'rider'; 
+    public const driver = 'driver';
+    public const rider = 'rider';
 
 
     protected $with = ['riderInsurance', 'stripeAccount'];
@@ -38,6 +38,7 @@ class User extends Authenticatable
         'gender',
         'stripe_customer_id',
         'device_id',
+        'support_category_id',
         'image',
         'is_notify',
         'vehicle_type',
@@ -130,48 +131,53 @@ class User extends Authenticatable
 	}
 
     public function getReview()
-	{   
+	{
         return $this->hasMany(Review::class,'to','id');
 	}
-   
+
 
     public function toReview()
-	{   
+	{
         return $this->hasMany(Review::class,'from','id');
 	}
 
     public function Sendernotifications()
-	{   
+	{
         return $this->hasMany(Notification::class,'id','sender_id');
 	}
 
     public function recievernotifications()
-	{   
+	{
         return $this->hasMany(Notification::class,'id','reciever_id');
 	}
 
     public function userAvailability()
-	{   
+	{
         return $this->hasMany(UserAvailable::class);
 	}
 
     public function UserPaymentMethods()
-	{   
+	{
         return $this->hasMany(UserPaymentMethod::class);
 	}
 
     public function driverRide()
-	{   
+	{
         return $this->hasMany(Ride::class,'id','driver_id');
 	}
 
     public function riderRide()
-	{   
+	{
         return $this->hasMany(Ride::class,'id','rider_id');
 	}
 
     public function rideRequestedTo()
-	{   
+	{
         return $this->hasMany(RideRequestedTo::class,'id','driver_id');
 	}
+
+    public function supportCategory()
+    {
+        return $this->belongsTo(FaqCategory::class, 'support_category_id', 'id');
+    }
 }

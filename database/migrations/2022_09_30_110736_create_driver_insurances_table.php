@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->date('exp_date')->nullable();
             $table->string('number')->nullable();
+            $table->string('front')->nullable();
+            $table->string('back')->nullable();
             $table->foreignId('user_id')->nullable();
             $table->timestamps();
         });
