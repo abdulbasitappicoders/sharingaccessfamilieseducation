@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChargesPerMile;
+use App\Models\RideType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,6 +29,10 @@ class ChargesPerMileController extends Controller
             $radius = ChargesPerMile::find($request->id);
             $radius->charges_per_mile = $request->charges_per_mile;
             $radius->save();
+            foreach (RideType::all() as $rideType) {
+                $rideType::where('id', $rideType->id)->update(['price' => $request->charges_per_mile]);
+            }
+
             return redirect()->route('admin.charges_per_miles')->with('success', __('Charges per mile has been updated successfully!'));
         } catch (\Exception $exception) {
             return redirect()->route('admin.charges_per_miles')->with('error', $exception->getMessage());
