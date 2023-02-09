@@ -76,7 +76,7 @@
                         @endif
                     </div>
                     <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="faqs"
-                        style="width: 1400px;">
+                        style="width: 1400px; margin:10px;git status">
                         <thead class="bg-dark">
                             <tr>
                                 <th class="text-white">S No</th>
