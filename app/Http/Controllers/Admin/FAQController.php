@@ -264,15 +264,19 @@ class FAQController extends Controller
     public function getFaqQuries(Request $request)
     {
         $faq_categories = FaqCategory::orderBy('id', 'DESC')->get();
-        $chatlists = ChatList::where("faq_category_id", $request->category_id)->get();
+        $baseQuery = ChatList::query();
+        if (isset($request->category_id) && $request->category_id != null) {
+            $baseQuery = $baseQuery->where("faq_category_id", $request->category_id);
+        }
+        $chatlists = $baseQuery->onlyTrashed()->get();
 
         return view('faqManagement.faq_queries', compact('faq_categories', 'chatlists'));
     }
 
-   public function faqQurieChat($id)
+   public function faqQuerieChats($id)
    {
        $id = decrypt($id);
-       $chat_list_messages = SupportMessage::where('chat_list_id',$id)->get();
+       $chat_list_messages = SupportMessage::where('chat_list_id',$id)->orderByDesc('id')->get();
        return view('faqManagement.faq_querie_chat',compact('chat_list_messages'));
    }
 }

@@ -30,7 +30,7 @@ class SupportMessage extends Model
 
     public function chatList()
     {
-        return $this->belongsTo(ChatList::class,'chat_list_id','id');
+        return $this->belongsTo(ChatList::class,'chat_list_id','id')->withTrashed();
     }
 
     public function messagesFiles()
