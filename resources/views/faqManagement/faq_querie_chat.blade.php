@@ -35,10 +35,9 @@
 
 
             {{-- ////////////////// --}}
-
+            <h4 class="text-dark font-weight-bold col-9">Faq Queries Chat</h4>
             <div class="chatboxarea">
 
-                <h4 class="text-dark font-weight-bold col-9">Faq Queries Chat</h4>
                 <br>
 
                 <div class="container">
@@ -48,146 +47,36 @@
                                 tabindex="5001">
                                 <div class="col-inside-lg decor-default">
                                     <div class="chat-body">
-                                        <div class="answer left">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                    alt="User name">
-                                                <div class="status offline"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                Lorem ipsum dolor amet, consectetur adipisicing elit Lorem ipsum
-                                                dolor amet, consectetur adipisicing
-                                                elit Lorem ipsum dolor amet, consectetur adiping elit
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
-                                        <div class="answer right">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                    alt="User name">
-                                                <div class="status offline"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                Lorem ipsum dolor amet, consectetur adipisicing elit Lorem ipsum
-                                                dolor amet, consectetur adipisicing
-                                                elit Lorem ipsum dolor amet, consectetur adiping elit
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
-                                        <div class="answer left">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                    alt="User name">
-                                                <div class="status online"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                ...
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
-                                        <div class="answer right">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                    alt="User name">
-                                                <div class="status busy"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                It is a long established fact that a reader will be. Thanks Mate!
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
-                                        <div class="answer right">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                    alt="User name">
-                                                <div class="status off"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                It is a long established fact that a reader will be. Thanks Mate!
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
-                                        <div class="answer left">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                    alt="User name">
-                                                <div class="status offline"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                Lorem ipsum dolor amet, consectetur adipisicing elit Lorem ipsum
-                                                dolor amet, consectetur adipisicing
-                                                elit Lorem ipsum dolor amet, consectetur adiping elit
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
-                                        <div class="answer right">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                    alt="User name">
-                                                <div class="status offline"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                Lorem ipsum dolor amet, consectetur adipisicing elit Lorem ipsum
-                                                dolor amet, consectetur adipisicing
-                                                elit Lorem ipsum dolor amet, consectetur adiping elit
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
-                                        <div class="answer left">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                    alt="User name">
-                                                <div class="status online"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                ...
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
-                                        <div class="answer right">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                    alt="User name">
-                                                <div class="status busy"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                It is a long established fact that a reader will be. Thanks Mate!
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
-                                        <div class="answer right">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                    alt="User name">
-                                                <div class="status off"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                It is a long established fact that a reader will be. Thanks Mate!
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
-                                        <div class="answer right">
-                                            <div class="avatar">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                    alt="User name">
-                                                <div class="status off"></div>
-                                            </div>
-                                            <div class="name">Alexander Herthic</div>
-                                            <div class="text">
-                                                It is a long established fact that a reader will be. Thanks Mate!
-                                            </div>
-                                            <div class="time">5 min ago</div>
-                                        </div>
+                                        @forelse($chat_list_messages as $chat)
+                                            @if($chat->chatList->to != $chat->from)
+                                                <div class="answer left">
+                                                    <div class="avatar">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                             alt="User name">
+                                                        <div class="status offline"></div>
+                                                    </div>
+                                                    <div class="name">{{ $chat->toUser->username??'' }} </div>
+                                                    <div class="text">
+                                                        {{ $chat->message??'' }}
+                                                    </div>
+                                                    <div class="time">{{ $chat->created_at }}</div>
+                                                </div>
+                                            @else
+                                                <div class="answer right">
+                                                    <div class="avatar">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                             alt="User name">
+                                                        <div class="status offline"></div>
+                                                    </div>
+                                                    <div class="name">{{ $chat->toUser->username??'' }} </div>
+                                                    <div class="text">
+                                                        {{ $chat->message??'' }}
+                                                    </div>
+                                                    <div class="time">{{ $chat->created_at }}</div>
+                                                </div>
+                                            @endif
+                                        @empty
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
