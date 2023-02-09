@@ -102,4 +102,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::post('admin/update_staff', [FAQController::class, 'updateStaff'])->name('admin.update_staff');
     Route::delete('admin/delete_staff/{id}', [FAQController::class, 'deleteStaff'])->name('admin.delete_staff');
 
+    Route::get('admin/faq_queries', [FAQController::class, 'getFaqQuries'])->name('admin.faq_queries');
+    Route::get('admin/queries', [FAQController::class, 'getQuries'])->name('admin.queries');
+    Route::get('admin/faq_querie_chat', [FAQController::class, 'faqQurieChat'])->name('admin.faq_querie_chat');
 });
