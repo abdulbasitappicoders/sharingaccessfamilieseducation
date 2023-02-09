@@ -16,6 +16,11 @@
         .btnSpace{
             margin-left: 10px;
         }
+        .bgcolor{
+            color: #fff;
+            background-color: #000;
+            border-color: #000;
+        }
     </style>
 @endsection
 @section('content')
@@ -88,7 +93,7 @@
                                         <td>{{$chatlist->category ? $chatlist->category->name : null}}</td>
                                         <td>{{$chatlist->fromUser ? $chatlist->fromUser->username : null}}</td>
                                         <td>{{$chatlist->toUser ? $chatlist->toUser->username : null}}</td>
-                                        <td><a class='btn btn-success' href="{{ route('admin.faq_querie_chat',['id'=>encrypt($chatlist->id)]) }}">View</a></td>
+                                        <td><a class='btn btn-primary bgcolor' href="{{ route('admin.faq_querie_chat',['id'=>encrypt($chatlist->id)]) }}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
                                     </tr>
                                 @endforeach
                             </tbody>
