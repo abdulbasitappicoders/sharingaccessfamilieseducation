@@ -99,57 +99,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog ">
-                <div class="modal-content">
-                    <div class="modal-header newfqheading">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New Faq Answer</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body newfqbody">
-                        <form action="{{ route('admin.insert_faq_answers') }}" method="POST" name="add_faq">
-                            @csrf
-                            <div class="row">
-                                <div class="col-12 container-fluid">
-                                    <div class="mb-3">
-                                        <div class="form-group">
-                                            <label for="selects">Category Name</label>
-                                            <select class="selects form-control" name="faq_category_id" id="selects">
-                                                <option value="">Select </option>
-                                                @foreach($faq_categories as $faq)
-                                                    <option value="{{ $faq->id }}">{{ $faq->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">FAQ Question </label>
-                                            <textarea placeholder="Enter Description" class="form-control " name="question" id="description" rows="3"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">FAQ Answer </label>
-                                            <textarea placeholder="Enter Description" class="form-control " name="answer" id="description" rows="3"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save </button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
         <script type="text/javascript">
 
             $(document).ready(function() {
