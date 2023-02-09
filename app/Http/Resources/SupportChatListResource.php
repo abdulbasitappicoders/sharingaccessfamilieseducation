@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Models\ChatListMessage;
-use App\Models\SupportMessage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ChatResource extends JsonResource
+class SupportChatListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,18 +14,13 @@ class ChatResource extends JsonResource
      */
     public function toArray($request)
     {
-        $last_massage = null;
-        if ($this->faq_category_id != null) {
-            $last_massage = SupportMessage::where('chat_list_id', $this->faq_category_id)->orderByDesc('id')->first();
-        }
-
         return [
             'id' => $this->id,
             'to' => $this->toUser,
             'from' => $this->fromUser,
             'created_at' => $this->created_at,
             'category' => $this->category,
-            'last_message' => $last_massage == null ? $this->messages->last() : $last_massage,
+            'last_message' => $this->messages->last()
         ];
     }
 }
