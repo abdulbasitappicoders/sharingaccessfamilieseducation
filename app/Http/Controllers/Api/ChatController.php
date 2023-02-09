@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\SupportMessage;
+use App\Events\SendSupportMessage;
+use App\Models\SupportMessageDocument;
 use Illuminate\Http\Request;
 use App\Models\{User,ChatList,ChatListMessage,ChatListMessageFile,Ride};
 use Illuminate\Support\Facades\Validator;
@@ -13,35 +16,31 @@ use File;
 
 class ChatController extends Controller
 {
-
-    public function chatLists(Request $request){
-        $posts = Post::with(['comments' => function($q){
-            $q->get(['comments.comment']);
-        }])->get('posts.name');
+    public function chatLists(Request $request)
+    {
         try {
-            if($request->has('search')){
-                $chatLists  = ChatList::where('from',Auth::user()->id)->orWhere('to',Auth::user()->id)
-                            ->with(['toUser' => function($q) use ($request){
-                                $q->where('username','like','%'.$request->search.'%');
-                            }],['fromUser' => function($q) use ($request){
-                                $q->where('username','like','%'.$request->search.'%');
-                            }],['messages' => function($q){
-                                $q->orderBy('id','desc')->first();
-                            }])->orderBy('created_at','desc')->paginate(10);
-            }else{
-                $chatLists = ChatList::where('from',Auth::user()->id)->orWhere('to',Auth::user()->id)
-                            ->with('toUser','fromUser','messages')->orderBy('created_at','desc')->paginate(10);
+            if ($request->has('search')) {
+                $chatLists = ChatList::where('from', Auth::user()->id)->orWhere('to', Auth::user()->id)
+                    ->with(['toUser' => function ($q) use ($request) {
+                        $q->where('username', 'like', '%' . $request->search . '%');
+                    }], ['fromUser' => function ($q) use ($request) {
+                        $q->where('username', 'like', '%' . $request->search . '%');
+                    }], ['messages' => function ($q) {
+                        $q->orderBy('id', 'desc')->first();
+                    }])->orderBy('created_at', 'desc')->paginate(10);
+            } else {
+                $chatLists = ChatList::where('from', Auth::user()->id)->orWhere('to', Auth::user()->id)
+                    ->with('toUser', 'fromUser', 'messages')->orderBy('created_at', 'desc')->paginate(10);
             }
-            if($chatLists){
+            if ($chatLists) {
                 $chatLists = ChatResource::collection($chatLists)->response()->getData(true);
                 return apiresponse(true, "Chat list found", $chatLists);
-            }else{
+            } else {
                 return apiresponse(false, "Something went wrong");
             }
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
-
     }
 
     public function createChatList(Request $request)
@@ -187,7 +186,7 @@ class ChatController extends Controller
 
             if ($ChatListMessage->messagesFiles) {
                 foreach ($ChatListMessage->messagesFiles as $file) {
-                    $filename = public_path('images/MessageFile/' . $file->name);
+                    $filename = public_path('images/' . $file->name);
                     if (file_exists($filename)) {
                         File::delete($filename);
                     }
@@ -234,9 +233,170 @@ class ChatController extends Controller
                 ];
                 $chatList = ChatList::create($chatListData);
             }
-            return apiresponse(true, 'Chat list', $chatList);
+
+            return apiresponse(true, 'Chat list', new ChatResource($chatList));
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
+        }
+    }
+
+    public function supportChatList(Request $request)
+    {
+        try {
+            $chatLists = ChatList::where('from', Auth::user()->id)->orWhere('to', Auth::user()->id)
+                ->with('toUser', 'fromUser', 'messages', 'category')->orderBy('created_at', 'desc')->get();
+
+            if ($chatLists->count() > 0) {
+                $chatLists = ChatResource::collection($chatLists);
+            }
+            return apiresponse(true, "Chat list found", $chatLists);
+        } catch (Exception $e) {
+            return apiresponse(false, $e->getMessage());
+        }
+    }
+
+    public function sendSupportMessage(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'type' => 'required',
+            'category_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return apiresponse(false, implode("\n", $validator->errors()->all()));
+        }
+
+        try {
+            $chatList = ChatList::where('from', Auth::user()->id)->where('to', $request->user_id)->where('faq_category_id', $request->category_id)->first();
+
+            if (!$chatList) {
+                $chatList = ChatList::where('to', Auth::user()->id)->where('from', $request->user_id)->where('faq_category_id', $request->category_id)->first();
+            }
+
+            if (!$chatList) {
+                $chatListData = [
+                    'to' => $request->user_id,
+                    'from' => Auth::user()->id,
+                    'faq_category_id' => $request->category_id
+                ];
+                $chatList = ChatList::create($chatListData);
+            }
+
+            $messageData = [
+                'chat_list_id' => $chatList->id,
+                'type' => $request->type,
+                'message' => $request->message,
+                'to' => $request->user_id,
+                'from' => Auth::user()->id,
+            ];
+
+            $chatMessageSend = SupportMessage::create($messageData);
+
+            if ($request->type != 'text') {
+                $res = files_upload($request->file, 'MessageFile');
+                $messageFileData = [
+                    'support_message_id' => $chatMessageSend->id,
+                    'name' => $res,
+                ];
+                SupportMessageDocument::create($messageFileData);
+            }
+
+            $message = SupportMessage::where('id', $chatMessageSend->id)->with('toUser', 'fromUser', 'messagesFiles')->first();
+            broadcast(new SendSupportMessage($message))->toOthers();
+            $title = 'You have a new message from ' . Auth::user()->username;
+            $body = $message->message;
+            SendNotification($message->toUser->device_id, $title, $body);
+            saveNotification($title, $body, 'message', $message->from, $message->to);
+
+            return apiresponse(true, "Message sent", $message);
+        } catch (Exception $e) {
+            return apiresponse(false, $e->getMessage());
+        }
+    }
+
+    public function supportMessages(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'chat_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return apiresponse(false, implode('\n', $validator->errors()->all()));
+        }
+
+        try {
+            $chatList = ChatList::find($request->chat_id);
+            if (!$chatList) {
+                return apiresponse(false, "Chatlist not found");
+            }
+            $chatListMessages = SupportMessage::where('chat_list_id', $chatList->id)->with('toUser', 'fromUser', 'messagesFiles')->orderBy('created_at', 'desc')->paginate(10);
+            if ($chatListMessages->count() > 0) {
+                $chatListMessages = ChatListMessageResource::collection($chatListMessages)->response()->getData(true);
+                SupportMessage::where('chat_list_id', $chatList->id)->update(['is_read' => 1]);
+            }
+
+            return apiresponse(true, 'Chat', $chatListMessages);
+
+        } catch (Exception $e) {
+            return apiresponse(false, $e->getMessage());
+        }
+    }
+
+    public function deleteSupportMessage(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'message_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return apiresponse(false, implode('/n', $validator->errors()->all()));
+        }
+
+        try {
+            $chatListMessage = SupportMessage::find($request->message_id);
+
+            if (!$chatListMessage) {
+                return apiresponse(false, 'Message not found');
+            }
+
+            if ($chatListMessage->messagesFiles) {
+                foreach ($chatListMessage->messagesFiles as $file) {
+                    $filename = public_path('images/' . $file->name);
+                    if (file_exists($filename)) {
+                        File::delete($filename);
+                    }
+                    SupportMessageDocument::find($file->id)->delete();
+                }
+            }
+
+            $chatListMessage->delete();
+            return apiresponse(true, 'Message deleted');
+        } catch (Exception $e) {
+            return apiresponse(false, $e->getMessage());
+        }
+    }
+
+    public function endSupportChat(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'chat_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return apiresponse(false, implode('/n', $validator->errors()->all()));
+        }
+
+        try {
+            $chatlist = ChatList::where('id', $request->chat_id)->first();
+            if (!$chatlist) {
+                return apiresponse(false, "Chatlist not found");
+            }
+
+            $chatlist->delete();
+            return apiresponse(true, "Chat has been ended successfully", ['data' => []]);
+        } catch (Exception $exception) {
+            return apiresponse(false, $exception->getMessage());
         }
     }
 }

@@ -24,6 +24,7 @@ class CreateStaffSeeder extends Seeder
                 'vehicle_type' => 'car',
                 'status' => '1',
                 'role' => 'staff',
+                'is_verified' => 1,
                 'password' => Hash::make("123456789"),
             ]);
         }

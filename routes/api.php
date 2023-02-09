@@ -65,7 +65,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
     Route::post('chatMessages',[ChatController::class, 'chatMessages'])->name('chatMessages');
     Route::post('deleteMessage',[ChatController::class, 'destroy'])->name('deleteMessage');
     Route::post('createChatList',[ChatController::class, 'createChatList'])->name('createChatList');
+
     Route::post('createSupportChatList',[ChatController::class, 'createSupportChatList'])->name('createSupportChatList');
+    Route::get('supportChatList',[ChatController::class, 'supportChatList'])->name('supportChatList');
+    Route::post('sendSupportMessage',[ChatController::class, 'sendSupportMessage'])->name('sendSupportMessage');
+    Route::post('supportMessages',[ChatController::class, 'supportMessages'])->name('supportMessages');
+    Route::post('deleteSupportMessage',[ChatController::class, 'deleteSupportMessage'])->name('deleteSupportMessage');
+    Route::post('endSupportChat',[ChatController::class, 'endSupportChat'])->name('endSupportChat');
 
     //Contact Us Module
     Route::post('contactUs',[ContactUsController::class, 'store'])->name('contactUs');

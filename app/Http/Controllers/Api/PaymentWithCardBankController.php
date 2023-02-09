@@ -16,7 +16,7 @@ class PaymentWithCardBankController extends Controller
             $PaymentWithCardBank = PaymentWithCardBank::first();
             $PaymentWithCardBank->card_payment = strip_tags($PaymentWithCardBank->card_payment);
             $PaymentWithCardBank->bank_payment = strip_tags($PaymentWithCardBank->bank_payment);
-            return apiresponse(true, 'data found',$PaymentWithCardBank);
+            return apiresponse(true, 'data found', $PaymentWithCardBank);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }

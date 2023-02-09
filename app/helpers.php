@@ -31,29 +31,28 @@ if (!function_exists('files_upload')) {
      * @param integer $http_status
      * @return \Illuminate\Http\JsonResponse
      */
-    function files_upload($files,$name)
+    function files_upload($files, $name)
     {
         $type = gettype($files);
-        if($type == 'object'){
-            $fileName = $name.time() . '.' . $files->getClientOriginalExtension();
+        if ($type == 'object') {
+            $fileName = $name . time() . '.' . $files->getClientOriginalExtension();
             $check = $files->move(public_path("images"), $fileName);
-            if($check){
+            if ($check) {
                 return $fileName;
-            }else{
+            } else {
                 return false;
             }
-        }else{
-            foreach($files as $file){
-                $fileName = $name.time() . '.' . $file->getClientOriginalExtension();
+        } else {
+            foreach ($files as $file) {
+                $fileName = $name . time() . '.' . $file->getClientOriginalExtension();
                 $check = $file->move(public_path("images"), $fileName);
             }
-            if($check){
+            if ($check) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-    
     }
 }
 
