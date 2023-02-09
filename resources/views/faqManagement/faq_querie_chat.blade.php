@@ -48,18 +48,18 @@
                                 <div class="col-inside-lg decor-default">
                                     <div class="chat-body">
                                         @forelse($chat_list_messages as $chat)
-                                            @if($chat->from != $chat->to)
+                                            @if($chat->chatList->to != $chat->from)
                                                 <div class="answer left">
                                                     <div class="avatar">
                                                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
                                                              alt="User name">
                                                         <div class="status offline"></div>
                                                     </div>
-                                                    <div class="name">{{ $chat->toUser->username??'' }} {{ $chat->fromUser->id }}</div>
+                                                    <div class="name">{{ $chat->toUser->username??'' }} </div>
                                                     <div class="text">
                                                         {{ $chat->message??'' }}
                                                     </div>
-                                                    <div class="time">5 min ago</div>
+                                                    <div class="time">{{ $chat->created_at }}</div>
                                                 </div>
                                             @else
                                                 <div class="answer right">
@@ -68,11 +68,11 @@
                                                              alt="User name">
                                                         <div class="status offline"></div>
                                                     </div>
-                                                    <div class="name">{{ $chat->fromUser->username??'' }}  {{ $chat->toUser->id }}</div>
+                                                    <div class="name">{{ $chat->toUser->username??'' }} </div>
                                                     <div class="text">
                                                         {{ $chat->message??'' }}
                                                     </div>
-                                                    <div class="time">5 min ago</div>
+                                                    <div class="time">{{ $chat->created_at }}</div>
                                                 </div>
                                             @endif
                                         @empty
