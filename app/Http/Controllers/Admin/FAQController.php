@@ -264,10 +264,7 @@ class FAQController extends Controller
    public function faqQurieChat($id)
    {
        $id = decrypt($id);
-       $chatuser = ChatList::find($id);
        $chat_list_messages = ChatListMessage::where('chat_list_id',$id)->get();
-//       $messages = ChatListMessage::where("chat_list_id",$id)->where('from',$chatuser->fromUser->id)->orWhere('to',$chatuser->toUser->id)->get();
-//       dd($chat_list_messages);
        return view('faqManagement.faq_querie_chat',compact('chat_list_messages'));
    }
 }
