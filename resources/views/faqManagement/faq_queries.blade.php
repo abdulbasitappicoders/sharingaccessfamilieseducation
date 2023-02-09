@@ -88,7 +88,7 @@
                                         <td>{{$chatlist->category ? $chatlist->category->name : null}}</td>
                                         <td>{{$chatlist->fromUser ? $chatlist->fromUser->username : null}}</td>
                                         <td>{{$chatlist->toUser ? $chatlist->toUser->username : null}}</td>
-                                        <td><a class='btn btn-success' href="#">View</a></td>
+                                        <td><a class='btn btn-success' href="{{ route('admin.faq_querie_chat',['id'=>encrypt($chatlist->id)]) }}">View</a></td>
                                     </tr>
                                 @endforeach
                             </tbody>
