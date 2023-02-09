@@ -158,11 +158,10 @@
 
             $(document).ready(function () {
                 $(document).on("change",'#categories',function () {
-                    var faq_category_id = this.value;
-
-                    // $('#faqForm').form[0].submit();
                     $('#faqForm').trigger('submit');
 
+                    // var faq_category_id = this.value;
+                    // $('#faqForm').form[0].submit();
                     /*$.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')

@@ -58,6 +58,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
     Route::post('getUser',[ProfileController::class, 'getUser'])->name('getUser');
     Route::post('childDelete',[ProfileController::class, 'childDelete'])->name('childDelete');
     Route::get('deleteUser',[ProfileController::class, 'deleteUser'])->name('deleteUser');
+    Route::post('updatePassword', [ProfileController::class, 'updatePassword'])->name('updatePassword');
 
     //Chat Module
     Route::post('chatLists',[ChatController::class, 'chatLists'])->name('chatLists');
