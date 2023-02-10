@@ -51,7 +51,7 @@
                                                     <div class="answer left">
                                                         <div class="avatar">
                                                             <img
-                                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                src="{{$chat->fromUser->getProfileImage()}}"
                                                                 alt="User name">
                                                             <div class="status offline"></div>
                                                         </div>
@@ -68,7 +68,7 @@
                                                         <div class="answer right">
                                                             <div class="avatar">
                                                                 <img
-                                                                    src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                                    src="{{$chat->fromUser->getProfileImage()}}"
                                                                     alt="User name">
                                                                 <div class="status offline"></div>
                                                             </div>

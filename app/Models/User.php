@@ -180,4 +180,13 @@ class User extends Authenticatable
     {
         return $this->belongsTo(FaqCategory::class, 'support_category_id', 'id');
     }
+
+    public function getProfileImage()
+    {
+        if ($this['profile_image'] == null) {
+            return asset('/') . "assets/images/default-user.png";
+        }
+
+        return url('/images/') . '/' . $this['profile_image'];
+    }
 }
