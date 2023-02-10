@@ -192,6 +192,7 @@ class FAQController extends Controller
             $user->password = Hash::make($request->password);
             $user->status = 1;
             $user->is_verified = 1;
+            $user->is_broad = 1;
 
             if ($user->save()) {
                 return back()->with('success', 'Staff created');
@@ -225,7 +226,6 @@ class FAQController extends Controller
             $request->validate([
                 "first_name" => "required",
                 "last_name" => "required",
-                "gender" => "required",
                 "support_category_id" => "required",
             ]);
 
@@ -234,7 +234,6 @@ class FAQController extends Controller
             $user->last_name = $request->last_name;
             $user->username = $request->first_name . ' ' . $request->last_name;
             $user->email = $request->email;
-            $user->gender = $request->staffgender;
             $user->support_category_id = $request->support_category_id;
 
             if ($user->save()) {

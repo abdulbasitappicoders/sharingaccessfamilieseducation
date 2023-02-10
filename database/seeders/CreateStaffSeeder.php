@@ -25,6 +25,7 @@ class CreateStaffSeeder extends Seeder
                 'status' => '1',
                 'role' => 'staff',
                 'is_verified' => 1,
+                'is_broad'  => 1,
                 'password' => Hash::make("123456789"),
             ]);
         }
