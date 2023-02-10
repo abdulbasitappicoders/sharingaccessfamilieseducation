@@ -111,7 +111,7 @@
                                 <ul class="sub-menu">
                                     <li><a class="border-top border-bottom" href="{{ route('admin.staff') }}">Staff</a></li>
                                     <li><a class="border-top border-bottom" href="{{ route('admin.faq_categories') }}">Faq Categories</a></li>
-                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_answers') }}">Faq Ans</a></li>
+                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_answers') }}">Faq Answers</a></li>
                                     <li><a class="border-top border-bottom" href="{{ route('admin.faq_queries') }}">Faq Queries</a></li>
                                 </ul>
                             </li>
