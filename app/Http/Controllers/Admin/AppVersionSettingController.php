@@ -17,7 +17,6 @@ class AppVersionSettingController extends Controller
 
     public function update(Request $request)
     {
-//        dd($request->all());
         try {
 
             $validator = $request->validate([
@@ -41,8 +40,5 @@ class AppVersionSettingController extends Controller
         } catch (\Exception $exception) {
             return redirect()->route('admin.app_version_settings')->with('error', $exception->getMessage());
         }
-
-
-
     }
 }
