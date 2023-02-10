@@ -88,10 +88,10 @@
                                 <td>
                                     <div style="display: flex;">
                                         <button class="btn btn-primary btn-sm setBtn" data-toggle="modal" data-target="#exampleModal2" data-id="{{ $faq->id }}" id="edit" href="" >Edit</button>
-                                        <form action="{{ route('admin.delete_faq_categories',$faq->id) }}" method="POST">
+                                        <form action="{{ route('admin.delete_faq_categories',$faq->id) }}" id="deleteform" method="POST">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm btnSpace" role="button" style=" display: block ruby;">Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btnSpace" role="button" id="delete_btn" style=" display: block ruby;">Delete</button>
                                         </form>
                                     </div>
                                 </td>
@@ -214,5 +214,27 @@
 
             })
         });
+
+        $(document).on('click','#delete_btn',function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#deleteform').submit();
+                    Swal.fire(
+                        'Deleted!',
+                        'deleted successfully.',
+                        'success'
+                    )
+                }
+            });
+        })
     </script>
 @endsection

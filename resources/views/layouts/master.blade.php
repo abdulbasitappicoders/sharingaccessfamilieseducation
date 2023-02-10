@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.min.css')}}"/>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
-
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
     <style type="text/css">
         @media screen and (max-width: 34em) {
       .row-offcanvas-left .sidebar-offcanvas {
@@ -177,6 +177,8 @@
     <script src="{{asset('assets/plugins/sweetalert/sweetalert.min.js')}}"></script>
     <!-- Start project main js  and page js -->
     <script src="{{asset('assets/js/core.js')}}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 </body>

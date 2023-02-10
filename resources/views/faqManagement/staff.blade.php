@@ -97,10 +97,10 @@
                                         <button class="btn btn-primary btn-sm setBtn ml-3" data-toggle="modal"
                                             data-target="#exampleModal2" data-id="{{ $user->id }}" id="edit"
                                             href="">Edit</button>
-                                        <form action="{{ route('admin.delete_staff',$user->id) }}" method="POST">
+                                        <form action="{{ route('admin.delete_staff',$user->id) }}" id="deleteform" method="POST">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm btnSpace" role="button"
+                                            <button type="submit" class="btn btn-danger btn-sm btnSpace" id="delete_btn" role="button"
                                                 style=" display: block ruby;">Delete</button>
                                         </form>
                                     </div>
@@ -346,6 +346,28 @@
                 });
 
             });
+
+            $(document).on('click','#delete_btn',function (e) {
+                e.preventDefault(false);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#deleteform').submit();
+                        Swal.fire(
+                            'Deleted!',
+                            'Staff deleted successfully.',
+                            'success'
+                        )
+                    }
+                });
+            })
     </script>
 
     @endsection
