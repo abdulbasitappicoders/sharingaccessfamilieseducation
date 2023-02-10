@@ -47,22 +47,23 @@
                                         <div class="chat-body">
                                             @forelse($chat_list_messages as $chat)
                                                 @if($chat->chatList->to != $chat->from)
-                                                     @if($chat->type == 'text')
-                                                    <div class="answer left">
-                                                        <div class="avatar">
-                                                            <img
-                                                                src="{{$chat->fromUser->getProfileImage()}}"
-                                                                alt="User name">
-                                                            <div class="status offline"></div>
+                                                    @if($chat->type == 'text')
+                                                        <div class="answer left">
+                                                            <div class="avatar">
+                                                                <img
+                                                                    src="{{$chat->fromUser->getProfileImage()}}"
+                                                                    alt="User name">
+                                                                <div class="status offline"></div>
+                                                            </div>
+                                                            <div
+                                                                class="name">{{ ucfirst($chat->fromUser->username)??'' }} </div>
+                                                            <div class="text">
+                                                                {{ $chat->message??'' }}
+                                                            </div>
+                                                            <div
+                                                                class="time">{{ $chat->created_at->diffForHumans() }}</div>
                                                         </div>
-                                                        <div
-                                                            class="name">{{ ucfirst($chat->fromUser->username)??'' }} </div>
-                                                        <div class="text">
-                                                            {{ $chat->message??'' }}
-                                                        </div>
-                                                        <div class="time">{{ $chat->created_at->diffForHumans() }}</div>
-                                                    </div>
-                                                     @endif
+                                                    @endif
                                                 @else
                                                     @if($chat->type == 'text')
                                                         <div class="answer right">
@@ -81,7 +82,6 @@
                                                                 class="time">{{ $chat->created_at->diffForHumans() }}</div>
                                                         </div>
                                                     @endif
-
                                                 @endif
                                             @empty
                                             @endforelse
