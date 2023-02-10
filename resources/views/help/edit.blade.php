@@ -6,9 +6,9 @@
 @endif
 <div class="card">
     <form action="{{route('admin.update_help')}}" method="POST">
-    @csrf    
+    @csrf
         <input type="hidden" name="id" value="{{$help->id}}">
-        <textarea name="help" id="editor" cols="15" rows="25">{{$help->help}}</textarea>
+        <textarea name="help" id="editor" cols="15" rows="25" class="summernote">{{$help->help}}</textarea>
         <div class="modal-footer d-flex justify-content-center">
             <button class="btn btn-dark" >Save</button>
         </div>
@@ -17,9 +17,10 @@
 
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-  tinymce.init({
-    selector: 'textarea#editor',
-    menubar: false
-  });
+
+  $(document).ready(function () {
+      $('.summernote').summernote();
+  })
+
 </script>
 @endsection
