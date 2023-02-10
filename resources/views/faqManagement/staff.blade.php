@@ -253,7 +253,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
+                                {{--<div class="mb-3">
                                     <div class="form-group">
                                         <label for="selects">Gender</label>
                                         <div class="form-check form-check-inline">
@@ -272,7 +272,7 @@
                                             <label class="form-check-label" for="gender3">Other</label>
                                         </div>
                                     </div>
-                                </div>
+                                </div>--}}
 
                                 <div class="mb-3">
                                     <div class="form-group">

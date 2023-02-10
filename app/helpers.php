@@ -179,4 +179,19 @@ if (!function_exists('SendNotification')) {
     }
 }
 
+if (!function_exists('formattedDate')) {
+
+    /**
+     * @param $date
+     * @return string|null
+     */
+    function formattedDate($date)
+    {
+        if (!$date) {
+            return null;
+        }
+        return date('m-d-Y', strtotime($date));
+    }
+}
+
 ?>

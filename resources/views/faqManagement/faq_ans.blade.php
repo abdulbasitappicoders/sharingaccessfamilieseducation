@@ -96,7 +96,7 @@
                                         ":$faq->answer??'N/A' }}
                                     </p>
                                 </td>
-                                <td>{{ $faq->created_at??'N/A' }}</td>
+                                <td>{{ formattedDate($faq->created_at) ?? 'N/A' }}</td>
                                 <td>
                                     <div style="display: flex;">
                                         <button class="btn btn-primary btn-sm setBtn" data-toggle="modal"
