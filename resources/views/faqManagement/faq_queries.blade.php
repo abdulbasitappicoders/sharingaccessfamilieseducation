@@ -120,7 +120,7 @@
                                     <td>{{$chatlist->fromUser ? $chatlist->fromUser->username : null}}</td>
                                     <td>{{$chatlist->toUser ? $chatlist->toUser->username : null}}</td>
                                     <td><a class='btn btn-primary bgcolor'
-                                           href="{{ route('admin.faq_querie_chat',['id'=>encrypt($chatlist->id)]) }}"><i
+                                           href="{{ route('admin.faq_querie_chat',['id'=>$chatlist->id]) }}"><i
                                                 class="fa fa-eye" aria-hidden="true"></i></a></td>
                                 </tr>
                             @endforeach

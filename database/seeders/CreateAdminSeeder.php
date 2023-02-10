@@ -20,7 +20,7 @@ class CreateAdminSeeder extends Seeder
             User::create([
                 'username' => 'admin',
                 'first_name' => 'admin',
-                'email' => 'admin@safe.com',
+                'email' => 'safeappadmin@gmail.com',
                 'gender' => 'male',
                 'vehicle_type' => 'car',
                 'status' => '1',

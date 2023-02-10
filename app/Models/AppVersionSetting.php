@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class AppVersionSetting extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['built_number', 'app_version', 'platform'];
 }

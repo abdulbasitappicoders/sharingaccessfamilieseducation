@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(InitialSettingsSeeder::class);
         $this->call(CreateAdminSeeder::class);
         $this->call(CreateStaffSeeder::class);
+        $this->call(RideTypeSeeder::class);
+        $this->call(AppVersionSettingSeeder::class);
     }
 }
