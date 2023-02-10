@@ -148,13 +148,6 @@
 
                                 <div class="mb-3">
                                     <div class="form-group">
-                                        <label for="selects">Username</label>
-                                        <input type="text" class="form-control" id="username" name="username">
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-group">
                                         <label for="selects">Email</label>
                                         <input type="email" class="form-control" id="email" name="email">
                                     </div>
