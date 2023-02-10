@@ -38,7 +38,7 @@
                     <h4 class="text-dark font-weight-bold col-9">Faq Answers</h4>
                     <button type="button" class="btn btn-primary setBtn" data-toggle="modal"
                         data-target="#exampleModal">
-                        Add New Faq Ans:
+                        Add New
                     </button>
                     <br>
                     <div class="col-md-12 mt-3">
