@@ -98,6 +98,9 @@
                                 <a href="{{route('admin.radius_of_search')}}"><span class="ml-3 text-white">Radius Of Search</span></a>
                             </li>
                             <li class="border-bottom border-top">
+                                <a href="{{route('admin.app_version_settings')}}"><span class="ml-3 text-white">Version Settings</span></a>
+                            </li>
+                            <li class="border-bottom border-top">
                                 <a href="{{route('admin.emergency')}}"><span class="ml-3 text-white">Emergency Contact</span></a>
                             </li>
                             <li class="border-bottom border-top">
