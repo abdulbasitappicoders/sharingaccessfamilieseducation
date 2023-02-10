@@ -173,9 +173,9 @@ class FAQController extends Controller
             $request->validate([
                 "first_name"             => "required",
                 "last_name"              => "required",
-                "email"                  => "required|email|unique:users",
+                'email'                  =>  'required|email|unique:users',
                 "gender"                 => "required",
-                "support_category_id"                 => "required",
+                "support_category_id"    => "required",
                 "password"               => "required",
                 "confirm_password"       => "required|same:password",
             ]);
