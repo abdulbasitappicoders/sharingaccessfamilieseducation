@@ -173,12 +173,17 @@ class FAQController extends Controller
             $request->validate([
                 "first_name"             => "required",
                 "last_name"              => "required",
-                'email'                  =>  'required|email|unique:users',
+                "email"                  => "required|email",
                 "gender"                 => "required",
                 "support_category_id"    => "required",
                 "password"               => "required",
                 "confirm_password"       => "required|same:password",
             ]);
+
+            $alreadyExist = User::where('role', 'staff')->where('email', $request->email)->first();
+            if ($alreadyExist) {
+                return redirect()->route('admin.staff')->with('error', "Staff already exist");
+            }
 
             $user = new User();
             $user->first_name = $request->first_name;
@@ -228,6 +233,11 @@ class FAQController extends Controller
                 "last_name" => "required",
                 "support_category_id" => "required",
             ]);
+
+            $alreadyExist = User::where('role', 'staff')->where('email', $request->email)->where('id', '!=', $request->id)->first();
+            if ($alreadyExist) {
+                return redirect()->route('admin.staff')->with('error', "Staff already exist");
+            }
 
             $user = User::find((int)$request->id);
             $user->first_name = $request->first_name;
