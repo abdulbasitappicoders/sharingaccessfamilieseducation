@@ -47,7 +47,7 @@
                                         <div class="chat-body">
                                             @forelse($chat_list_messages as $chat)
                                                 @if($chat->chatList->to != $chat->from)
-                                                    {{-- @if($chat->type == 'text') --}}
+                                                     @if($chat->type == 'text')
                                                     <div class="answer left">
                                                         <div class="avatar">
                                                             <img
@@ -62,9 +62,9 @@
                                                         </div>
                                                         <div class="time">{{ $chat->created_at->diffForHumans() }}</div>
                                                     </div>
-                                                    {{-- @endi--}}
+                                                     @endif
                                                 @else
-{{--                                                    @if($chat->type == 'text')--}}
+                                                    @if($chat->type == 'text')
                                                         <div class="answer right">
                                                             <div class="avatar">
                                                                 <img
@@ -80,7 +80,7 @@
                                                             <div
                                                                 class="time">{{ $chat->created_at->diffForHumans() }}</div>
                                                         </div>
-{{--                                                    @endif--}}
+                                                    @endif
 
                                                 @endif
                                             @empty
