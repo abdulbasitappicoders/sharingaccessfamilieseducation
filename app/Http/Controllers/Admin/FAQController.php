@@ -275,8 +275,8 @@ class FAQController extends Controller
 
    public function faqQuerieChats($id)
    {
-       $id = decrypt($id);
-       $chat_list_messages = SupportMessage::where('chat_list_id',$id)->orderByDesc('id')->get();
-       return view('faqManagement.faq_querie_chat',compact('chat_list_messages'));
+//       $id = decrypt($id);
+       $chat_list_messages = SupportMessage::where('chat_list_id', $id)->get();
+       return view('faqManagement.faq_querie_chat', compact('chat_list_messages'));
    }
 }

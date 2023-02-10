@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class RadiusOfSearch extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['miles'];
 }

@@ -6,6 +6,7 @@ use App\Models\AppEmergencyNumber;
 use App\Models\ChargesPerMile;
 use App\Models\Commission;
 use App\Models\Page;
+use App\Models\RadiusOfSearch;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -23,7 +24,7 @@ class InitialSettingsSeeder extends Seeder
         ])->save();
 
         ChargesPerMile::firstOrNew([
-            'charges_per_mile' => "20"
+            'charges_per_mile' => "0.99"
         ])->save();
 
         Page::firstOrNew([
@@ -34,7 +35,11 @@ class InitialSettingsSeeder extends Seeder
         ])->save();
 
         Commission::firstOrNew([
-            'commission' => "2.5"
+            'commission' => "20"
+        ])->save();
+
+        RadiusOfSearch::firstOrNew([
+            'miles' => "100"
         ])->save();
     }
 }
