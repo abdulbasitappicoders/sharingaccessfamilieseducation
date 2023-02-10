@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AppVersionSettingController;
 use App\Http\Controllers\Admin\FAQController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{AdminController, ChargesPerMileController, CommissonController, EmergencyController, UserController,PageController, RadiusOfSearchController};
@@ -70,6 +71,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     //Radius of search Module
     Route::get('admin/radius_of_search', [RadiusOfSearchController::class, 'index'])->name('admin.radius_of_search');
     Route::post('admin/update_miles', [RadiusOfSearchController::class, 'update'])->name('admin.update_miles');
+
+    //App Version Settings
+    Route::get('admin/app_version_settings', [AppVersionSettingController::class, 'index'])->name('admin.app_version_settings');
+    Route::post('admin/update_app_version_settings', [AppVersionSettingController::class, 'update'])->name('admin.update_app_version_settings');
 
     //Emergency Module
     Route::get('admin/emergency', [EmergencyController::class, 'index'])->name('admin.emergency');
