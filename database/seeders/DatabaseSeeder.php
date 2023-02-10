@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateStaffSeeder::class);
         $this->call(RideTypeSeeder::class);
         $this->call(AppVersionSettingSeeder::class);
+        $this->call(PaymentWithCardSeeder::class);
     }
 }
