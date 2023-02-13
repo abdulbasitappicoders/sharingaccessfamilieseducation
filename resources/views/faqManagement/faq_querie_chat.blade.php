@@ -38,8 +38,6 @@
         <div class="card">
 
 
-            {{-- ////////////////// --}}
-            {{-- <h4 class="text-dark font-weight-bold col-9 m-2">Chat</h4>--}}
             <div class="chatboxarea">
                 <br>
                 <div class="container">
@@ -129,7 +127,6 @@
                 </div>
             </div>
 
-            {{-- ////////////////// --}}
         </div>
     </div>
 
