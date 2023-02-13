@@ -279,8 +279,8 @@ class FAQController extends Controller
             $baseQuery = $baseQuery->where("faq_category_id", $request->category_id);
         }
 //        dd($baseQuery);
-//        $chatlists = $baseQuery->onlyTrashed()->get();
-        $chatlists = $baseQuery->get();
+        $chatlists = $baseQuery->onlyTrashed()->get();
+//        $chatlists = $baseQuery->get();
 //        dd($chatlists);
         return view('faqManagement.faq_queries', compact('faq_categories', 'chatlists'));
     }
