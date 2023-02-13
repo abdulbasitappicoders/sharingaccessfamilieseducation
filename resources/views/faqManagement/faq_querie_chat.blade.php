@@ -47,6 +47,7 @@
                                         <div class="chat-body">
                                             @forelse($chat_list_messages as $chat)
                                                 @if($chat->chatList->to != $chat->from)
+
                                                     @if($chat->type == 'text')
                                                         <div class="answer left">
                                                             <div class="avatar">
@@ -64,7 +65,31 @@
                                                                 class="time">{{ $chat->created_at->diffForHumans() }}</div>
                                                         </div>
                                                     @endif
+
+                                                    @if($chat->type == 'image')
+
+                                                            <div class="answer left">
+                                                                <div class="avatar">
+                                                                    <img
+                                                                        src="{{$chat->fromUser->getProfileImage()}}"
+                                                                        alt="User name">
+                                                                    <div class="status offline"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="name">{{ ucfirst($chat->fromUser->username)??'' }} </div>
+                                                                <div class="text">
+                                                                    @forelse($chat->messagesFiles as $image)
+                                                                        <img src='{{ asset('assets/images/'."$image->name") }}' alt="description of myimage" WIDTH="100%">
+                                                                    @empty
+                                                                    @endforelse
+                                                                </div>
+                                                                <div
+                                                                    class="time">{{ $chat->created_at->diffForHumans() }}</div>
+                                                            </div>
+                                                    @endif
+
                                                 @else
+
                                                     @if($chat->type == 'text')
                                                         <div class="answer right">
                                                             <div class="avatar">
@@ -82,6 +107,28 @@
                                                                 class="time">{{ $chat->created_at->diffForHumans() }}</div>
                                                         </div>
                                                     @endif
+
+                                                    @if($chat->type == 'image')
+                                                            <div class="answer right">
+                                                                <div class="avatar">
+                                                                    <img
+                                                                        src="{{$chat->fromUser->getProfileImage()}}"
+                                                                        alt="User name">
+                                                                    <div class="status offline"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="name">{{ ucfirst($chat->fromUser->username)??'' }} </div>
+                                                                <div class="text">
+                                                                    @forelse($chat->messagesFiles as $image)
+                                                                        <img src='{{ asset('assets/images/'."$image->name") }}' alt="description of myimage">
+                                                                    @empty
+                                                                    @endforelse
+                                                                </div>
+                                                                <div
+                                                                    class="time">{{ $chat->created_at->diffForHumans() }}</div>
+                                                            </div>
+                                                     @endif
+
                                                 @endif
                                             @empty
                                             @endforelse
