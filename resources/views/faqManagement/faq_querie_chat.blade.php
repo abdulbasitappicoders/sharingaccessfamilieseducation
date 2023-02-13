@@ -73,7 +73,7 @@
                                             <div class="name">{{ ucfirst($chat->fromUser->username)??'' }} </div>
                                             <div class="text">
                                                 @forelse($chat->messagesFiles as $image)
-                                                <img src='{{ asset(' images/'."$image->name") }}'
+                                                <img src='{{ asset('/images/'."$image->name") }}'
                                                 alt="description of myimage" WIDTH="100%">
                                                 @empty
                                                 @endforelse
@@ -107,7 +107,7 @@
                                             <div class="name">{{ ucfirst($chat->fromUser->username)??'' }} </div>
                                             <div class="text">
                                                 @forelse($chat->messagesFiles as $image)
-                                                <img src='{{ asset(' images/'."$image->name") }}'
+                                                <img src='{{ asset('/images/'."$image->name") }}'
                                                 alt="description of myimage">
                                                 @empty
                                                 @endforelse
