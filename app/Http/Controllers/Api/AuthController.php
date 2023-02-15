@@ -121,7 +121,7 @@ class AuthController extends Controller
                         }
                         $user->total_earnings = $total_earnings;
                         $user->total_rides = $rides;
-                        
+
                         $onboarding_url = $stripeService->getConnectUrl($user->stripeAccount->stripe_account_id, $user->id);
                         $data = [
                             'token'     => $user->createToken('customer-Token')->accessToken,
@@ -191,8 +191,8 @@ class AuthController extends Controller
         }
     }
 
-    public function socialLogin(Request $request){
-
+    public function socialLogin(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -200,21 +200,39 @@ class AuthController extends Controller
             'email' => 'required',
             'role' => 'required',
         ]);
+
         if ($validator->fails()) return apiresponse(false, implode("\n", $validator->errors()->all()));
+
         try {
-            $user = User::where('email',$request->email)->where('role', $request->role)->first();
-            if($user){
+            $user = User::where('email', $request->email)->where('role', $request->role)->first();
+            $rides = 0;
+            $total_earnings = 0;
+            if ($user) {
                 if ($request->has('device_id') and !empty($request->device_id)) {
-                    User::find($user->id)->update(['device_id' => $request->device_id, 'login_count' => $user->login_count+1]);
-                    $user = User::find($user->id);
+                    User::find($user->id)->update(['device_id' => $request->device_id, 'login_count' => $user->login_count + 1]);
+                    $user = User::where('id', $user->id)->with('licence', 'vehicle', 'childrens', 'childrens.payment_method', 'userAvailability', 'UserFvc')->first();
+
+                    if ($user->role == 'rider') {
+                        $rides = Ride::where('rider_id', $user->id)
+                            ->where('status', 'completed')
+                            ->with('driver', 'rider', 'rideLocations', 'ridePayment', 'review')->count();
+                    }
+
+                    if ($user->role == 'rider') {
+                        $total_earnings = RidePayment::where('rider_id', $user->id)->sum('total_amount');
+                    }
+
+                    $user->total_earnings = $total_earnings;
+                    $user->total_rides = $rides;
                 }
                 $data = [
                     'token' => $user->createToken('customer-Token')->accessToken,
                     'user' => $user
                 ];
-            }else{
-                $user = User::where('email',$request->email)->withTrashed()->first();
-                if($user){
+
+            } else {
+                $user = User::where('email', $request->email)->withTrashed()->first();
+                if ($user) {
                     return apiresponse(false, 'Your account has been deleted!');
                 }
                 $stripeService = new StripeService();
@@ -223,9 +241,22 @@ class AuthController extends Controller
                 $data['stripe_customer_id'] = $stripeService->createCustomer($request)->id;
                 $data['role'] = 'rider';
                 $user = User::create($data);
-                $user = User::find($user->id);
-                $user->login_count = $user->login_count+1;
+//                $user = User::find($user->id);
+                $user = User::where('id', $user->id)->with('licence', 'vehicle', 'childrens', 'childrens.payment_method', 'userAvailability', 'UserFvc')->first();
+                $user->login_count = $user->login_count + 1;
                 $user->save();
+
+                if ($user->role == 'rider') {
+                    $rides = Ride::where('rider_id', $user->id)
+                        ->where('status', 'completed')
+                        ->with('driver', 'rider', 'rideLocations', 'ridePayment', 'review')->count();
+                }
+                if ($user->role == 'rider') {
+                    $total_earnings = RidePayment::where('rider_id', $user->id)->sum('total_amount');
+                }
+                $user->total_earnings = $total_earnings;
+                $user->total_rides = $rides;
+
                 $data = [
                     'token' => $user->createToken('customer-Token')->accessToken,
                     'user' => $user
@@ -245,9 +276,9 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return apiresponse(false, implode("\n", $validator->errors()->all()));
-        } 
+        }
 
-        try {   
+        try {
             $user = User::where('email', $request->email)->first();
             $code = rand(1000, 9999);
             if (!$user) {
@@ -275,7 +306,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return apiresponse(false, implode("\n", $validator->errors()->all()));
-        } 
+        }
 
         $user = User::where('email', $request->email)->first();
         if($request->code == $user->confirmation_code){
@@ -315,7 +346,7 @@ class AuthController extends Controller
         //     if($res){
         //         return "done";
         //     }
-            
+
         // }
         return "3" + '0um';
     }
