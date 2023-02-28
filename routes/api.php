@@ -119,6 +119,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
 
     //General Ride
     Route::get('scheduleRides',[RideController::class, 'scheduleRides'])->name('scheduleRides');
+    Route::get('webScheduleRides',[RideController::class, 'webScheduleRides'])->name('webScheduleRides');
     Route::get('pastRides',[RideController::class, 'pastRides'])->name('pastRides');
     Route::get('canceledRides',[RideController::class, 'canceledRides'])->name('canceledRides');
     Route::get('totalRides',[RideController::class, 'totalRides'])->name('totalRides');
