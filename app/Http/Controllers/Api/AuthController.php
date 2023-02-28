@@ -30,10 +30,16 @@ class AuthController extends Controller
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
         try {
-            $checkUser = User::where('email', $request->email)->where('role', $request->role)->first();
-            if($checkUser) {
-                return apiresponse(false, __($request->email.' with '.$request->role . ' role already exists'));
+            $checkUserEmail = User::where('email', $request->email)->where('role', $request->role)->first();
+            if ($checkUserEmail) {
+                return apiresponse(false, __($request->email . ' with ' . $request->role . ' role already exists'));
             }
+
+            $checkUserPhone = User::where('phone', $request->phone)->where('role', $request->role)->first();
+            if ($checkUserPhone) {
+                return apiresponse(false, __($request->phone . ' with ' . $request->role . ' role already exists'));
+            }
+
             $code = rand(10000,99999);
             $stripeService = new StripeService();
             $data = $request->except(['password']);
@@ -123,6 +129,9 @@ class AuthController extends Controller
                         $user->total_rides = $rides;
 
                         $onboarding_url = $stripeService->getConnectUrl($user->stripeAccount->stripe_account_id, $user->id);
+                        if ($user->role == 'rider') {
+                            $user->is_completed_profile = 1;
+                        }
                         $data = [
                             'token'     => $user->createToken('customer-Token')->accessToken,
                             'user'      => $user,

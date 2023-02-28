@@ -50,6 +50,7 @@ class User extends Authenticatable
         'password',
         'onboarding_url',
         'is_authenticated',
+        'is_completed_profile',
     ];
 
     /**

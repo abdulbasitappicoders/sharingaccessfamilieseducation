@@ -194,4 +194,16 @@ if (!function_exists('formattedDate')) {
     }
 }
 
+if (!function_exists('getSanitizeString')) {
+
+    function getSanitizeString($str)
+    {
+        $str = preg_replace('/[^A-Za-z0-9. -]/', '', $str);
+        $str = preg_replace('#[^\pL\pN/-]+#', '', $str);
+        $str = preg_replace('/\s+/', '', $str);
+
+        return strtolower($str);
+    }
+}
+
 ?>

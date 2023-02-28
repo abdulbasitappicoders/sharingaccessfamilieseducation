@@ -602,9 +602,29 @@ class RideController extends Controller
                 $rides = Ride::where('driver_id',Auth::user()->id)
                 ->where('type','schedule')
                 ->whereIn('status',['accepted','confirmed'])
-                ->with('driver','driver.vehicle','driver.licence','rider','rideLocations','ridePayment',)->orderBy("id","DESC")->paginate(10);
+                ->with('driver','driver.vehicle','driver.licence','rider','rideLocations','ridePayment')->orderBy("id","DESC")->paginate(10);
             }
             return apiresponse(true,'Rides found',$rides);
+        } catch (Exception $e) {
+            return apiresponse(false, $e->getMessage());
+        }
+    }
+
+    public function webScheduleRides()
+    {
+        try {
+            if (Auth::user()->role == 'rider') {
+                $rides = Ride::where('rider_id', Auth::user()->id)
+//                    ->where('type','schedule')
+//                    ->whereIn('status',['accepted','confirmed'])
+                    ->with('driver', 'driver.vehicle', 'driver.licence', 'rider', 'rideLocations', 'ridePayment')->orderBy("id", "DESC")->paginate(10);
+            } else {
+                $rides = Ride::where('driver_id', Auth::user()->id)
+//                    ->where('type','schedule')
+//                    ->whereIn('status',['accepted','confirmed'])
+                    ->with('driver', 'driver.vehicle', 'driver.licence', 'rider', 'rideLocations', 'ridePayment')->orderBy("id", "DESC")->paginate(10);
+            }
+            return apiresponse(true, 'Rides found', $rides);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
@@ -711,8 +731,9 @@ class RideController extends Controller
                 ->whereIn('status',['confirmed','accepted'])
                 ->orderBy('id','desc')
                 ->first();
+
                 if($rideUpdated){
-                    if($rideUpdated->type == 'schedule' && !($rideUpdated->schedule_start_time > Date("Y-m-d H:i:s")) && !($upcomingTime < $rideUpdated->schedule_start_time)){
+                    if($rideUpdated->type == 'schedule' && !($rideUpdated->schedule_start_time > $upcomingTime) && ($upcomingTime < $rideUpdated->schedule_start_time)){
                         return apiresponse(true,'Ride not found');
                     }
                     foreach($rideUpdated->rideLocations as $location){
