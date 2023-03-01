@@ -70,6 +70,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_completed_profile' => 'integer'
     ];
 
     public function getNameAttribute(){
