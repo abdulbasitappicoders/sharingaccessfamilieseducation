@@ -22,11 +22,12 @@ class AuthController extends Controller
     }
 
     public function register(Request $request){
-        $validator = Validator::make($request->all(),[
-            'email'     =>  'required|email',
-            'password'  =>  'min:8',
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'min:8',
+            'phone' => 'required',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
         try {
