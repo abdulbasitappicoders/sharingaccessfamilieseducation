@@ -62,7 +62,7 @@ class ProfileController extends Controller
                             UserLicense::create($license);
                         }
                     }
-                    if (isset($request->fvc) && $request->filled('fvc')) {
+                    if (isset($request->fvc)) {
                         $fvc = $request->fvc;
                         $fvc['user_id'] = Auth::user()->id;
                         $userFvc = UserFvc::where('user_id', Auth::user()->id)->first();
