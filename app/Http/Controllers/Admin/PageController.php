@@ -96,7 +96,7 @@ class PageController extends Controller
         }else{
             return back()->with('message','User not found');
         }
-        
+
     }
 
     public function payments(){

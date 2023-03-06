@@ -46,6 +46,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     Route::get('getEmergencyNumber', 'GeneralController@getEmergencyNumber');
     Route::post('checkAppVersion', 'GeneralController@checkAppVersion');
     Route::get('faqs', [FaqController::class, 'index'])->name('faqs');
+    Route::post('web_contactUs',[ContactUsController::class, 'storeWebContactInquiry'])->name('web_contactUs');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:api'], function () {
