@@ -733,7 +733,7 @@ class RideController extends Controller
                 ->first();
 
                 if($rideUpdated){
-                    if($rideUpdated->type == 'schedule' && !($rideUpdated->schedule_start_time > $upcomingTime) && ($upcomingTime < $rideUpdated->schedule_start_time)){
+                    if($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $upcomingTime) && ($upcomingTime < $rideUpdated->schedule_start_time)){
                         return apiresponse(true,'Ride not found');
                     }
                     foreach($rideUpdated->rideLocations as $location){
