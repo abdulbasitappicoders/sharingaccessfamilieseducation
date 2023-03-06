@@ -122,7 +122,11 @@
                                 <a href="{{route('admin.help')}}"><span class="ml-3 text-white">Help</span></a>
                             </li>
                             <li class="border-bottom">
-                                <a href="{{route('admin.queries')}}"><span class="ml-3 text-white">Queries</span></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><span class="ml-3 text-white">Queries</span></a>
+                                <ul class="sub-menu">
+                                    <li><a class="border-top border-bottom" href="{{ route('admin.queries') }}">Mobile App</a></li>
+                                    <li><a class="border-top border-bottom" href="{{ route('admin.web-queries') }}">Web App</a></li>
+                                </ul>
                             </li>
                             <li class="border-bottom">
                                 <a href="{{route('admin.termsCondition')}}"><span class="ml-3 text-white">Terms & Service</span></a>

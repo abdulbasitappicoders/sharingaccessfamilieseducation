@@ -47,6 +47,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     Route::post('checkAppVersion', 'GeneralController@checkAppVersion');
     Route::get('faqs', [FaqController::class, 'index'])->name('faqs');
     Route::post('web_contactUs',[ContactUsController::class, 'storeWebContactInquiry'])->name('web_contactUs');
+    Route::get('delete-query/{id}',[ContactUsController::class, 'deleteWebInquiry'])->name('delete-query');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:api'], function () {

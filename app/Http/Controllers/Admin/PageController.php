@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Page,ContactUs,User,RidePayment};
+use App\Models\{Page, ContactUs, User, RidePayment, WebContactUs};
 use Illuminate\Support\Facades\Crypt;
 
 class PageController extends Controller
@@ -102,6 +102,23 @@ class PageController extends Controller
     public function payments(){
         $payments = RidePayment::with('ride','driver','rider','payment_method')->orderBy('id', 'DESC')->simplePaginate(10);
         return view('payment.index',compact('payments'));
+    }
+
+    public function webQueries()
+    {
+        $queries = WebContactUs::orderBy('id', 'DESC')->simplePaginate(10);
+        return view('queries.web-queries', compact('queries'));
+    }
+
+    public function deleteWebInquiry(WebContactUs $contactUs)
+    {
+        try {
+            dd($contactUs);
+            $contactUs->delete();
+            return redirect()->back()->with('success', "Inquiry has been deleted successfully.");
+        } catch (Exception $exception) {
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
     }
 
     // public function update_privacyAndPolicy(Request $request){
