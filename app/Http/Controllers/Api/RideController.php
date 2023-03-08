@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\{Ride,RideLocation,User,RideType,UserChildren,RideRequestedTo,RidePayment,ChatList,ChatListMessage, Commission, UserPaymentMethod};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -820,7 +821,7 @@ class RideController extends Controller
                     $user = User::find(Auth::user()->id);
                     $origin = $user->latitude . ',' . $user->longitude;
                     $res = findDistance($destination, $origin);
-                    $ride->time_and_distance = $res['rows'][0]['elements'];
+                    $ride->time_and_distance = sizeof($res['rows']) > 0 ? $res['rows'][0]['elements'] : null;
                     // $ride->total_messages = $chatCount;
                     $arr[] = $ride;
                 } else {
