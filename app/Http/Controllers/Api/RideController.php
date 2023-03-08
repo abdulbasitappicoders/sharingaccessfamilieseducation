@@ -786,50 +786,53 @@ class RideController extends Controller
         }
     }
 
-    public function driverRequestedRides(){
+    public function driverRequestedRides()
+    {
         try {
-            $requestedRides = RideRequestedTo::where('driver_id',Auth::user()->id)->get();
+            $requestedRides = RideRequestedTo::where('driver_id', Auth::user()->id)->get();
+            if ($requestedRides->count == 0) {
+                return apiresponse(false, "No ride found");
+            }
 
-                $arr = [];
-                $destination = "";
-                foreach($requestedRides as $rRide){
-                    $ride = Ride::where('id',$rRide->ride_id)->where('status','requested')->with('driver','rider','rideLocations')->first();
-                    if($ride){
-                        // $chatList = ChatList::where('from',$ride->rider_id)->where('to',$ride->driver_id)->first();
-                        // if(!$chatList){
-                        //     $chatList = ChatList::where('to',$ride->rider_id)->where('from',$ride->driver_id)->first();
-                        // }
-                        // if(!$chatList){
-                        //     $chatListData = [
-                        //         'to' => $ride->rider_id,
-                        //         'from' => $ride->driver_id,
-                        //     ];
-                        //     $chatList = ChatList::create($chatListData);
-                        // }
-                        // $chatCount = ChatListMessage::where('chat_list_id',$chatList->id)->where('is_read',0)->count();
-                        foreach($ride->rideLocations as $location){
-                            if($location->ride_order == 1){
-                                $destination = $location->latitude.','.$location->longitude;
-                                break;
-                            }
+            $arr = [];
+            $destination = "";
+            foreach ($requestedRides as $rRide) {
+                $ride = Ride::where('id', $rRide->ride_id)->where('status', 'requested')->with('driver', 'rider', 'rideLocations')->first();
+                if ($ride) {
+                    // $chatList = ChatList::where('from',$ride->rider_id)->where('to',$ride->driver_id)->first();
+                    // if(!$chatList){
+                    //     $chatList = ChatList::where('to',$ride->rider_id)->where('from',$ride->driver_id)->first();
+                    // }
+                    // if(!$chatList){
+                    //     $chatListData = [
+                    //         'to' => $ride->rider_id,
+                    //         'from' => $ride->driver_id,
+                    //     ];
+                    //     $chatList = ChatList::create($chatListData);
+                    // }
+                    // $chatCount = ChatListMessage::where('chat_list_id',$chatList->id)->where('is_read',0)->count();
+                    foreach ($ride->rideLocations as $location) {
+                        if ($location->ride_order == 1) {
+                            $destination = $location->latitude . ',' . $location->longitude;
+                            break;
                         }
-                        $user = User::find(Auth::user()->id);
-                        $origin = $user->latitude.','.$user->longitude;
-                        $res = findDistance($destination,$origin);
-                        $ride->time_and_distance = $res['rows'][0]['elements'];
-                        // $ride->total_messages = $chatCount;
-                        $arr[] = $ride;
-                    }else{
-                        RideRequestedTo::find($rRide->id)->delete();
                     }
+                    $user = User::find(Auth::user()->id);
+                    $origin = $user->latitude . ',' . $user->longitude;
+                    $res = findDistance($destination, $origin);
+                    $ride->time_and_distance = $res['rows'][0]['elements'];
+                    // $ride->total_messages = $chatCount;
+                    $arr[] = $ride;
+                } else {
+                    RideRequestedTo::find($rRide->id)->delete();
                 }
-                return apiresponse(true,'Rides Found',$arr);
+            }
+            return apiresponse(true, 'Rides Found', $arr);
 
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
     }
-
 
     public function test(){
         // $destination = "";
