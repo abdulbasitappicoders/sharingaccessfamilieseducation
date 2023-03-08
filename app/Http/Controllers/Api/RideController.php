@@ -790,7 +790,7 @@ class RideController extends Controller
     {
         try {
             $requestedRides = RideRequestedTo::where('driver_id', Auth::user()->id)->get();
-            if ($requestedRides->count == 0) {
+            if ($requestedRides->count() == 0) {
                 return apiresponse(false, "No ride found");
             }
 
