@@ -58,6 +58,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'auth:a
     Route::get('onlineOffline',[ProfileController::class, 'onlineOffline'])->name('onlineOffline');
     Route::post('updateIsBoard',[ProfileController::class, 'updateIsBoard'])->name('updateIsBoard');
     Route::post('getUser',[ProfileController::class, 'getUser'])->name('getUser');
+    Route::get('getUserInfo',[ProfileController::class, 'getUserInfo'])->name('getUserInfo');
     Route::post('childDelete',[ProfileController::class, 'childDelete'])->name('childDelete');
     Route::get('deleteUser',[ProfileController::class, 'deleteUser'])->name('deleteUser');
     Route::post('updatePassword', [ProfileController::class, 'updatePassword'])->name('updatePassword');
