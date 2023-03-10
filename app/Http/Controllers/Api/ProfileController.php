@@ -3,8 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\StripeService;
 use Illuminate\Http\Request;
-use App\Models\{User,RidePayment,UserChildren,UserLicense,UserVehicle,UserAvailable,Ride,Review,DriverInsurance, UserFvc};
+use App\Models\{User,
+    RidePayment,
+    UserAccount,
+    UserChildren,
+    UserLicense,
+    UserVehicle,
+    UserAvailable,
+    Ride,
+    Review,
+    DriverInsurance,
+    UserFvc};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Exception;
@@ -339,6 +350,60 @@ class ProfileController extends Controller
 
         } catch (\Exception $e) {
             return apiresponse(false, $e->getMessage());
+        }
+    }
+
+    public function getUserInfo(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $user = User::where('id', auth()->user()->id)->with('licence', 'vehicle', 'childrens', 'UserPaymentMethods', 'childrens.payment_method', 'userAvailability', 'UserFvc')->first();
+
+            if (!$user) {
+                return apiresponse(false, 'User not found', ['data' => null]);
+            }
+
+            $stripeService = new StripeService();
+            /*$userAccount = UserAccount::where('user_id', $user->id)->first();
+            if (!$userAccount) {
+                $createStripeAccount = $stripeService->createOnBoarding($user, '1995-01-01');
+                $userStripeAccount = new UserAccount();
+                $userStripeAccount->user_id = $user->id;
+                $userStripeAccount->stripe_account_id = $createStripeAccount->id;
+                $userStripeAccount->save();
+            }*/
+
+            if ($user->role == 'rider') {
+                $rides = Ride::where('rider_id', $user->id)
+                    ->where('status', 'completed')
+                    ->with('driver', 'rider', 'rideLocations', 'ridePayment', 'review')->count();
+            } else {
+                $rides = Ride::where('driver_id', $user->id)
+                    ->where('status', 'completed')
+                    ->with('driver', 'rider', 'rideLocations', 'ridePayment', 'review', 'UserFvc')->count();
+            }
+            $user->login_count = $user->login_count + 1;
+            $user->save();
+            if ($user->role == 'driver') {
+                $total_earnings = RidePayment::where('driver_id', $user->id)->sum('total_amount');
+            } else {
+                $total_earnings = RidePayment::where('rider_id', $user->id)->sum('total_amount');
+            }
+            $user->total_earnings = $total_earnings;
+            $user->total_rides = $rides;
+
+//            $onboarding_url = $stripeService->getConnectUrl($user->stripeAccount->stripe_account_id, $user->id);
+            if ($user->role == 'rider') {
+                $user->is_completed_profile = 1;
+            }
+            $data = [
+                'user' => $user,
+//                'csrf_token' => csrf_field(),
+//                'onboarding_url' => $onboarding_url,
+            ];
+
+            return apiresponse(true, 'User data has been loaded successfully', $data);
+        } catch (Exception $exception) {
+            return apiresponse(false, $exception->getMessage());
         }
     }
 }
