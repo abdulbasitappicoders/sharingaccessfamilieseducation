@@ -362,7 +362,7 @@ class ProfileController extends Controller
                 return apiresponse(false, 'User not found', ['data' => null]);
             }
 
-            $stripeService = new StripeService();
+//            $stripeService = new StripeService();
             /*$userAccount = UserAccount::where('user_id', $user->id)->first();
             if (!$userAccount) {
                 $createStripeAccount = $stripeService->createOnBoarding($user, '1995-01-01');

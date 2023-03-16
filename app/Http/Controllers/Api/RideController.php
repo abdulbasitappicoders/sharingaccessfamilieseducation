@@ -685,6 +685,7 @@ class RideController extends Controller
     public function latestRide(){
         try {
             $upcomingTime = Date("Y-m-d H:i:s",strtotime('+1 hour'));
+            $pastTime = Date("Y-m-d H:i:s",strtotime('-1 hour'));
             if(Auth::user()->role == 'driver'){
                 // return Date("Y-m-d H:i:s"); //2022-10-06 14:47:18
                 $rideUpdated = Ride::where('driver_id',Auth::user()->id)->with('driver','rider','rideLocations')
@@ -734,7 +735,7 @@ class RideController extends Controller
                 ->first();
 
                 if($rideUpdated){
-                    if($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $upcomingTime) && ($upcomingTime < $rideUpdated->schedule_start_time)){
+                    if($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $pastTime) && ($upcomingTime < $rideUpdated->schedule_start_time)){
                         return apiresponse(true,'Ride not found');
                     }
                     foreach($rideUpdated->rideLocations as $location){
