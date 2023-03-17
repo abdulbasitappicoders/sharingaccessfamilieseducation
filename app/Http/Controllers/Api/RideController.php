@@ -746,8 +746,8 @@ class RideController extends Controller
             } else {
                 $rideUpdated = Ride::where('rider_id', Auth::user()->id)->with('driver', 'rider', 'rideLocations')
                     ->whereIn('status', ['confirmed', 'accepted'])
-                    ->where('type', 'schedule')
-                    ->whereBetween('schedule_start_time', [$pastTime, $upcomingTime])
+//                    ->where('type', 'schedule')
+//                    ->whereBetween('schedule_start_time', [$pastTime, $upcomingTime])
                     // ->whereDate('schedule_start_time', '>=', $pastTime)
                     // ->whereDate('schedule_start_time', '<=', $upcomingTime)
                     ->orderBy('id', 'desc')
