@@ -690,13 +690,13 @@ class RideController extends Controller
             $pastTime = Date("Y-m-d H:i:s", strtotime('-1 hour'));
 
             if (isset($request->timezone) && $request->timezone != null) {
-                $upcomingTime = new \DateTime("+1 hour", new \DateTimeZone($request->timezone));
-                $upcomingTime->format('Y-m-d H:i:s');
+                $upcomingTimeDate = new \DateTime("+1 hour", new \DateTimeZone($request->timezone));
+                $upcomingTime = $upcomingTimeDate->format('Y-m-d H:i:s');
 
-                $pastTime = new \DateTime("-1 hour", new \DateTimeZone($request->timezone));
-                $pastTime->format('Y-m-d H:i:s');
+                $pastTimeDate = new \DateTime("-1 hour", new \DateTimeZone($request->timezone));
+                $pastTime = $pastTimeDate->format('Y-m-d H:i:s');
             }
-
+// dd($pastTime, $upcomingTime);
             if (Auth::user()->role == 'driver') {
                 // return Date("Y-m-d H:i:s"); //2022-10-06 14:47:18
                 $rideUpdated = Ride::where('driver_id', Auth::user()->id)->with('driver', 'rider', 'rideLocations')
@@ -745,8 +745,9 @@ class RideController extends Controller
                 $rideUpdated = Ride::where('rider_id', Auth::user()->id)->with('driver', 'rider', 'rideLocations')
                     ->whereIn('status', ['confirmed', 'accepted'])
                     ->where('type', 'schedule')
-                    ->whereDate('schedule_start_time', '>=', $pastTime)
-                    ->whereDate('schedule_start_time', '<=', $upcomingTime)
+                    ->whereBetween('schedule_start_time', [$pastTime, $upcomingTime])
+                    // ->whereDate('schedule_start_time', '>=', $pastTime)
+                    // ->whereDate('schedule_start_time', '<=', $upcomingTime)
                     ->orderBy('id', 'desc')
                     ->first();
 
