@@ -110,7 +110,7 @@ class RideController extends Controller
                 }
                 $response['users'] = $updatedUsers;
                 $response['ride'] = Ride::where('id',$res->id)->with(['driver','rider','rideLocations','rideLocations.children'])->first();
-                $response['schedule_type'] = false;
+                $response['schedule_type'] = true;
                 broadcast(new \App\Events\InitialRideEvent($response))->toOthers();
                 if($res){
                     return apiresponse(true,'Searching for driver', $response);
@@ -632,18 +632,19 @@ class RideController extends Controller
         }
     }
 
-    public function pastRides(){
+    public function pastRides()
+    {
         try {
-            if(Auth::user()->role == 'rider'){
-                $rides = Ride::where('rider_id',Auth::user()->id)
-                ->whereIn('status',['completed','canceled'])
-                ->with('driver','rider','rideLocations','ridePayment','review','ridePayment.payment_method')->orderBy("id","DESC")->paginate(10);
-            }else{
-                $rides = Ride::where('driver_id',Auth::user()->id)
-                ->whereIn('status',['completed','canceled'])
-                ->with('driver','rider','rideLocations','ridePayment','review','ridePayment.payment_method')->orderBy("id","DESC")->paginate(10);
+            if (Auth::user()->role == 'rider') {
+                $rides = Ride::where('rider_id', Auth::user()->id)
+                    ->whereIn('status', ['completed', 'canceled'])
+                    ->with('driver', 'rider', 'rideLocations', 'ridePayment', 'review', 'ridePayment.payment_method')->orderBy("id", "DESC")->paginate(10);
+            } else {
+                $rides = Ride::where('driver_id', Auth::user()->id)
+                    ->whereIn('status', ['completed', 'canceled'])
+                    ->with('driver', 'rider', 'rideLocations', 'ridePayment', 'review', 'ridePayment.payment_method')->orderBy("id", "DESC")->paginate(10);
             }
-            return apiresponse(true,'Rides found',$rides);
+            return apiresponse(true, 'Rides found', $rides);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
@@ -738,7 +739,7 @@ class RideController extends Controller
                     $rideUpdated->vehicle = $rideUpdated->driver->vehicle;
                     $rideUpdated->total_messages = $chatCount;
                     $rideUpdated->time_and_distance = $res['rows'][0]['elements'];
-                    $rideUpdated->schedule_type = true;
+                    $rideUpdated->schedule_type = false;
                     return apiresponse(true, 'Ride found', $rideUpdated);
                 } else {
                     return apiresponse(true, 'Ride not found');
