@@ -701,16 +701,18 @@ class RideController extends Controller
                 // return Date("Y-m-d H:i:s"); //2022-10-06 14:47:18
                 $rideUpdated = Ride::where('driver_id', Auth::user()->id)->with('driver', 'rider', 'rideLocations')
                     ->whereIn('status', ['confirmed', 'accepted'])
+                    ->where('type', 'schedule')
+                    ->whereBetween('schedule_start_time', [$pastTime, $upcomingTime])
                     ->orderBy('id', 'desc')
                     ->first();
                 // return $rideUpdated;
 
                 // return $upcomingTime;
                 if ($rideUpdated) {
-                    if ($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $upcomingTime) && ($upcomingTime < $rideUpdated->schedule_start_time)) {
+                    /*if ($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $upcomingTime) && ($upcomingTime < $rideUpdated->schedule_start_time)) {
 //                    if($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $pastTime) && ($upcomingTime < $rideUpdated->schedule_start_time)){
                         return apiresponse(true, 'Ride not found');
-                    }
+                    }*/
                     $chatList = ChatList::where('from', $rideUpdated->rider_id)->where('to', $rideUpdated->driver_id)->first();
                     if (!$chatList) {
                         $chatList = ChatList::where('to', $rideUpdated->rider_id)->where('from', $rideUpdated->driver_id)->first();
