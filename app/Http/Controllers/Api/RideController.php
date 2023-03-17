@@ -738,7 +738,7 @@ class RideController extends Controller
                     $rideUpdated->vehicle = $rideUpdated->driver->vehicle;
                     $rideUpdated->total_messages = $chatCount;
                     $rideUpdated->time_and_distance = $res['rows'][0]['elements'];
-                    $rideUpdated->schedule_type = false;
+                    $rideUpdated->schedule_type = $rideUpdated->type == 'schedule' ? true : false;
                     return apiresponse(true, 'Ride found', $rideUpdated);
                 } else {
                     return apiresponse(true, 'Ride not found');
@@ -770,7 +770,7 @@ class RideController extends Controller
                     $rideUpdated->vehicle = $rideUpdated->driver->vehicle;
                     $rideUpdated->time_and_distance = $res['rows'][0]['elements'][0]['duration']['text'];
                     $rideUpdated->schedule = $res['rows'][0]['elements'][0]['duration']['text'];
-                    $rideUpdated->schedule_type = true;
+                    $rideUpdated->schedule_type = $rideUpdated->type == 'schedule' ? true : false;
                     return apiresponse(true, 'Ride found', $rideUpdated);
                 } else {
                     return apiresponse(true, 'Ride not found');
