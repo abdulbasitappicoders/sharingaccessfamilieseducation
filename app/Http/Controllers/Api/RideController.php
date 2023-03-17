@@ -690,13 +690,13 @@ class RideController extends Controller
             $upcomingTime = Date("Y-m-d H:i:s", strtotime('+1 hour'));
             $pastTime = Date("Y-m-d H:i:s", strtotime('-1 hour'));
 
-            if (isset($request->timezone) && $request->timezone != null) {
+            /*if (isset($request->timezone) && $request->timezone != null) {
                 $upcomingTimeDate = new \DateTime("+1 hour", new \DateTimeZone($request->timezone));
                 $upcomingTime = $upcomingTimeDate->format('Y-m-d H:i:s');
 
                 $pastTimeDate = new \DateTime("-1 hour", new \DateTimeZone($request->timezone));
                 $pastTime = $pastTimeDate->format('Y-m-d H:i:s');
-            }
+            }*/
 // dd($pastTime, $upcomingTime);
             if (Auth::user()->role == 'driver') {
                 // return Date("Y-m-d H:i:s"); //2022-10-06 14:47:18
