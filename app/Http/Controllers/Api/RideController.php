@@ -689,6 +689,7 @@ class RideController extends Controller
         try {
             $upcomingTime = Date("Y-m-d H:i:s", strtotime('+1 hour'));
             $pastTime = Date("Y-m-d H:i:s", strtotime('-1 hour'));
+            $currentTime = Date("Y-m-d H:i:s");
 
             if (isset($request->timezone) && $request->timezone != null) {
                 $upcomingTimeDate = new \DateTime("+1 hour", new \DateTimeZone($request->timezone));
@@ -696,6 +697,9 @@ class RideController extends Controller
 
                 $pastTimeDate = new \DateTime("-1 hour", new \DateTimeZone($request->timezone));
                 $pastTime = $pastTimeDate->format('Y-m-d H:i:s');
+
+                $currentTimeDate = new \DateTime(new \DateTimeZone($request->timezone));
+                $currentTime = $pastTimeDate->format('Y-m-d H:i:s');
             }
 
             if (Auth::user()->role == 'driver') {
@@ -738,7 +742,8 @@ class RideController extends Controller
                     $rideUpdated->vehicle = $rideUpdated->driver->vehicle;
                     $rideUpdated->total_messages = $chatCount;
                     $rideUpdated->time_and_distance = $res['rows'][0]['elements'];
-                    $rideUpdated->schedule_type = $rideUpdated->type == 'schedule' ? true : false;
+//                    $rideUpdated->schedule_type = $rideUpdated->type == 'schedule' ? true : false;
+                    $rideUpdated->schedule_type = $currentTime >= $rideUpdated->schedule_start_time ? true : false;
                     return apiresponse(true, 'Ride found', $rideUpdated);
                 } else {
                     return apiresponse(true, 'Ride not found');
@@ -752,7 +757,6 @@ class RideController extends Controller
                     // ->whereDate('schedule_start_time', '<=', $upcomingTime)
                     ->orderBy('id', 'desc')
                     ->first();
-
                 if ($rideUpdated) {
                     if ($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $pastTime) && ($upcomingTime < $rideUpdated->schedule_start_time)) {
                         return apiresponse(true, 'Ride not found');
@@ -763,6 +767,7 @@ class RideController extends Controller
                             break;
                         }
                     }
+
                     $user = User::find($rideUpdated->driver_id);
                     $origin = $user->latitude . ',' . $user->longitude;
 
@@ -770,7 +775,8 @@ class RideController extends Controller
                     $rideUpdated->vehicle = $rideUpdated->driver->vehicle;
                     $rideUpdated->time_and_distance = $res['rows'][0]['elements'][0]['duration']['text'];
                     $rideUpdated->schedule = $res['rows'][0]['elements'][0]['duration']['text'];
-                    $rideUpdated->schedule_type = $rideUpdated->type == 'schedule' ? true : false;
+//                    $rideUpdated->schedule_type = $rideUpdated->type == 'schedule' ? true : false;
+                    $rideUpdated->schedule_type = $currentTime >= $rideUpdated->schedule_start_time ? true : false;
                     return apiresponse(true, 'Ride found', $rideUpdated);
                 } else {
                     return apiresponse(true, 'Ride not found');
