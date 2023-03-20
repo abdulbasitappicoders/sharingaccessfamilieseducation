@@ -714,7 +714,8 @@ class RideController extends Controller
 
                 // return $upcomingTime;
                 if ($rideUpdated) {
-                    if ($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $pastTime) && ($upcomingTime < $rideUpdated->schedule_start_time)) {
+                    // if ($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $pastTime) && ($upcomingTime < $rideUpdated->schedule_start_time)) {
+                    if ($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time >= $currentTime) && ($upcomingTime <= $rideUpdated->schedule_start_time)) {
                         return apiresponse(true, 'Ride not found');
                     }
                     $chatList = ChatList::where('from', $rideUpdated->rider_id)->where('to', $rideUpdated->driver_id)->first();
@@ -758,7 +759,8 @@ class RideController extends Controller
                     ->orderBy('id', 'desc')
                     ->first();
                 if ($rideUpdated) {
-                    if ($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $pastTime) && ($upcomingTime < $rideUpdated->schedule_start_time)) {
+                    // if ($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time > $pastTime) && ($upcomingTime < $rideUpdated->schedule_start_time)) {
+                    if ($rideUpdated->type == 'schedule' && ($rideUpdated->schedule_start_time >= $currentTime) && ($upcomingTime <= $rideUpdated->schedule_start_time)) {
                         return apiresponse(true, 'Ride not found');
                     }
                     foreach ($rideUpdated->rideLocations as $location) {
