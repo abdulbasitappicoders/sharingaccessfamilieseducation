@@ -698,7 +698,7 @@ class RideController extends Controller
                 $pastTimeDate = new \DateTime("-1 hour", new \DateTimeZone($request->timezone));
                 $pastTime = $pastTimeDate->format('Y-m-d H:i:s');
 
-                $currentTimeDate = new \DateTime(new \DateTimeZone($request->timezone));
+                $currentTimeDate = new \DateTime("now", new \DateTimeZone($request->timezone));
                 $currentTime = $currentTimeDate->format('Y-m-d H:i:s');
             }
 
