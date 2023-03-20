@@ -78,7 +78,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-7 col-md-6">
                                 <div class="title-heading">
-                                    <h1 class="heading text-white mb-3">Sharing Access with Families to a Good Education</h1>
+                                    <h1 class="heading text-white mb-3">Sharing Access with Families To a Good Education</h1>
                                     <p class="para-desc">A viable platform that’s keen on changing the aura of transportation by connecting riders with professional drivers!</p>
                                     <div class="row justify-content-center">
                     <div class="col-md-12">
