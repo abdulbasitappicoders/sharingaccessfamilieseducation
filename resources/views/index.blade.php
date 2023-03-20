@@ -62,7 +62,7 @@
                     </ul><!--end navbar nav-->
                     <div>
                         <a href="#download" class="login-button mouse-down ml-3">Download</a>
-                        <a href="https://sharingaccessfamilieseducation.web.app/" class="login-button mouse-down ml-3 btn-primary" style="background-color:#190a40; ">Web Application</a>
+                        <a href="https://sharingaccessfamilieseducation.web.app/" class="login-button mouse-down ml-3">Web Application</a>
                     </div><!--end login button-->
 			    </div><!--end collapse-->
 		    </div><!--end container-->
