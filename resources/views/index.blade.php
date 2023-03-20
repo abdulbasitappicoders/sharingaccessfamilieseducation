@@ -7,7 +7,7 @@
         <title>Safe Mobile App</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="" />
-        
+
         <!-- favicon -->
         <link rel="shortcut icon" href="{{asset('landing/images/favicon.ico')}}">
         <!-- Bootstrap -->
@@ -16,11 +16,11 @@
         <link href="{{asset('landing/css/magnific-popup.css')}}" rel="stylesheet" type="text/css" />
         <!-- Icon -->
         <link href="{{asset('landing/css/materialdesignicons.min.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{asset('landing/css/pe-icon-7-stroke.css')}}" rel="stylesheet" type="text/css" />          
+        <link href="{{asset('landing/css/pe-icon-7-stroke.css')}}" rel="stylesheet" type="text/css" />
         <!-- SLICK SLIDER -->
-        <link rel="stylesheet" href="{{asset('landing/css/owl.carousel.min.css')}}"/> 
-        <link rel="stylesheet" href="{{asset('landing/css/owl.theme.css')}}"/> 
-        <link rel="stylesheet" href="{{asset('landing/css/owl.transitions.css')}}"/>   
+        <link rel="stylesheet" href="{{asset('landing/css/owl.carousel.min.css')}}"/>
+        <link rel="stylesheet" href="{{asset('landing/css/owl.theme.css')}}"/>
+        <link rel="stylesheet" href="{{asset('landing/css/owl.transitions.css')}}"/>
         <!-- Swiper CSS -->
         <link rel="stylesheet" href="{{asset('landing/css/swiper.min.css')}}">
         <!-- Animation -->
@@ -58,10 +58,11 @@
 			            <li class="nav-item">
 			                <a class="nav-link" href="#work">Screenshots</a>
 			            </li>
-			            
+
                     </ul><!--end navbar nav-->
                     <div>
                         <a href="#download" class="login-button mouse-down ml-3">Download</a>
+                        <a href="#download" class="login-button mouse-down ml-3 btn-primary" style="background-color:#190a40; ">Web Application</a>
                     </div><!--end login button-->
 			    </div><!--end collapse-->
 		    </div><!--end container-->
@@ -96,7 +97,7 @@
                                 </div>
                             </div><!--end col-->
                         </div><!--end row-->
-                    </div><!--end container--> 
+                    </div><!--end container-->
                     <div class="container-fluid">
                         <div class="row">
                             <div class="home-shape">
@@ -119,10 +120,10 @@
 
                     <div class="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
                         <div class="about-app ml-lg-4">
-                            
+
                             <h1 class="mt-2 mb-3">About Us</h1>
                             <p>After tiring work, none of us have the energy to deal with loads of traffic while going home - and if you don’t want to drive, who would help you get to your destination? Well, allow us to introduce you to SAFE! <br><br> Safe is a profound transportation application that brings riders closer to professional drivers so that reaching destinations isn’t an issue for anyone! Offering secure trips in an affordable price range, the SAFE Application has everything that you need!  </p>
-                            
+
                         </div>
                     </div><!--end col-->
                 </div>
@@ -136,7 +137,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="section-title text-center">
-                            
+
                             <h1 class=" mt-3 mb-5">App's Features</h1>
                             <p class="text-muted mx-auto para-desc mb-0">This application comes in handy with a range of exquisite features - some of the viable ones are enlisted below!</p>
                         </div>
@@ -271,7 +272,7 @@
                         </div>
                     </div><!--end col-->
                 </div><!--end row-->
-    
+
                 <!-- Swiper -->
                 <div class="row justify-content-center mt-4 pt-2">
                     <div class="col-12 swiper-container">
@@ -289,14 +290,14 @@
                         <div class="swiper-slide"><img src="{{asset('landing/images/sc/11.png')}}" class="img-fluid" alt="App Screenshots"></div>
                         <div class="swiper-slide"><img src="{{asset('landing/images/sc/12.png')}}" class="img-fluid" alt="App Screenshots"></div>
                         <div class="swiper-slide"><img src="{{asset('landing/images/sc/13.png')}}" class="img-fluid" alt="App Screenshots"></div>
-                        </div>    
+                        </div>
                         <!-- Add Arrows  -->
                         <div class="swiper-button-next">
                             <i class="mdi mdi-chevron-right"></i>
                         </div>
                         <div class="swiper-button-prev ">
                             <i class="mdi mdi-chevron-left"></i>
-                        </div>    
+                        </div>
                     </div>
 
                     <div class="col-lg-5 col-md-5 col-12 mb-0 mb-md-5 mb-4 mb-sm-0">
@@ -316,10 +317,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="section-title text-center">
-                            
+
                             <h4 class="title text-uppercase text-light mt-3 mb-5">Get The App</h4>
                             <h1 class="text-light">It’s Free to Download for Everyone</h1>
-                            
+
                         </div>
                     </div><!--end col-->
                 </div><!--end row-->
@@ -336,14 +337,14 @@
         </section><!--end section-->
         <!-- CTA Download End -->
 
-      
+
         <!-- Footer Start -->
         <footer class="footer">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-sm-6">
                         <div class="text-sm-left">
-                            <p class="mb-0">2022 © S.A.F.E. All Rights Reserved.</p>
+                            <p class="mb-0">{{date('Y')}} © S.A.F.E. All Rights Reserved.</p>
                         </div>
                     </div><!--end col-->
 
@@ -351,16 +352,16 @@
                         <ul class="list-unstyled text-sm-right social-icon social mb-0 mt-4 mt-sm-0">
                             <li class="list-inline-item"><a href="{{route('privacy_policy')}}">Privacy Policy</a></li>
                             <li class="list-inline-item"><a href="{{route('term_and_condition')}}">Terms & Condition</a></li>
-                        </ul>                        
+                        </ul>
                     </div><!--end col-->
                 </div><!--end row-->
             </div><!--end container-->
         </footer><!--end footer-->
         <!-- Footer End -->
-        
+
         <!-- Back to top -->
-        <a href="#" class="back-to-top text-center" id="back-to-top"> 
-            <i class="mdi mdi-chevron-up d-block"> </i> 
+        <a href="#" class="back-to-top text-center" id="back-to-top">
+            <i class="mdi mdi-chevron-up d-block"> </i>
         </a>
         <!-- Back to top -->
         <!-- javascript -->
