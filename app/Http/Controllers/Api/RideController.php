@@ -699,7 +699,7 @@ class RideController extends Controller
                 $pastTime = $pastTimeDate->format('Y-m-d H:i:s');
 
                 $currentTimeDate = new \DateTime(new \DateTimeZone($request->timezone));
-                $currentTime = $pastTimeDate->format('Y-m-d H:i:s');
+                $currentTime = $currentTimeDate->format('Y-m-d H:i:s');
             }
 
             if (Auth::user()->role == 'driver') {
