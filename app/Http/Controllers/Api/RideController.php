@@ -21,12 +21,14 @@ use Illuminate\Support\Arr;
 class RideController extends Controller
 {
     protected $total_distance = 0;
+
     public function __construct()
     {
         $this->stripe = new StripeClient(env('STRIPE_SECRET_KEY'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'ride_for' => 'required',
             'ride_locations' => 'required',
@@ -38,33 +40,35 @@ class RideController extends Controller
             'total_time' => 'required',
             'total_price' => 'required',
         ]);
+
         if ($validator->fails()) {
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
+
         try {
 
-            $previousRide = Ride::where('rider_id', auth()->user()->id)->where('type','normal')->where(function($q){
+            $previousRide = Ride::where('rider_id', auth()->user()->id)->where('type', 'normal')->where(function ($q) {
                 $q->where('status', 'accepted')->orWhere('status', 'confirmed');
             })->first();
-            if($previousRide) {
+            if ($previousRide) {
                 return apiresponse(false, __('Ride already booked'), ['data' => null]);
             }
 //            $adminDistance =
             $distances = DB::select('SELECT id,latitude, longitude,vehicle_type,role, SQRT(
-                POW(69.1 * (latitude - '.$request->pickUpLat.'), 2) +
-                POW(69.1 * ('.$request->pickUpLong.' - longitude) * COS(latitude / 57.3), 2)) AS distance
+                POW(69.1 * (latitude - ' . $request->pickUpLat . '), 2) +
+                POW(69.1 * (' . $request->pickUpLong . ' - longitude) * COS(latitude / 57.3), 2)) AS distance
                 FROM users
                 WHERE role = \'driver\'
                 AND is_online = \'1\'
-                AND vehicle_type = \''.$request->vehicle_type.'\'
-                HAVING distance < '.radius_of_searches().' ORDER BY distance
+                AND vehicle_type = \'' . $request->vehicle_type . '\'
+                HAVING distance < ' . radius_of_searches() . ' ORDER BY distance
             ;');
-            if($distances){
+            if ($distances) {
                 $data['rider_id'] = Auth::user()->id;
                 $data['request_time'] = Carbon::now();
                 $data['status'] = 'requested';
                 $data['ride_for'] = $request->ride_for;
-                if($request->type == 'schedule'){
+                if ($request->type == 'schedule') {
                     $data['schedule_start_time'] = $request->schedule_start_time;
                 }
                 $data['type'] = $request->type;
@@ -74,9 +78,9 @@ class RideController extends Controller
                 $data['estimated_price'] = $request->total_price;
                 $res = Ride::create($data);
                 // return gettype($res);
-                foreach($distances as $user){
-                    $resUser = User::where('id',$user->id)->with('vehicle','toReview')->first();
-                    if(!$resUser) {
+                foreach ($distances as $user) {
+                    $resUser = User::where('id', $user->id)->with('vehicle', 'toReview')->first();
+                    if (!$resUser) {
                         continue;
                     }
                     $resUser->distance = $user->distance;
@@ -88,14 +92,14 @@ class RideController extends Controller
                     $title = 'You have a new ride request from ' . Auth::user()->username;
                     $body = 'You have a new ride request from ' . Auth::user()->username;
                     SendNotification($resUser->device_id, $title, $body);
-                    saveNotification($title,$body,'ride_request',Auth::user()->id,$resUser->id);
+                    saveNotification($title, $body, 'ride_request', Auth::user()->id, $resUser->id);
                 }
-                foreach($request->ride_locations as $location){
+                foreach ($request->ride_locations as $location) {
                     $rideLocation = new RideLocation();
                     $rideLocation->address = $location['address'];
                     $rideLocation->longitude = $location['longitude'];
                     $rideLocation->latitude = $location['latitude'];
-                    if(isset($location['children_id']) && $location['children_id'] != 'null' && $location['children_id'] != null){
+                    if (isset($location['children_id']) && $location['children_id'] != 'null' && $location['children_id'] != null) {
                         $rideLocation->user_children_id = $location['children_id'];
                     }
                     $rideLocation->ride_order = $location['ride_order'];
@@ -105,20 +109,20 @@ class RideController extends Controller
                 //creating array with index id => 21 like
                 $updatedUsers = [];
                 $users = Arr::pluck($users, 'id');
-                foreach($users as $user){
+                foreach ($users as $user) {
                     $updatedUsers[] = ['id' => $user];
                 }
                 $response['users'] = $updatedUsers;
-                $response['ride'] = Ride::where('id',$res->id)->with(['driver','rider','rideLocations','rideLocations.children'])->first();
+                $response['ride'] = Ride::where('id', $res->id)->with(['driver', 'rider', 'rideLocations', 'rideLocations.children'])->first();
                 $response['schedule_type'] = true;
                 broadcast(new \App\Events\InitialRideEvent($response))->toOthers();
-                if($res){
-                    return apiresponse(true,'Searching for driver', $response);
-                }else{
-                    return apiresponse(false,'Something went wrong');
+                if ($res) {
+                    return apiresponse(true, 'Searching for driver', $response);
+                } else {
+                    return apiresponse(false, 'Something went wrong');
                 }
-            }else{
-                return apiresponse(false,'No driver found');
+            } else {
+                return apiresponse(false, 'No driver found');
             }
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
@@ -156,60 +160,65 @@ class RideController extends Controller
         }
     }
 
-    public function calculateDistance(Request $request){
+    public function calculateDistance(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'ride_locations' => 'required',
         ]);
+
         if ($validator->fails()) {
             return apiresponse(false, implode("\n", $validator->errors()->all()));
         }
+
         try {
-                $ride_types = RideType::all();
-                $totalDistance = 0;
-                $totalTime = 0;
-                $origin = $request->ride_locations[0]['latitude'].",".$request->ride_locations[0]['longitude'];
-                foreach($request->ride_locations as $location){
-                    if($location['ride_order'] == '1'){
-                        continue;
-                    }
-                    $destination =  $location['latitude'].",".$location['longitude'];
-                    $res = findDistance($destination,$origin);
-                    if($res['rows'][0]['elements'][0]['status'] == 'ZERO_RESULTS'){
-                        return apiresponse(false,"Invalid location");
-                    }
-                    $rawDistance = $res['rows'][0]['elements'][0]['distance']['value'];
-                    $rawTime = $res['rows'][0]['elements'][0]['duration']['value'];
-                    $res['coordinates']['latitude'] = $location['latitude'];
-                    $res['coordinates']['longitude'] = $location['longitude'];
-                    if(isset($location['children_id']) && $location['children_id'] != null){
-                        $children = UserChildren::find($location['children_id']);
-                        if($children){
-                            $res['child'] = $children;
-                        }
-                    }
-                    $totalDistance += $rawDistance;
-                    $totalTime += $rawTime;
-                    foreach($ride_types as $type){
-                        $res['price'][$type->name] = round(($rawDistance*0.000621)*$type->price,2);
-                    }
-                    $distanceArray[] = $res;
-
-                    $origin = $destination;
+            $ride_types = RideType::all();
+            $totalDistance = 0;
+            $totalTime = 0;
+            $origin = $request->ride_locations[0]['latitude'] . "," . $request->ride_locations[0]['longitude'];
+            foreach ($request->ride_locations as $location) {
+                if ($location['ride_order'] == '1') {
+                    continue;
                 }
-                $car = $totalDistance*charges_per_mile();
-                $suv = $totalDistance*charges_per_mile();
-                $mini_van = $totalDistance*charges_per_mile();
-                $data['total_distance'] = $totalDistance;
-                $data['total_time'] = $totalTime;
-                $data['routes_data'] = $distanceArray;
-                foreach($ride_types as $type){
-
-                    $data['total_prices'][]= ['id' => $type->id,'name' => $type->name, 'price' => round(($totalDistance* 0.000621)*$type->price,2)];
+                $destination = $location['latitude'] . "," . $location['longitude'];
+                $res = findDistance($destination, $origin);
+                if ($res['rows'][0]['elements'][0]['status'] == 'ZERO_RESULTS') {
+                    return apiresponse(false, "Invalid location");
                 }
-                // $data['total_prices'][]['total_car_price'] = $car;
-                // $data['total_prices'][]['total_mini_van_price'] = $mini_van;
-                // $data['total_prices'][]['total_suv_price'] = $suv;
-                return apiresponse(true,"Data found",$data);
+                $rawDistance = $res['rows'][0]['elements'][0]['distance']['value'];
+                $rawTime = $res['rows'][0]['elements'][0]['duration']['value'];
+                $res['coordinates']['latitude'] = $location['latitude'];
+                $res['coordinates']['longitude'] = $location['longitude'];
+                if (isset($location['children_id']) && $location['children_id'] != null) {
+                    $children = UserChildren::find($location['children_id']);
+                    if ($children) {
+                        $res['child'] = $children;
+                    }
+                }
+                $totalDistance += $rawDistance;
+                $totalTime += $rawTime;
+                foreach ($ride_types as $type) {
+//                    $res['price'][$type->name] = round(($rawDistance * 0.000621) * $type->price, 2);
+                    $res['price'][$type->name] = round(($rawDistance * 0.000621) * charges_per_mile(), 2);
+                }
+                $distanceArray[] = $res;
+
+                $origin = $destination;
+            }
+            /*$car = $totalDistance * charges_per_mile();
+            $suv = $totalDistance * charges_per_mile();
+            $mini_van = $totalDistance * charges_per_mile();*/
+            $data['total_distance'] = $totalDistance;
+            $data['total_time'] = $totalTime;
+            $data['routes_data'] = $distanceArray;
+            foreach ($ride_types as $type) {
+
+//                $data['total_prices'][] = ['id' => $type->id, 'name' => $type->name, 'price' => round(($totalDistance * 0.000621) * $type->price, 2)];
+                $data['total_prices'][] = ['id' => $type->id, 'name' => $type->name, 'price' => round(($totalDistance * 0.000621) * charges_per_mile(), 2)];
+            }
+            // $data['total_prices'][]['total_car_price'] = $car;
+            // $data['total_prices'][]['total_mini_van_price'] = $mini_van;
+            // $data['total_prices'][]['total_suv_price'] = $suv;
+            return apiresponse(true, "Data found", $data);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
@@ -356,7 +365,8 @@ class RideController extends Controller
         }
     }
 
-    public function dropRide(Request $request){
+    public function dropRide(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'location_id' => 'required',
             'ride_id' => 'required',
@@ -366,56 +376,56 @@ class RideController extends Controller
         }
         try {
             $stripeService = new StripeService();
-            $rideCurrentLocation = RideLocation::where('id',$request->location_id)->first();
+            $rideCurrentLocation = RideLocation::where('id', $request->location_id)->first();
             $ride = Ride::find($rideCurrentLocation->ride_id);
             $user = User::find($ride->rider_id);
             $order = $rideCurrentLocation->ride_order - 1;
             $prevoiusLocation = RideLocation::where('ride_id', $rideCurrentLocation->ride_id)->where('ride_order', $order)->first();
-            $origin =  $rideCurrentLocation->latitude.",".$rideCurrentLocation->longitude;
-            $destination =  $prevoiusLocation->latitude.",".$prevoiusLocation->longitude;
-            $res = findDistance($destination,$origin);
+            $origin = $rideCurrentLocation->latitude . "," . $rideCurrentLocation->longitude;
+            $destination = $prevoiusLocation->latitude . "," . $prevoiusLocation->longitude;
+            $res = findDistance($destination, $origin);
             $distance = $res['rows'][0]['elements'][0]['distance']['value'];
-            $price =round(($distance* 0.000621)*charges_per_mile(),2);
-            if($rideCurrentLocation->user_children_id != null ) {
+            $price = round(($distance * 0.000621) * charges_per_mile(), 2);
+            if ($rideCurrentLocation->user_children_id != null) {
                 $userChildren = UserChildren::find($rideCurrentLocation->user_children_id);
                 if ($userChildren->user_card_id != null) {
                     $userPaymentMethod = UserPaymentMethod::find($userChildren->user_card_id);
                     $Charge = $stripeService->createCharge($price, $user->stripe_customer_id, $userPaymentMethod->stripe_source_id);
-                    if($Charge->status != 'succeeded') {
+                    if ($Charge->status != 'succeeded') {
                         return apiResponse(false, __('payment Not completed'));
                     }
                 }
-            }else {
+            } else {
                 $userPaymentMethod = UserPaymentMethod::where('user_id', $user->id)->where('default', 1)->first();
                 $Charge = $stripeService->createCharge($price, $user->stripe_customer_id, $userPaymentMethod->stripe_source_id);
-                    if($Charge->status != 'succeeded') {
-                        return apiResponse(false, __('payment Not completed'));
-                    }
+                if ($Charge->status != 'succeeded') {
+                    return apiResponse(false, __('payment Not completed'));
+                }
             }
             $rideCurrentLocation->status = 'completed';
             $rideCurrentLocation->price = $price;
             $rideCurrentLocation->save();
             $commission = Commission::first();
-            $newprice = ($price * ((100-commission()) / 100)); // subtract $amount % of $price, from $price
+            $newprice = ($price * ((100 - commission()) / 100)); // subtract $amount % of $price, from $price
             $ridePayment = new RidePayment();
             $ridePayment->ride_id = $ride->id;
             $ridePayment->base_amount = $price;
             $ridePayment->total_amount = $price;
-            $ridePayment->commission = (commission()/100)*$price;
+            $ridePayment->commission = (commission() / 100) * $price;
             $ridePayment->commission_percentage = commission();
             $ridePayment->driver_ammount = $newprice;
             $ridePayment->rider_amount = $price;
-            $ridePayment->type =  $userPaymentMethod->type;
-            $ridePayment->is_paid =  0;
+            $ridePayment->type = $userPaymentMethod->type;
+            $ridePayment->is_paid = 0;
             $ridePayment->user_card_id = $userPaymentMethod->id;
             $ridePayment->driver_id = $ride->driver_id;
             $ridePayment->rider_id = $ride->rider_id;
             $ridePayment->save();
 
-            $rideUpdated = Ride::where('id',$request->ride_id)->with('driver','rider','rideLocations','rideLocations.children')->first();
+            $rideUpdated = Ride::where('id', $request->ride_id)->with('driver', 'rider', 'rideLocations', 'rideLocations.children')->first();
 
             //Send notification
-            return apiresponse(true, 'Ride dropped',$rideUpdated);
+            return apiresponse(true, 'Ride dropped', $rideUpdated);
 
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
@@ -444,7 +454,6 @@ class RideController extends Controller
         }
     }
 
-
     public function driverCancelRide(Request $request){
         $validator = Validator::make($request->all(), [
             'ride_id' => 'required',
@@ -470,8 +479,8 @@ class RideController extends Controller
         }
     }
 
-
-    public function rideComplete(Request $request){
+    public function rideComplete(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'ride_id' => 'required',
         ]);
@@ -480,56 +489,56 @@ class RideController extends Controller
         }
         try {
             $stripeService = new StripeService();
-            $rideStartLocation = RideLocation::where('ride_id',$request->ride_id)->orderBy('ride_order','desc')->first();
+            $rideStartLocation = RideLocation::where('ride_id', $request->ride_id)->orderBy('ride_order', 'desc')->first();
             $ride = Ride::find($rideStartLocation->ride_id);
-            if($ride->status == 'completed'){
-                return apiresponse(false,'Ride alrady completed');
+            if ($ride->status == 'completed') {
+                return apiresponse(false, 'Ride alrady completed');
             }
             $user = User::find($ride->rider_id);
             $order = $rideStartLocation->ride_order - 1;
             $prevoiusLocation = RideLocation::where('ride_id', $rideStartLocation->ride_id)->where('ride_order', $order)->first();
-            $origin =  $rideStartLocation->latitude.",".$rideStartLocation->longitude;
-            $destination =  $prevoiusLocation->latitude.",".$prevoiusLocation->longitude;
-            $res = findDistance($destination,$origin);
+            $origin = $rideStartLocation->latitude . "," . $rideStartLocation->longitude;
+            $destination = $prevoiusLocation->latitude . "," . $prevoiusLocation->longitude;
+            $res = findDistance($destination, $origin);
             $distance = $res['rows'][0]['elements'][0]['distance']['value'];
-            $price = round(($distance* 0.000621)*charges_per_mile(),2);;
-            if($rideStartLocation->user_children_id != null ) {
+            $price = round(($distance * 0.000621) * charges_per_mile(), 2);
+            if ($rideStartLocation->user_children_id != null) {
                 $userChildren = UserChildren::find($rideStartLocation->user_children_id);
                 if ($userChildren->user_card_id != null) {
                     $userPaymentMethod = UserPaymentMethod::find($userChildren->user_card_id);
                     $Charge = $stripeService->createCharge($price, $user->stripe_customer_id, $userPaymentMethod->stripe_source_id);
-                    if($Charge->status != 'succeeded') {
+                    if ($Charge->status != 'succeeded') {
                         return apiResponse(false, __('payment Not completed'));
                     }
                 }
-            }else {
+            } else {
                 $userPaymentMethod = UserPaymentMethod::where('user_id', $user->id)->where('default', 1)->first();
                 $Charge = $stripeService->createCharge($price, $user->stripe_customer_id, $userPaymentMethod->stripe_source_id);
-                    if($Charge->status != 'succeeded') {
-                        return apiResponse(false, __('payment Not completed'));
-                    }
+                if ($Charge->status != 'succeeded') {
+                    return apiResponse(false, __('payment Not completed'));
+                }
             }
             $rideStartLocation->status = 'completed';
             $rideStartLocation->price = $price;
             $rideStartLocation->save();
             $commission = Commission::first();
-            $newprice = ($price * ((100-commission()) / 100)); // subtract $amount % of $price, from $price
+            $newprice = ($price * ((100 - commission()) / 100)); // subtract $amount % of $price, from $price
             $ridePayment = new RidePayment();
             $ridePayment->ride_id = $ride->id;
             $ridePayment->base_amount = $price;
             $ridePayment->total_amount = $price;
-            $ridePayment->commission = (commission()/100)*$price;
+            $ridePayment->commission = (commission() / 100) * $price;
             $ridePayment->commission_percentage = commission();
             $ridePayment->driver_ammount = $newprice;
             $ridePayment->rider_amount = $price;
-            $ridePayment->type =  $userPaymentMethod->type;
-            $ridePayment->is_paid =  0;
+            $ridePayment->type = $userPaymentMethod->type;
+            $ridePayment->is_paid = 0;
             $ridePayment->user_card_id = $userPaymentMethod->id;
             $ridePayment->driver_id = $ride->driver_id;
             $ridePayment->rider_id = $ride->rider_id;
             $ridePayment->save();
-            foreach (RideLocation::where('ride_id',$request->ride_id)->get() as $value) {
-                if($value->status == 'pending'){
+            foreach (RideLocation::where('ride_id', $request->ride_id)->get() as $value) {
+                if ($value->status == 'pending') {
                     return apiresponse(false, 'Please complete your drops');
                 }
             }
@@ -583,10 +592,10 @@ class RideController extends Controller
 
             //Stripe computation
 
-            $ride = Ride::where('id',$request->ride_id)->with(['driver','rider','rideLocations','ridePayment'])->first();
+            $ride = Ride::where('id', $request->ride_id)->with(['driver', 'rider', 'rideLocations', 'ridePayment'])->first();
             //Send notification
             broadcast(new \App\Events\CompleteRideEvent($ride))->toOthers();
-            return apiresponse(true, 'Ride Completed',$ride);
+            return apiresponse(true, 'Ride Completed', $ride);
 
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
@@ -774,9 +783,10 @@ class RideController extends Controller
                     $origin = $user->latitude . ',' . $user->longitude;
 
                     $res = findDistance($destination, $origin);
+
                     $rideUpdated->vehicle = $rideUpdated->driver->vehicle;
-                    $rideUpdated->time_and_distance = $res['rows'][0]['elements'][0]['duration']['text'];
-                    $rideUpdated->schedule = $res['rows'][0]['elements'][0]['duration']['text'];
+                    $rideUpdated->time_and_distance = $res['rows'][0]['elements'][0]['status'] !== "ZERO_RESULTS" ? $res['rows'][0]['elements'][0]['duration']['text'] : null;
+                    $rideUpdated->schedule = $res['rows'][0]['elements'][0]['status'] !== "ZERO_RESULTS" ? $res['rows'][0]['elements'][0]['duration']['text'] : null;
 //                    $rideUpdated->schedule_type = $rideUpdated->type == 'schedule' ? true : false;
                     $rideUpdated->schedule_type = $currentTime >= $rideUpdated->schedule_start_time ? true : false;
                     return apiresponse(true, 'Ride found', $rideUpdated);
