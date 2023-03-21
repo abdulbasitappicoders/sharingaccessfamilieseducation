@@ -915,7 +915,7 @@ class RideController extends Controller
         dd($upcomingTime->format('Y-m-d H:i:s'));
     }
 
-    public function rideComplete(Request $request)
+    /*public function rideComplete(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'ride_id' => 'required',
@@ -1047,5 +1047,5 @@ class RideController extends Controller
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
-    }
+    }*/
 }
