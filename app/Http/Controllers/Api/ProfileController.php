@@ -234,7 +234,7 @@ class ProfileController extends Controller
 
     public function onlineOffline(){
         try {
-            $user = User::where('id',Auth::user()->id)->with('childrens','UserPaymentMethods','childrens.payment_method','licence','vehicle','userAvailability')->first();
+            $user = User::where('id',Auth::user()->id)->with('childrens','UserPaymentMethods','childrens.payment_method','licence','vehicle','userAvailability','UserFvc')->first();
             if(Auth::user()->role == 'rider'){
                 $total_earnings = RidePayment::where('rider_id', Auth::user()->id)->sum('total_amount');
                 $rides = Ride::where('rider_id',Auth::user()->id)
