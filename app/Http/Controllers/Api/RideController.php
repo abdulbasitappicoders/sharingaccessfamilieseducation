@@ -496,13 +496,13 @@ class RideController extends Controller
         }
         try {
             $stripeService = new StripeService();
-            $rideStartLocation = RideLocation::where('ride_id', $request->ride_id)->orderBy('ride_order', 'desc')->first();
+            $rideStartLocation = RideLocation::where('ride_id', $request->ride_id)->orderBy('ride_order', 'asc')->first();
             $ride = Ride::find($rideStartLocation->ride_id);
             if ($ride->status == 'completed') {
-                return apiresponse(false, 'Ride alrady completed');
+                return apiresponse(false, 'Ride already completed');
             }
             $user = User::find($ride->rider_id);
-            $order = $rideStartLocation->ride_order - 1;
+            $order = $rideStartLocation->ride_order + 1;
             $prevoiusLocation = RideLocation::where('ride_id', $rideStartLocation->ride_id)->where('ride_order', $order)->first();
             $origin = $rideStartLocation->latitude . "," . $rideStartLocation->longitude;
             $destination = $prevoiusLocation->latitude . "," . $prevoiusLocation->longitude;
