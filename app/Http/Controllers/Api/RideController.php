@@ -385,7 +385,8 @@ class RideController extends Controller
             $destination = $prevoiusLocation->latitude . "," . $prevoiusLocation->longitude;
             $res = findDistance($destination, $origin);
             $distance = $res['rows'][0]['elements'][0]['distance']['value'];
-            $price = round(($distance * 0.000621) * charges_per_mile(), 2);
+//            $price = round(($distance * 0.000621) * charges_per_mile(), 2);
+            $price = ($distance * 0.000621) * charges_per_mile();
             if ($rideCurrentLocation->user_children_id != null) {
                 $userChildren = UserChildren::find($rideCurrentLocation->user_children_id);
                 if ($userChildren->user_card_id != null) {
@@ -830,6 +831,11 @@ class RideController extends Controller
     public function driverRequestedRides()
     {
         try {
+            $acceptedRides = Ride::where('driver_id', auth()->user()->id)->where('status', 'accepted')->get();
+            if ($acceptedRides->count() > 0) {
+                return apiresponse(false, "No ride found");
+            }
+
             $requestedRides = RideRequestedTo::where('driver_id', Auth::user()->id)->get();
             if ($requestedRides->count() == 0) {
                 return apiresponse(false, "No ride found");
