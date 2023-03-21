@@ -385,8 +385,8 @@ class RideController extends Controller
             $destination = $prevoiusLocation->latitude . "," . $prevoiusLocation->longitude;
             $res = findDistance($destination, $origin);
             $distance = $res['rows'][0]['elements'][0]['distance']['value'];
-//            $price = round(($distance * 0.000621) * charges_per_mile(), 2);
-            $price = ($distance * 0.000621) * charges_per_mile();
+            $price = round(($distance * 0.000621) * charges_per_mile(), 3);
+//            $price = ($distance * 0.000621) * charges_per_mile();
             if ($rideCurrentLocation->user_children_id != null) {
                 $userChildren = UserChildren::find($rideCurrentLocation->user_children_id);
                 if ($userChildren->user_card_id != null) {
