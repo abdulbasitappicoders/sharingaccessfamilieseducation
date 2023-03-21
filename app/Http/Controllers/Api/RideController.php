@@ -946,7 +946,7 @@ class RideController extends Controller
             $res = findDistance($destination, $origin);
             $distance = $res['rows'][0]['elements'][0]['distance']['value'];
             $price = round(($distance * 0.000621) * charges_per_mile(), 2);
-            
+
             if ($rideStartLocation->user_children_id != null) {
                 $userChildren = UserChildren::find($rideStartLocation->user_children_id);
                 if ($userChildren->user_card_id != null) {
@@ -963,7 +963,7 @@ class RideController extends Controller
                     return apiResponse(false, __('payment Not completed'));
                 }
             }
-            
+
             $rideStartLocation->status = 'completed';
             $rideStartLocation->price = $price;
             $rideStartLocation->save();
@@ -1049,7 +1049,6 @@ class RideController extends Controller
             return apiresponse(true, 'Ride Completed', $ride);
 
         } catch (Exception $e) {
-            dd($e);
             return apiresponse(false, $e->getMessage());
         }
     }*/
