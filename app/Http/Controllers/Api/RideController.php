@@ -926,12 +926,13 @@ class RideController extends Controller
         try {
 
             $rideLocations = RideLocation::where('ride_id', $request->ride_id)->where('status', 'pending')->get();
-            if ($rideLocations->count() > 0) {
+            if ($rideLocations->count() > 2) {
                 return apiresponse(false, 'Please complete your drops');
             }
 
             $stripeService = new StripeService();
             $rideStartLocation = RideLocation::where('ride_id', $request->ride_id)->where('status', 'pending')->orderBy('ride_order', 'asc')->first();
+            // dd($rideStartLocation);
             $ride = Ride::find($rideStartLocation->ride_id);
             if ($ride->status == 'completed') {
                 return apiresponse(false, 'Ride already completed');
@@ -939,6 +940,7 @@ class RideController extends Controller
             $user = User::find($ride->rider_id);
             $order = $rideStartLocation->ride_order + 1;
             $prevoiusLocation = RideLocation::where('ride_id', $rideStartLocation->ride_id)->where('ride_order', $order)->first();
+            // dd($prevoiusLocation);
             $origin = $rideStartLocation->latitude . "," . $rideStartLocation->longitude;
             $destination = $prevoiusLocation->latitude . "," . $prevoiusLocation->longitude;
             $res = findDistance($destination, $origin);
