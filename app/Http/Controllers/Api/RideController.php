@@ -486,7 +486,7 @@ class RideController extends Controller
         }
     }
 
-    /*public function rideComplete(Request $request)
+    public function rideComplete(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'ride_id' => 'required',
@@ -607,7 +607,7 @@ class RideController extends Controller
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());
         }
-    }*/
+    }
 
     public function scheduleRides(){
         try {
@@ -926,12 +926,13 @@ class RideController extends Controller
         try {
 
             $rideLocations = RideLocation::where('ride_id', $request->ride_id)->where('status', 'pending')->get();
-            if ($rideLocations->count() > 0) {
+            if ($rideLocations->count() > 2) {
                 return apiresponse(false, 'Please complete your drops');
             }
 
             $stripeService = new StripeService();
             $rideStartLocation = RideLocation::where('ride_id', $request->ride_id)->where('status', 'pending')->orderBy('ride_order', 'asc')->first();
+            // dd($rideStartLocation);
             $ride = Ride::find($rideStartLocation->ride_id);
             if ($ride->status == 'completed') {
                 return apiresponse(false, 'Ride already completed');
@@ -939,11 +940,13 @@ class RideController extends Controller
             $user = User::find($ride->rider_id);
             $order = $rideStartLocation->ride_order + 1;
             $prevoiusLocation = RideLocation::where('ride_id', $rideStartLocation->ride_id)->where('ride_order', $order)->first();
+            // dd($rideStartLocation, $prevoiusLocation);
             $origin = $rideStartLocation->latitude . "," . $rideStartLocation->longitude;
             $destination = $prevoiusLocation->latitude . "," . $prevoiusLocation->longitude;
             $res = findDistance($destination, $origin);
             $distance = $res['rows'][0]['elements'][0]['distance']['value'];
             $price = round(($distance * 0.000621) * charges_per_mile(), 2);
+            
             if ($rideStartLocation->user_children_id != null) {
                 $userChildren = UserChildren::find($rideStartLocation->user_children_id);
                 if ($userChildren->user_card_id != null) {
@@ -960,6 +963,7 @@ class RideController extends Controller
                     return apiResponse(false, __('payment Not completed'));
                 }
             }
+            
             $rideStartLocation->status = 'completed';
             $rideStartLocation->price = $price;
             $rideStartLocation->save();
@@ -1045,6 +1049,7 @@ class RideController extends Controller
             return apiresponse(true, 'Ride Completed', $ride);
 
         } catch (Exception $e) {
+            dd($e);
             return apiresponse(false, $e->getMessage());
         }
     }*/
