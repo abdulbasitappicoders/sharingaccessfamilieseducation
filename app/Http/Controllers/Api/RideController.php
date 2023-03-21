@@ -831,8 +831,8 @@ class RideController extends Controller
     public function driverRequestedRides()
     {
         try {
-            $acceptedRides = Ride::where('driver_id', auth()->user()->id)->where('status', 'accepted')->get();
-            if ($acceptedRides->count() > 0) {
+            $acceptedRidesCount = Ride::where('driver_id', auth()->user()->id)->whereIn('status', ['accepted', 'confirmed'])->count();
+            if ($acceptedRidesCount > 0) {
                 return apiresponse(false, "No ride found");
             }
 
