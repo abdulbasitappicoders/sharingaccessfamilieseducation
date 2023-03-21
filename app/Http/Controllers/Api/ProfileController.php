@@ -362,15 +362,15 @@ class ProfileController extends Controller
                 return apiresponse(false, 'User not found', ['data' => null]);
             }
 
-//            $stripeService = new StripeService();
-            /*$userAccount = UserAccount::where('user_id', $user->id)->first();
+            $stripeService = new StripeService();
+            $userAccount = UserAccount::where('user_id', $user->id)->first();
             if (!$userAccount) {
                 $createStripeAccount = $stripeService->createOnBoarding($user, '1995-01-01');
                 $userStripeAccount = new UserAccount();
                 $userStripeAccount->user_id = $user->id;
                 $userStripeAccount->stripe_account_id = $createStripeAccount->id;
                 $userStripeAccount->save();
-            }*/
+            }
 
             if ($user->role == 'rider') {
                 $rides = Ride::where('rider_id', $user->id)
@@ -391,14 +391,14 @@ class ProfileController extends Controller
             $user->total_earnings = $total_earnings;
             $user->total_rides = $rides;
 
-//            $onboarding_url = $stripeService->getConnectUrl($user->stripeAccount->stripe_account_id, $user->id);
+            $onboarding_url = $stripeService->getConnectUrl($user->stripeAccount->stripe_account_id, $user->id);
             if ($user->role == 'rider') {
                 $user->is_completed_profile = 1;
             }
             $data = [
                 'user' => $user,
-//                'csrf_token' => csrf_field(),
-//                'onboarding_url' => $onboarding_url,
+                'csrf_token' => csrf_field(),
+                'onboarding_url' => $onboarding_url,
             ];
 
             return apiresponse(true, 'User data has been loaded successfully', $data);
