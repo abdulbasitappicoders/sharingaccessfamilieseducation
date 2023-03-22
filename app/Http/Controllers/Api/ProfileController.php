@@ -37,6 +37,14 @@ class ProfileController extends Controller
         try {
             $data = $request->all();
             if ($request->hasFile('image')) {
+                $validator = Validator::make($request->all(), [
+                    'image' => 'mimes:jpeg,png,jpg,gif|max:5120',
+                ]);
+
+                if ($validator->fails()) {
+                    return apiresponse(false, implode("\n", $validator->errors()->all()));
+                }
+
                 $res = files_upload($request->image, 'profile');
                 $data['image'] = $res;
             }
