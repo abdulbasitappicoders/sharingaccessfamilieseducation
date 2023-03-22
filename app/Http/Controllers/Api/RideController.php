@@ -389,7 +389,7 @@ class RideController extends Controller
             $prevoiusLocation = RideLocation::where('ride_id', $rideCurrentLocation->ride_id)->where('ride_order', $order)->first();
             $origin = $rideCurrentLocation->latitude . "," . $rideCurrentLocation->longitude;
             $destination = $prevoiusLocation->latitude . "," . $prevoiusLocation->longitude;
-            $res = findDistance($destination, $origin);
+            $res = findDistance($origin, $destination);
             $distance = $res['rows'][0]['elements'][0]['distance']['value'];
             $price = round(($distance * 0.000621) * charges_per_mile(), 2);
 //            $price = ($distance * 0.000621) * charges_per_mile();
