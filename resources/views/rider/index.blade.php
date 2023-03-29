@@ -9,7 +9,7 @@
       <div class="card">
         <div class="table-responsive">
           <div class="all-users row">
-            <h4 class="text-dark font-weight-bold col-9">Driver</h4>
+            <h4 class="text-dark font-weight-bold col-9">Rider</h4>
           </div>
           <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
             <thead class="bg-dark">
@@ -57,7 +57,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -87,7 +87,7 @@
         // var form_id = id;
         // console.log("2--------->"+form_id);
 
-        
+
     }
 </script>
 @endsection
