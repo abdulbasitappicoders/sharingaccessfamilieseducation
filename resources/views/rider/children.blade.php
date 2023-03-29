@@ -11,7 +11,7 @@
                 <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
                     <div class="all-users row">
                         <h4 class=" text-dark font-weight-bold col-11">Children Information</h4>
-                        <a href="javascript:void(0)" class="btn btn-dark col-1">Back</a>
+                        <a href="{{route('admin.rider')}}" class="btn btn-dark col-1">Back</a>
                     </div>
                     <thead class="bg-dark">
                         <tr>
