@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\StripeService;
 use Illuminate\Http\Request;
-use App\Models\{User,
+use App\Models\{AppEmergencyNumber,
+    User,
     RidePayment,
     UserAccount,
     UserChildren,
@@ -407,6 +408,7 @@ class ProfileController extends Controller
                 'user' => $user,
                 'csrf_token' => csrf_field(),
                 'onboarding_url' => $onboarding_url,
+                'emergency_contact_no' => AppEmergencyNumber::count() > 0 ? AppEmergencyNumber::first()->emergency_number : null
             ];
 
             return apiresponse(true, 'User data has been loaded successfully', $data);

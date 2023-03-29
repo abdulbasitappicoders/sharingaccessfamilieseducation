@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use App\Models\{User,Ride,RidePayment, UserAccount};
+use App\Models\{AppEmergencyNumber, User, Ride, RidePayment, UserAccount};
 use App\Services\StripeService;
 use Auth;
 use Mail;
@@ -136,8 +136,9 @@ class AuthController extends Controller
                         $data = [
                             'token'     => $user->createToken('customer-Token')->accessToken,
                             'user'      => $user,
-                            'csrf_token' =>  csrf_field() ,
-                            'onboarding_url' =>  $onboarding_url ,
+                            'csrf_token' =>  csrf_field(),
+                            'onboarding_url' =>  $onboarding_url,
+                            'emergency_contact_no' => AppEmergencyNumber::count() > 0 ? AppEmergencyNumber::first()->emergency_number : null
                         ];
                         return apiresponse(true, 'Login Success', $data);
                     } else {
