@@ -79,7 +79,7 @@
                             <div class="col-lg-7 col-md-6">
                                 <div class="title-heading">
                                     <h1 class="heading text-white mb-3">Sharing Access With Families To a Good Education</h1>
-                                    <p class="para-desc">A viable platform that’s keen on changing the aura of transportation by connecting riders with professional drivers!</p>
+                                    <p class="para-desc">A viable transportation platform that connects K-12th grade riders with community member drivers who are committed to ensuring students are able to attend schools that best fit their learning needs.</p>
                                     <div class="row justify-content-center">
                     <div class="col-md-12">
                         <ul class="list-unstyled mb-0 app-download">
@@ -122,7 +122,7 @@
                         <div class="about-app ml-lg-4">
 
                             <h1 class="mt-2 mb-3">About Us</h1>
-                            <p>After tiring work, none of us have the energy to deal with loads of traffic while going home - and if you don’t want to drive, who would help you get to your destination? Well, allow us to introduce you to SAFE! <br><br> Safe is a profound transportation application that brings riders closer to professional drivers so that reaching destinations isn’t an issue for anyone! Offering secure trips in an affordable price range, the SAFE Application has everything that you need!  </p>
+                            <p>S.A.F.E. was designed to affordably support the transportation needs of many of our K-12th grade students, their families and educators who need a secure means of transportation to and from their respective schools and/or learning environments.  <br><br>  We are committed to ensuring each driver has passed our stringent certification process which includes prior experience with working with K-12 grade students, comprehensive background check, fingerprinted (IVP Clearance Card), child abuse/neglect check, valid driver’s license, good driving record, at least 3 years driving experience, must be at least 24 years or older, proof of insurance, provide a vehicle inspection report from a certified mechanic and complete our S.A.F.E. driver orientation.  </p>
 
                         </div>
                     </div><!--end col-->
