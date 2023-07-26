@@ -74,7 +74,7 @@
         </div>
         <!-- Start Main leftbar navigation -->
         <div id="left-sidebar" class="sidebar">
-            <h5 class="brand-name"><img src="{{asset('assets/images/logo.png')}}" alt="logo"></h5>
+            <h5 class="brand-name"><img src="{{asset('assets/images/Safe-logo.png')}}" alt="logo"></h5>
             <div class="tab-content mt-3">
                 <div class="tab-pane fade show active" id="menu-uni" role="tabpanel">
                     <nav class="sidebar-nav">
@@ -92,7 +92,7 @@
                                 <a href="{{route('admin.community_group')}}"><span class="ml-3 text-white">Community Group</span></a>
                             </li>
                             <li class="border-bottom border-top">
-                                <a href="{{route('admin.payments')}}"><span class="ml-3 text-white">Payment</span></a>
+                                <a href="{{route('admin.payments')}}"><span class="ml-3 text-white">Payments</span></a>
                             </li>
                             <li class="border-bottom border-top">
                                 <a href="{{route('admin.radius_of_search')}}"><span class="ml-3 text-white">Radius Of Search</span></a>
@@ -110,24 +110,30 @@
                                 <a href="{{route('admin.commission')}}"><span class="ml-3 text-white">Commission</span></a>
                             </li>
                             <li class="border-bottom">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><span class="ml-3 text-white">Faq Management</span></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><span class="ml-3 text-white">FAQ Management</span></a>
                                 <ul class="sub-menu">
                                     <li><a class="border-top border-bottom" href="{{ route('admin.staff') }}">Staff</a></li>
-                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_categories') }}">Faq Categories</a></li>
-                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_answers') }}">Faq Answers</a></li>
-                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_queries') }}">Faq Queries</a></li>
+                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_categories') }}">FAQ Categories</a></li>
+                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_answers') }}">FAQ Answers</a></li>
+                                    <li><a class="border-top border-bottom" href="{{ route('admin.faq_queries') }}">FAQ Queries</a></li>
                                 </ul>
                             </li>
                             <li class="border-bottom">
                                 <a href="{{route('admin.help')}}"><span class="ml-3 text-white">Help</span></a>
                             </li>
-                            <li class="border-bottom">
+
+                            {{--<li class="border-bottom">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><span class="ml-3 text-white">Queries</span></a>
                                 <ul class="sub-menu">
                                     <li><a class="border-top border-bottom" href="{{ route('admin.queries') }}">Mobile App</a></li>
                                     <li><a class="border-top border-bottom" href="{{ route('admin.web-queries') }}">Web App</a></li>
                                 </ul>
+                            </li>--}}
+
+                            <li class="border-bottom border-top">
+                                <a href="{{route('admin.queries')}}"><span class="ml-3 text-white">Queries</span></a>
                             </li>
+
                             <li class="border-bottom">
                                 <a href="{{route('admin.termsCondition')}}"><span class="ml-3 text-white">Terms & Service</span></a>
                             </li>

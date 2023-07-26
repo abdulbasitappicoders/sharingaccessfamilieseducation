@@ -28,11 +28,12 @@
                         </tr>
                         <tr>
                             <td width="50%"><div class="font-15">Contact Number</div></td>
-                            <td width="50%"><div class="font-15 font-weight-bold">{{$user->phone}}</div></td>
+{{--                            <td width="50%"><div class="font-15 font-weight-bold">{{$user->phone}}</div></td>--}}
+                            <td width="50%"><div class="font-15 font-weight-bold">{{ formattedNumber(str_replace('+1','',$user->phone))??''}}</div></td>
                         </tr>
                         <tr>
                             <td width="50%"><div class="font-15">Gender</div></td>
-                            <td width="50%"><div class="font-15 font-weight-bold">{{$user->gender}}</div></td>
+                            <td width="50%"><div class="font-15 font-weight-bold">{{ucfirst($user->gender)}}</div></td>
                         </tr>
                         <tr>
                             <td width="50%"><div class="font-15">Address</div></td>

@@ -11,7 +11,7 @@
           <div class="all-users row">
             <h4 class="text-dark font-weight-bold col-9">Driver</h4>
           </div>
-          <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
+          <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="driver">
             <thead class="bg-dark">
                 <tr>
                     <th class="text-white">First Name</th>
@@ -34,7 +34,8 @@
                         </div>
                     </td>
                     <td>{{$user->email}}</td>
-                    <td>{{$user->phone}}</td>
+{{--                    <td>{{$user->phone}}</td>--}}
+                    <td>{{ formattedNumber(str_replace('+1','',$user->phone))??''}}</td>
                     <td>{{$user->address}}</td>
                     <td>
                         @if($user->is_online == 1)
@@ -52,7 +53,7 @@
                     </td>
                     <td>
                         <a href="{{route('admin.driver_licence',$user->id)}}" class="btn btn-icon btn-info mb-2">Vehicle Info</a><br>
-                        <a href="{{route('admin.driver_fvc',$user->id)}}" class="btn btn-icon btn-info mb-2">Fvc Info</a><br>
+                        <a href="{{route('admin.driver_fvc',$user->id)}}" class="btn btn-icon btn-info mb-2">IVP Info</a><br>
                         <a href="{{route('admin.driver_insurance',$user->id)}}" class="btn btn-icon btn-warning">Insurance Details</a>
                         <a href="" onclick="UserStatus({{$user->id}})" data-toggle="modal" data-target="#exampleModal" class="btn btn-icon btn-secondary">Status</a>
                     </td>
@@ -61,13 +62,13 @@
             </tbody>
           </table>
           <br>
-          {{ $users->links() }}
+{{--          {{ $users->links() }}--}}
           <br>
         </div>
       </div>
     </div>
   </div>
-  
+
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -91,13 +92,16 @@
   </div>
 
 <script>
+    $(document).ready(function() {
+        $('#driver').DataTable();
+    });
     function UserStatus(id){
         var form_id = document.getElementById('id').value = id;
         // console.log("1--------->"+form_id);
         // var form_id = id;
         // console.log("2--------->"+form_id);
 
-        
+
     }
 </script>
 @endsection

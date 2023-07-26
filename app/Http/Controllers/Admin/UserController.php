@@ -15,12 +15,14 @@ class UserController extends Controller
 
     //Driver Module
     public function driver(){
-        $users = User::where('role','driver')->orderBy('id','DESC')->simplePaginate(10);
+//        $users = User::where('role','driver')->orderBy('id','DESC')->simplePaginate(10);
+        $users = User::where('role','driver')->orderBy('id','DESC')->get();
         return view('driver.index',compact('users'));
     }
 
     public function driver_licence($id){
         $licence = User::where('id',$id)->with('licence','vehicle')->first();
+//        dd($licence);
         return view('driver.licence',compact('licence'));
     }
 
@@ -51,12 +53,14 @@ class UserController extends Controller
 
     //Rider Module
     public function rider(){
-        $users = User::where('role','rider')->simplePaginate(10);
+//        $users = User::where('role','rider')->simplePaginate(10);
+        $users = User::where('role','rider')->get();
         return view('rider.index',compact('users'));
     }
 
     public function rider_children($id){
         $childrens = User::where('id',$id)->with('childrens')->first();
+//        dd($childrens);
         return view('rider.children',compact('childrens'));
     }
 

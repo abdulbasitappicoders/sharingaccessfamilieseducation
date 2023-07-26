@@ -35,7 +35,7 @@
         <div class="card">
             <div class="table-responsive">
                 <div class="all-users row ">
-                    <h4 class="text-dark font-weight-bold col-9">Faq Answers</h4>
+                    <h4 class="text-dark font-weight-bold col-9">FAQ Answers</h4>
                     <button type="button" class="btn btn-primary setBtn col-3" data-toggle="modal"
                         data-target="#exampleModal">
                         Add New
@@ -73,8 +73,8 @@
                             <tr>
                                 <th class="text-white">S No</th>
                                 <th class="text-white">Category Name</th>
-                                <th class="text-white">Faq Question</th>
-                                <th class="text-white">Faq Answer</th>
+                                <th class="text-white">FAQ Question</th>
+                                <th class="text-white">FAQ Answer</th>
                                 <th class="text-white">Created At</th>
                                 <th class="text-white">Action</th>
                             </tr>
@@ -128,7 +128,7 @@
             {{-- modal-dialog-centered--}}
             <div class="modal-content">
                 <div class="modal-header newfqheading">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Faq Answer</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add New FAQ Answer</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -182,7 +182,7 @@
             {{-- modal-dialog-centered--}}
             <div class="modal-content">
                 <div class="modal-header newfqheading">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Faq Answer</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit FAQ Answer</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -236,7 +236,7 @@
             {{-- modal-dialog-centered--}}
             <div class="modal-content">
                 <div class="modal-header newfqheading">
-                    <h5 class="modal-title" id="exampleModalLabel">Faq Answer </h5>
+                    <h5 class="modal-title" id="exampleModalLabel">FAQ Answer </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

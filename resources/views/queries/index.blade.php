@@ -10,7 +10,7 @@
         <div class="card">
             <div class="table-responsive">
                 <div class="all-users row">
-                    <h4 class="text-dark font-weight-bold col-9">Queries</h4>
+                    <h4 class="text-dark font-weight-bold col-9">Mobile Application Queries</h4>
                 </div>
                 <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
                     <thead class="bg-dark">
@@ -31,7 +31,12 @@
                             </div>
                             </td>
                             <td> {{isset($query->message)?$query->message:"N/A"}}</td>
-                            <td><a href="{{route('admin.query_user', Crypt::encryptString(isset($query->user->id)?$query->user->id:1))}}" class="btn btn-icon btn-dark">User Info</a></td>
+                            <td>
+                                <a href="{{route('admin.query_user', Crypt::encryptString(isset($query->user->id)?$query->user->id:1))}}" class="btn btn-icon btn-dark">User Info</a>
+                                <a href="mailto:{{$query->user->email}}" class="btn btn-icon btn-dark">Reply</a>
+                                <a href="{{route('admin.delete-query', $query->id)}}"
+                                   class="btn btn-icon btn-dark">Delete</a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

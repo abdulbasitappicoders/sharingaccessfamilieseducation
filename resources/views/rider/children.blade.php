@@ -20,8 +20,8 @@
                             <th class="text-white">Grade</th>
                             <th class="text-white">Age</th>
                             <th class="text-white">School Name</th>
-                            <th class="text-white">Bank Account</th>
-                            <th class="text-white">Payment Method</th>
+{{--                            <th class="text-white">Bank Account</th>--}}
+{{--                            <th class="text-white">Payment Method</th>--}}
                         </tr>
                     </thead>
                     <tbody>
@@ -35,9 +35,9 @@
                             </td>
                             <td>{{isset($children)?$children->grade:"N/A"}}</td>
                             <td>{{isset($children)?$children->age:"N/A"}}</td>
-                            <td>{{isset($children)?$children->school_name:"N/A"}}</td>
-                            <td>{{isset($children->number->type)?$children->number->type:"N/A"}}</td>
-                            <td>{{isset($children->payment_method)?$children->payment_method->type:"N/A"}}</td>
+                            <td>{{isset($children)?$children->school_name:"N/A"}}
+{{--                            <td>{{isset($children->user_card_id)?$children->user_card_id:"N/A"}}</td>--}}
+{{--                            <td>{{isset($children->payment_type)?$children->payment_type:"N/A"}}</td>--}}
                         </tr>
                         @endforeach
                     </tbody>

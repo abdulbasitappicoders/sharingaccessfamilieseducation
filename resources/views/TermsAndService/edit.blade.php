@@ -4,6 +4,9 @@
 @if(Session::has('message'))
 <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}</p>
 @endif
+<div class="all-users row">
+    <h4 class="text-dark font-weight-bold col-9">Term And Service</h4>
+</div>
 <div class="card">
     <form action="{{route('admin.update_termsCondition')}}" method="POST">
     @csrf

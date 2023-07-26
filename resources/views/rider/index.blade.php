@@ -11,7 +11,7 @@
           <div class="all-users row">
             <h4 class="text-dark font-weight-bold col-9">Rider</h4>
           </div>
-          <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
+          <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="rider">
             <thead class="bg-dark">
                 <tr>
                     <th class="text-white">First Name</th>
@@ -33,7 +33,8 @@
                       </div>
                     </td>
                     <td>{{$user->email}}</td>
-                    <td>{{$user->phone}}</td>
+{{--                    <td> {{ $user->phone }}</td>--}}
+                    <td> {{ formattedNumber(str_replace('+1','',$user->phone))??''}}</td>
                     <td>{{$user->address}}</td>
                     <td>
                         @if($user->status == 1)
@@ -51,7 +52,7 @@
             </tbody>
           </table>
           <br>
-          {{ $users->links() }}
+{{--          {{ $users->links() }}--}}
           <br>
         </div>
       </div>
@@ -81,6 +82,9 @@
   </div>
 
 <script>
+    $(document).ready(function() {
+        $('#rider').DataTable();
+    });
     function UserStatus(id){
         var form_id = document.getElementById('id').value = id;
         // console.log("1--------->"+form_id);
