@@ -10,14 +10,14 @@
             <div class="table-responsive">
                 <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
                     <div class="all-users row">
-                        <h4 class=" text-dark font-weight-bold col-12">FVC Information</h4>
+                        <h4 class=" text-dark font-weight-bold col-12">IVP Information</h4>
                     </div>
                     <thead class="bg-dark">
                         <tr>
                             <th class="text-white">Name</th>
-                            <th class="text-white">Fvc Number</th>
+                            <th class="text-white">IVP Number</th>
                             <th class="text-white">Expiry</th>
-                            <th class="text-white">Lincense Image</th>
+                            <th class="text-white">License Image</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,10 +33,10 @@
                                 <?php
                                     $image = isset($fvc->image)?$fvc->image:'null';
                                 ?>
-                                <a class="pop" href="#"> <img width="70" src="{{asset('images/'.$image)}}"></a> 
+                                <a class="pop" href="#"> <img alt="null" width="70" src="{{asset('images/'.$image)}}"></a>
                             </td>
                         </tr>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -57,8 +57,8 @@
     $(function() {
             $('.pop').on('click', function() {
                 $('.imagepreview').attr('src', $(this).find('img').attr('src'));
-                $('#imagemodal').modal('show');   
-            });     
+                $('#imagemodal').modal('show');
+            });
         });
 </script>
 @endsection

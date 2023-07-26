@@ -4,9 +4,13 @@
 @if(Session::has('message'))
 <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}</p>
 @endif
+<div class="">
+    <h4 class="text-dark font-weight-bold">Community Group</h4>
+</div>
 <div class="card">
+
     <form action="{{route('admin.update_community_group')}}" method="POST">
-    @csrf
+        @csrf
         <input type="hidden" name="id" value="{{$community->id}}">
         <textarea class="summernote" name="communityGroup" id="editor" cols="15" rows="25">{{$community->communityGroup}}</textarea>
         <div class="modal-footer d-flex justify-content-center">

@@ -62,6 +62,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::get('admin/web-queries', [PageController::class, 'webQueries'])->name('admin.web-queries');
     Route::get('admin/query_user/{id}', [PageController::class, 'query_user'])->name('admin.query_user');
     Route::get('admin/delete-web-query/{query}', [PageController::class, 'deleteWebInquiry'])->name('admin.delete-web-query');
+    Route::get('admin/delete-query/{query}', [PageController::class, 'deleteInquiry'])->name('admin.delete-query');
 
     //Payments Module
     Route::get('admin/payments', [PageController::class, 'payments'])->name('admin.payments');

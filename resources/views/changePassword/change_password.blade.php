@@ -43,24 +43,24 @@
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">New Password</label>
             <input type="password" class="form-control" name="new_password" id="password" autocomplete="off" placeholder="New Password">
-            <span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-password"></span>
+            <span toggle="#password-field" class="fa fa-fw fa-eye-slash field_icon toggle-password"></span>
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
             <input type="password" class="form-control" name="confirm_new_password" id="confirm_password" autocomplete="off" placeholder="Confirm Password">
-            <span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-c-password"></span>
+            <span toggle="#password-field" class="fa fa-fw fa-eye-slash field_icon toggle-c-password"></span>
         </div>
         <button type="submit" class="btn btn-dark">Change</button>
     </form>
 
     <script>
         $(document).on('click', '.toggle-password', function() {
-            $(this).toggleClass("fa-eye fa-eye-slash");
+            $(this).toggleClass("fa-eye-slash fa-eye");
             var input = $("#password");
             input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
         })
         $(document).on('click', '.toggle-c-password', function() {
-            $(this).toggleClass("fa-eye fa-eye-slash");
+            $(this).toggleClass("fa-eye-slash fa-eye");
             var input = $("#confirm_password");
             input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
         })

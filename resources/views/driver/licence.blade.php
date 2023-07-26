@@ -18,23 +18,23 @@
                             <th class="text-white">Vehicle Model</th>
                             <th class="text-white">Year</th>
                             <th class="text-white">Color</th>
-                            <th class="text-white">Lincense Plate #</th>
+                            <th class="text-white">License Plate #</th>
                             <th class="text-white">Booking Type</th>
-                            <th class="text-white">Nanem on Card</th>
-                            <th class="text-white">Drivining Lincense #</th>
+                            <th class="text-white">Name on Card</th>
+                            <th class="text-white">Driving License #</th>
                             <th class="text-white">Expiry</th>
-                            <th class="text-white">Lincense Image</th>
+                            <th class="text-white">License Image</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>
-                                <div class="font-15">{{$licence->licence?$licence->licence->vehicle_brand:"N/A"}}</div>
+                                <div class="font-15">{{$licence->vehicle->vehicle_brand??"N/A"}}</div>
                             </td>
                             <td>
-                                <div class="font-15">{{$licence->licence?$licence->licence->model:"N/A"}}</div>
+                                <div class="font-15">{{$licence->vehicle->model??"N/A"}}</div>
                             </td>
-                            <td>{{$licence->vehicle?$licence->vehicle->year:"N/A"}}</td>
+                            <td>{{$licence->vehicle->year??"N/A"}}</td>
                             <td>{{$licence->vehicle?$licence->vehicle->color:"N/A"}}</td>
                             <td>{{$licence->vehicle?$licence->vehicle->license_plate:"N/A"}}</td>
                             <td>{{$licence->vehicle?$licence->vehicle->booking_type:"N/A"}}</td>
@@ -46,11 +46,11 @@
                                     $front = $licence->licence?$licence->licence->card_front:'null';
                                     $back = $licence->licence?$licence->licence->card_back:null;
                                 ?>
-                                <a class="pop" href="#"> <img width="70" src="{{asset('images/'.$front)}}"></a> 
-                                <a class="pop" href="#"> <img width="70" src="{{asset('images/'.$back)}}"></a>
+                                <a class="pop" href="#"> <img width="70" src="{{asset('images/'.$front)}}" alt="null"></a>
+                                <a class="pop" href="#"> <img width="70" src="{{asset('images/'.$back)}}" alt="null"></a>
                             </td>
                         </tr>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -71,8 +71,8 @@
     $(function() {
             $('.pop').on('click', function() {
                 $('.imagepreview').attr('src', $(this).find('img').attr('src'));
-                $('#imagemodal').modal('show');   
-            });     
+                $('#imagemodal').modal('show');
+            });
         });
 </script>
 @endsection

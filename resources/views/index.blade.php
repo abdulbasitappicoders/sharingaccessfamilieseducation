@@ -76,7 +76,7 @@
                 <div class="home-desc-center">
                     <div class="container">
                         <div class="row align-items-center">
-                            <div class="col-lg-7 col-md-6">
+                            <div class="col-lg-7 col-md-12">
                                 <div class="title-heading">
                                     <h1 class="heading text-white mb-3">Sharing Access With Families To a Good Education</h1>
                                     <p class="para-desc">A viable transportation platform that connects K-12th grade riders with community member drivers who are committed to ensuring students are able to attend schools that best fit their learning needs.</p>
@@ -91,7 +91,7 @@
                                 </div>
                             </div><!--end col-->
 
-                            <div class="col-lg-5 col-md-6 mt-4 pt-2">
+                            <div class="col-lg-5 col-md-7 mt-4 pt-2">
                                 <div class="home-img text-md-right">
                                     <img src="{{asset('landing/images/home/mobile04.png')}}" class="img-fluid mover-img" alt="">
                                 </div>

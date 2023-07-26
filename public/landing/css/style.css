@@ -359,6 +359,7 @@ p {
 
 .navbar-custom .navbar-brand .l-light {
   display: inline-block;
+    height: 70px;
 }
 
 .navbar-custom .navbar-nav li a {
@@ -420,6 +421,7 @@ p {
 
 .nav-sticky .navbar-brand .l-dark {
   display: inline-block;
+    height: 60px;
 }
 
 .nav-sticky .navbar-brand .l-light {
@@ -574,7 +576,7 @@ p {
 
 .social-icon.social li a {
   color: #fff;
-  
+
 }
 
 .list-inline-item:not(:last-child) {

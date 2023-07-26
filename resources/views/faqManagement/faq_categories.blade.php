@@ -33,7 +33,7 @@
             <div class="card">
                 <div class="table-responsive">
                     <div class="all-users row">
-                        <h4 class="text-dark font-weight-bold col-9">Faq Categories</h4>
+                        <h4 class="text-dark font-weight-bold col-9">FAQ Categories</h4>
                         <button type="button" class="btn btn-primary setBtn col-3" data-toggle="modal" data-target="#exampleModal" >
                             Add New Category
                         </button>

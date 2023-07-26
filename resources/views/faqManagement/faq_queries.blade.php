@@ -56,7 +56,7 @@
             <div class="card">
                 <div class="table-responsive">
                     <div class="all-users row">
-                        <h4 class="text-dark font-weight-bold col-9">Faq Queries</h4>
+                        <h4 class="text-dark font-weight-bold col-9">FAQ Queries</h4>
                         <div class="card ">
                             <div class="card-body">
                                 <div class="form-group fitler">

@@ -9,9 +9,9 @@
       <div class="card">
         <div class="table-responsive">
           <div class="all-users row">
-            <h4 class="text-dark font-weight-bold col-9">Driver</h4>
+            <h4 class="text-dark font-weight-bold col-9">Payments</h4>
           </div>
-          <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
+          <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="payments">
             <thead class="bg-dark">
                 <tr>
                     <th class="text-white">Ride ID</th>
@@ -56,11 +56,17 @@
             </tbody>
           </table>
           <br>
-          {{ $payments->links() }}
+{{--          {{ $payments->links() }}--}}
           <br>
         </div>
       </div>
     </div>
   </div>
+
+<script>
+    $(document).ready(function() {
+        $('#payments').DataTable();
+    });
+</script>
 
 @endsection

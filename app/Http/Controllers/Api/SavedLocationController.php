@@ -13,7 +13,7 @@ class SavedLocationController extends Controller
 {
     public function index(){
         try {
-            $locations = SavedLocations::where('user_id',Auth::user()->id)->get();
+            $locations = SavedLocations::where('user_id',Auth::user()->id)->limit(10)->orderByDesc('id')->get();
             return apiresponse(true,'Locations found',$locations);
         } catch (Exception $e) {
             return apiresponse(false, $e->getMessage());

@@ -37,7 +37,7 @@ class PageController extends Controller
         $community = Page::find($request->id);
         $community->communityGroup = $request->communityGroup;
         if($community->save()){
-            return back()->with('message','Community Group updated');
+            return back()->with('message','Community Group updated Successfully');
         }
     }
 
@@ -65,7 +65,7 @@ class PageController extends Controller
         $termsCondition = Page::find($request->id);
         $termsCondition->termsCondition = $request->termsCondition;
         if($termsCondition->save()){
-            return back()->with('message','Terms And Condition updated');
+            return back()->with('message','Terms And Condition updated Successfully');
         }
     }
 
@@ -79,7 +79,7 @@ class PageController extends Controller
         $privacyPolicy = Page::find($request->id);
         $privacyPolicy->privacyPolicy = $request->privacyPolicy;
         if($privacyPolicy->save()){
-            return back()->with('message','Terms And Condition updated');
+            return back()->with('message','Term And Services Updated Successfully');
         }
     }
 
@@ -100,7 +100,8 @@ class PageController extends Controller
     }
 
     public function payments(){
-        $payments = RidePayment::with('ride','driver','rider','payment_method')->orderBy('id', 'DESC')->simplePaginate(10);
+//        $payments = RidePayment::with('ride','driver','rider','payment_method')->orderBy('id', 'DESC')->simplePaginate(10);
+        $payments = RidePayment::with('ride','driver','rider','payment_method')->orderBy('id', 'DESC')->get();
         return view('payment.index',compact('payments'));
     }
 
@@ -113,9 +114,21 @@ class PageController extends Controller
     public function deleteWebInquiry(WebContactUs $contactUs)
     {
         try {
-            dd($contactUs);
+//            dd($contactUs);
             $contactUs->delete();
             return redirect()->back()->with('success', "Inquiry has been deleted successfully.");
+        } catch (Exception $exception) {
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
+    }
+
+    public function deleteInquiry($id)
+    {
+        try {
+//            dd($id)
+            $contactUs = ContactUs::find($id);
+            $contactUs->delete();
+            return redirect()->back()->with('success', "Query has been deleted successfully.");
         } catch (Exception $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
         }
