@@ -17,6 +17,8 @@
                             <th class="text-white">Full Name</th>
                             <th class="text-white">Insurance Number</th>
                             <th class="text-white">Expiry</th>
+                            <th class="text-white">Insurance Card Front</th>
+                            <th class="text-white">Insurance Card Back</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -27,9 +29,19 @@
                             <td>
                                 <div class="font-15">{{isset($insurance->riderInsurance[0])?$insurance->riderInsurance[0]->number:"N/A"}}</div>
                             </td>
-                            <td>{{isset($insurance->riderInsurance[0])?$insurance->riderInsurance[0]->exp_date:"N/A"}}</td>
+                            <td>{{isset($insurance->riderInsurance[0])?formattedDate($insurance->riderInsurance[0]->exp_date):"N/A"}}
+                            <?php
+                            $front = $insurance->licence?$insurance->riderInsurance[0]['front']:null;
+                            $back = $insurance->licence?$insurance->riderInsurance[0]['back']:null;
+                            ?>
+                            <td>
+                                <a class="pop" href="#">@if($front) <img width="70" src="{{asset('images/'.$front)}}" > @else {{ 'N/A' }} @endif </a>
+                            </td>
+                            <td>
+                                <a class="pop" href="#">@if($back) <img width="70" src="{{asset('images/'.$back)}}"> @else {{ 'N/A' }} @endif </a>
+                            </td>
                         </tr>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -50,8 +62,8 @@
     $(function() {
             $('.pop').on('click', function() {
                 $('.imagepreview').attr('src', $(this).find('img').attr('src'));
-                $('#imagemodal').modal('show');   
-            });     
+                $('#imagemodal').modal('show');
+            });
         });
 </script>
 @endsection

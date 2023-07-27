@@ -43,8 +43,9 @@
                     </td>
                     <td>{{$payment->driver ? $payment->driver->username:"N/A"}}</td>
                     <td>{{$payment->rider ? $payment->rider->username:"N/A"}}</td>
-                    <td>{{date('d-m-Y', strtotime($payment->created_at))}}</td>
-                    <td>{{date('g:i A', strtotime($payment->created_at))}}</td>
+                    <td>{{ $payment->created_at?formattedDate($payment->created_at):'N/A'}}</td>
+{{--                    <td>{{ $payment->created_at?formattedDate($payment->created_at):'N/A'}}</td>--}}
+                    <td>{{ $payment->created_at?date('g:i A', strtotime($payment->created_at)):'N/A'}}</td>
                     <td>{{$payment->driver_ammount ? "$".$payment->driver_ammount:"N/A"}}</td>
                     <td>{{$payment->rider_amount ? "$".$payment->rider_amount:"N/A"}}</td>
                     <td>{{$payment->commission ? "$".$payment->commission:"N/A"}}</td>

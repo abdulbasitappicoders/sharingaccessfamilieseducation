@@ -23,7 +23,8 @@
                             <th class="text-white">Name on Card</th>
                             <th class="text-white">Driving License #</th>
                             <th class="text-white">Expiry</th>
-                            <th class="text-white">License Image</th>
+                            <th class="text-white">Card Front </th>
+                            <th class="text-white">Card Back</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,13 +42,15 @@
                             <td>{{$licence->licence?$licence->licence->name_on_card:"N/A"}}</td>
                             <td>{{$licence->licence?$licence->licence->license_plate_number:"N/A"}}</td>
                             <td>{{$licence->licence?$licence->licence->expiry:"N/A"}}</td>
+                            <?php
+                            $front = $licence->licence?$licence->licence->card_front:'null';
+                            $back = $licence->licence?$licence->licence->card_back:null;
+                            ?>
                             <td>
-                                <?php
-                                    $front = $licence->licence?$licence->licence->card_front:'null';
-                                    $back = $licence->licence?$licence->licence->card_back:null;
-                                ?>
-                                <a class="pop" href="#"> <img width="70" src="{{asset('images/'.$front)}}" alt="null"></a>
-                                <a class="pop" href="#"> <img width="70" src="{{asset('images/'.$back)}}" alt="null"></a>
+                                <a class="pop" href="#">@if($front) <img width="70" src="{{asset('images/'.$front)}}" > @else {{ 'N/A' }} @endif </a>
+                            </td>
+                            <td>
+                                <a class="pop" href="#">@if($back) <img width="70" src="{{asset('images/'.$back)}}"> @else {{ 'N/A' }} @endif </a>
                             </td>
                         </tr>
 

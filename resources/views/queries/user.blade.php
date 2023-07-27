@@ -12,32 +12,32 @@
                 <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
                     <tbody>
                         <tr>
-                            <td colspan="2"><div class="font-15 text-center"> <img width="150" alt="null" src="{{$user->image != null?asset('images/'.$user->image):asset('images/default.png')}}"> </div></td>
+                            <td colspan="2"><div class="font-15 text-center">@if($user->image != null) <img width="150" alt="null" src="{{$user->image != null?asset('images/'.$user->image):asset('images/default.png')}}"> @else {{ 'N/A' }} @endif  </div></td>
                         </tr>
                         <tr>
                             <td><div class="font-15">First Name</div></td>
-                            <td><div class="font-15 font-weight-bold">{{$user->first_name}}</div></td>
+                            <td><div class="font-15 font-weight-bold">{{$user->first_name??'N/A'}}</div></td>
                         </tr>
                         <tr>
                             <td><div class="font-15">Last Name</div></td>
-                            <td><div class="font-15 font-weight-bold">{{$user->last_name}}</div></td>
+                            <td><div class="font-15 font-weight-bold">{{$user->last_name??'N/A'}}</div></td>
                         </tr>
                         <tr>
                             <td width="50%"><div class="font-15">Email ID</div></td>
-                            <td width="50%"><div class="font-15 font-weight-bold">{{$user->email}}</div></td>
+                            <td width="50%"><div class="font-15 font-weight-bold">{{$user->email??'N/A'}}</div></td>
                         </tr>
                         <tr>
                             <td width="50%"><div class="font-15">Contact Number</div></td>
 {{--                            <td width="50%"><div class="font-15 font-weight-bold">{{$user->phone}}</div></td>--}}
-                            <td width="50%"><div class="font-15 font-weight-bold">{{ formattedNumber(str_replace('+1','',$user->phone))??''}}</div></td>
+                            <td width="50%"><div class="font-15 font-weight-bold">@if($user->phone) {{ formattedNumber(str_replace('+1','',$user->phone))}} @else {{ 'N/A' }} @endif </div></td>
                         </tr>
                         <tr>
                             <td width="50%"><div class="font-15">Gender</div></td>
-                            <td width="50%"><div class="font-15 font-weight-bold">{{ucfirst($user->gender)}}</div></td>
+                            <td width="50%"><div class="font-15 font-weight-bold">{{ucfirst($user->gender??'N/A')}}</div></td>
                         </tr>
                         <tr>
                             <td width="50%"><div class="font-15">Address</div></td>
-                            <td width="50%"><div class="font-15 font-weight-bold">{{$user->address}}</div></td>
+                            <td width="50%"><div class="font-15 font-weight-bold">{{$user->address??'N/A'}}</div></td>
                         </tr>
                         <tr>
                             <td width="50%"><div class="font-15">Status</div></td>

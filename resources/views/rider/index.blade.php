@@ -36,16 +36,16 @@
             <tbody>
                 @foreach($users as $user)
                 <tr>
-                    <td>{{$user->first_name}}</td>
+                    <td>{{$user->first_name??'N/A'}}</td>
                     <td>
                       <div class="font-15">
-                        {{$user->last_name}}
+                        {{$user->last_name??'N/A'}}
                       </div>
                     </td>
-                    <td>{{$user->email}}</td>
+                    <td>{{$user->email??'N/A'}}</td>
 {{--                    <td> {{ $user->phone }}</td>--}}
-                    <td> {{ formattedNumber(str_replace('+1','',$user->phone))??''}}</td>
-                    <td>{{$user->address}}</td>
+                    <td> @if($user->phone) {{ formattedNumber(str_replace('+1','',$user->phone))}} @else {{ 'N/A' }} @endif </td>
+                    <td>{{$user->address??'N/A'}}</td>
                     <td>
                         @if($user->status == 1)
                         <button class="btn btn-success">Active</button>
