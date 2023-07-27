@@ -24,7 +24,7 @@
                             <th class="text-white">Driving License #</th>
                             <th class="text-white">Expiry</th>
                             <th class="text-white">Card Front </th>
-                            <th class="text-white">Card Image</th>
+                            <th class="text-white">Card Back</th>
                         </tr>
                     </thead>
                     <tbody>
