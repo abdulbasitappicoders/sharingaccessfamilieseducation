@@ -135,6 +135,32 @@
 .icon-fire:before {
 	content: "\e01c"
 }
+
+#rider_wrapper, #driver_wrapper{
+    padding: 18px;
+}
+
+#rider_status, #driver_status{
+    padding: 8px;
+}
+
+.notification-icon{
+    margin-right: 20px;
+    position: relative;
+}
+
+#notification-counter{
+    position: absolute;
+    top: -5px;
+    left: -30px;
+    font-size: 12px;
+    color: #fff;
+    font-weight: bold;
+    background: #000;
+    padding: 3px 8px;
+    border-radius: 50%;
+}
+
 .icon-eyeglasses:before {
 	content: "\e01d"
 }
@@ -6418,7 +6444,7 @@ font-size:.8125rem;
 	z-index: 999
 }
 .offcanvas-active #header_top {
-background-color: #f6921e;	
+background-color: #f6921e;
 border-right: 1px solid rgba(0,40,100,0.12);
 }
 @media screen and (max-width: 767px) {
@@ -6908,7 +6934,7 @@ background-color: #f6921e;	flex-direction: row;
 	position: fixed;
 	top: 0;
 	bottom: 0;
-	
+
 }
 @media screen and (max-width: 1200px) {
 #left-sidebar {

@@ -73,7 +73,7 @@
                                 <th class="text-white">Username</th>
                                 <th class="text-white">Email</th>
                                 <th class="text-white">Gender</th>
-                                <th class="text-white">Category</th>
+{{--                                <th class="text-white">Category</th>--}}
                                 <th class="text-white">Status</th>
                                 <th class="text-white">Action</th>
                             </tr>
@@ -90,7 +90,7 @@
                                     <td>{{$user->username??'N/A'}}</td>
                                     <td>{{$user->email??'N/A'}}</td>
                                     <td>{{strtoupper($user->gender)??'N/A'}}</td>
-                                    <td>{{$user->supportCategory ? $user->supportCategory->name : '-'}}</td>
+{{--                                    <td>{{$user->supportCategory ? $user->supportCategory->name : '-'}}</td>--}}
                                     <td>{{($user->status == 1)?'Active':"In Active"}}</td>
                                     <td>
                                         <div style="display: flex;">
@@ -177,7 +177,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    {{--<div class="mb-3">
                                         <div class="form-group">
                                             <label for="selects">Support Category</label>
                                             <select class="selects form-control" name="support_category_id"
@@ -188,7 +188,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
                                     <div class="mb-3">
                                         <div class="form-group">
@@ -280,7 +280,7 @@
                                         </div>
                                     </div>--}}
 
-                                    <div class="mb-3">
+                                    {{--<div class="mb-3">
                                         <div class="form-group">
                                             <label for="selects">Support Category</label>
                                             <select class="selects form-control" name="support_category_id"
@@ -288,7 +288,7 @@
 
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                 </div>
                             </div>
                             <div class="modal-footer">

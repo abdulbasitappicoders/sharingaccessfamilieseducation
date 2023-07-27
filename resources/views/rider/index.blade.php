@@ -11,6 +11,16 @@
           <div class="all-users row">
             <h4 class="text-dark font-weight-bold col-9">Rider</h4>
           </div>
+            <div style="padding: 18px">
+                <form action="{{ route('admin.rider') }}" method="GET">
+                    <Label>Filter </Label>
+                    <select class="form-select" name="rider_status" id="rider_status">
+                        <option value=""  selected>Select Status</option>
+                        <option value="1" @if(request()->query('rider_status') == '1') {{ 'selected' }} @endif>Active</option>
+                        <option value="0" @if(request()->query('rider_status') == '0') {{ 'selected' }} @endif>Deactive</option>
+                    </select>
+                </form>
+            </div>
           <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="rider">
             <thead class="bg-dark">
                 <tr>
@@ -84,7 +94,14 @@
 <script>
     $(document).ready(function() {
         $('#rider').DataTable();
-    });
+    })
+
+    $(document).ready(function() {
+        $('#rider_status').on('change', function() {
+            this.form.submit();
+        });
+    })
+
     function UserStatus(id){
         var form_id = document.getElementById('id').value = id;
         // console.log("1--------->"+form_id);

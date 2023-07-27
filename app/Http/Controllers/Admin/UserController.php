@@ -14,7 +14,12 @@ class UserController extends Controller
 
 
     //Driver Module
-    public function driver(){
+    public function driver(Request $request){
+        if ($request->driver_status == "1" || $request->driver_status == "0"){
+//            dd($request->driver_status);
+            $users = User::where('role','driver')->where("status",'like', '%' . $request->driver_status . '%')->orderBy('id','DESC')->get();
+            return view('driver.index',compact('users'));
+        }
 //        $users = User::where('role','driver')->orderBy('id','DESC')->simplePaginate(10);
         $users = User::where('role','driver')->orderBy('id','DESC')->get();
         return view('driver.index',compact('users'));
@@ -52,7 +57,12 @@ class UserController extends Controller
 
 
     //Rider Module
-    public function rider(){
+    public function rider(Request $request){
+        if ($request->rider_status == "1" || $request->rider_status == "0"){
+//            dd($request->driver_status);
+            $users = User::where('role','rider')->where("status",'like', '%' . $request->rider_status . '%')->orderBy('id','DESC')->get();
+            return view('rider.index',compact('users'));
+        }
 //        $users = User::where('role','rider')->simplePaginate(10);
         $users = User::where('role','rider')->get();
         return view('rider.index',compact('users'));

@@ -141,4 +141,15 @@ class PageController extends Controller
     //         return back()->with('message','Terms And Condition updated');
     //     }
     // }
+
+    public function readInquiry($id){
+//        dd($id);
+        $query = ContactUs::find($id);
+        if ($query && $query->is_read_query == null){
+            $query->is_read_query = 1;
+            $query->save();
+            return 'success';
+        }
+//        dd($query);
+    }
 }
