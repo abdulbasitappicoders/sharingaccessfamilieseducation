@@ -116,9 +116,9 @@
                             @foreach($chatlists as $chatlist)
                                 <tr>
                                     <td>{{$chatlist->id}}</td>
-                                    <td>{{$chatlist->category ? $chatlist->category->name : null}}</td>
-                                    <td>{{$chatlist->fromUser ? $chatlist->fromUser->username : null}}</td>
-                                    <td>{{$chatlist->toUser ? $chatlist->toUser->username : null}}</td>
+                                    <td>{{$chatlist->category ? $chatlist->category->name :'N/A'}}</td>
+                                    <td>{{$chatlist->fromUser ? $chatlist->fromUser->username : 'N/A'}}</td>
+                                    <td>{{$chatlist->toUser ? $chatlist->toUser->username : 'N/A'}}</td>
                                     <td><a class='btn btn-primary bgcolor'
                                            href="{{ route('admin.faq_querie_chat',['id'=>$chatlist->id]) }}"><i
                                                 class="fa fa-eye" aria-hidden="true"></i></a></td>

@@ -33,7 +33,11 @@
                                 <?php
                                     $image = isset($fvc->image)?$fvc->image:'null';
                                 ?>
-                                <a class="pop" href="#"> <img alt="null" width="70" src="{{asset('images/'.$image)}}"></a>
+                                @if($fvc->image)
+                                <a class="pop" href="#"> <img width="70" src="{{asset('images/'.$image)}}">
+                                    @else
+                                    {{ 'N/A' }}
+                                @endif
                             </td>
                         </tr>
 

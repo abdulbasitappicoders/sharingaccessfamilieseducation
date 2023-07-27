@@ -10,12 +10,13 @@
         <div class="card">
             <div class="table-responsive">
                 <div class="all-users row">
-                    <h4 class="text-dark font-weight-bold col-9">Mobile Application Queries</h4>
+                    <h4 class="text-dark font-weight-bold col-9">Queries</h4>
                 </div>
                 <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
                     <thead class="bg-dark">
                         <tr>
                             <th class="text-white">S.No.</th>
+                            <th class="text-white">Email</th>
                             <th class="text-white">Query Type</th>
                             <th class="text-white">Message Box</th>
                             <th class="text-white">Action</th>
@@ -25,6 +26,7 @@
                         @foreach ($queries as $query)
                         <tr class="mobile_app-query" data-id="{{ $query->id }}">
                             <td>{{isset($query->id)?$query->id:"N/A"}}</td>
+                            <td>{{ $query->user->email??"N/A" }}</td>
                             <td>
                             <div class="font-15">
                                 {{isset($query->type)?$query->type:"N/A"}}
@@ -36,7 +38,7 @@
                                    id="read" data-toggle="modal"
                                    data-target="#contact_us">
                                     {{ (strlen($query->message) > 20)?substr($query->message, 0, 20)." ... Read More
-                                    ":$query->message??'-' }}
+                                    ":$query->message??'N/A' }}
                                 </p>
                             </td>
                             <td>

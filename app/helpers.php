@@ -223,4 +223,19 @@ if (!function_exists('queryCount')) {
     }
 }
 
+if (!function_exists('formattedDate')) {
+
+    /**
+     * @param $date
+     * @return string|null
+     */
+    function formattedDate($date): ?string
+    {
+        if (!$date) {
+            return null;
+        }
+        return date('F d, Y', strtotime($date));
+    }
+}
+
 ?>
