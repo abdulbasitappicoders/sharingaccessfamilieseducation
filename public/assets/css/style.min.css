@@ -12314,6 +12314,10 @@ border-radius:.1875rem;
 .inbox .detail .media-body p a {
 	color: #434A54
 }
+.main_content .page{
+    height: 100vh;
+    overflow-y: scroll;
+}
 .inbox .detail .mail-cnt {
 	padding: 20px 15px
 }
