@@ -12,7 +12,7 @@
                 <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
                     <tbody>
                         <tr>
-                            <td colspan="2"><div class="font-15 text-center"> <img width="150" src="{{$user->image != null?asset('images/'.$user->image):asset('images/default.png')}}"> </div></td>
+                            <td colspan="2"><div class="font-15 text-center"> <img width="150" alt="null" src="{{$user->image != null?asset('images/'.$user->image):asset('images/default.png')}}"> </div></td>
                         </tr>
                         <tr>
                             <td><div class="font-15">First Name</div></td>

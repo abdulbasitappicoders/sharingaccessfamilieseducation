@@ -11,6 +11,16 @@
           <div class="all-users row">
             <h4 class="text-dark font-weight-bold col-9">Driver</h4>
           </div>
+            <div style="padding: 20px">
+                <form action="{{ route('admin.driver') }}" method="GET">
+                    <Label>Filter </Label>
+                    <select class="form-select" name="driver_status" id="driver_status">
+                        <option value=""  selected>Select Status</option>
+                        <option value="1" @if(request()->query('driver_status') == '1') {{ 'selected' }} @endif>Active</option>
+                        <option value="0" @if(request()->query('driver_status') == '0') {{ 'selected' }} @endif>Deactive</option>
+                    </select>
+                </form>
+            </div>
           <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="driver">
             <thead class="bg-dark">
                 <tr>
@@ -95,13 +105,18 @@
     $(document).ready(function() {
         $('#driver').DataTable();
     });
+
+    $(document).ready(function() {
+        $('#driver_status').on('change', function() {
+            this.form.submit();
+        });
+    });
+
     function UserStatus(id){
         var form_id = document.getElementById('id').value = id;
         // console.log("1--------->"+form_id);
         // var form_id = id;
         // console.log("2--------->"+form_id);
-
-
     }
 </script>
 @endsection

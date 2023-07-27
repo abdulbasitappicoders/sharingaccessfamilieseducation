@@ -2,6 +2,7 @@
 
 use App\Models\ChargesPerMile;
 use App\Models\Commission;
+use App\Models\ContactUs;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
@@ -211,6 +212,14 @@ if (!function_exists('formattedNumber')) {
     function formattedNumber($number)
     {
         return $number != null ? "+1 (" . substr($number, 0, 3) . ") " . substr($number, 3, 3) . "-" . substr($number, 6) : '-';
+    }
+}
+
+if (!function_exists('queryCount')) {
+
+    function queryCount()
+    {
+        return ContactUs::where('is_read_query',null)->count();
     }
 }
 

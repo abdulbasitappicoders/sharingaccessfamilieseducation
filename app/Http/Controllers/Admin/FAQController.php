@@ -175,7 +175,7 @@ class FAQController extends Controller
                 "last_name"              => "required",
                 "email"                  => "required|email",
                 "gender"                 => "required",
-                "support_category_id"    => "required",
+//                "support_category_id"    => "required",
                 "password"               => "required",
                 "confirm_password"       => "required|same:password",
             ]);
@@ -191,7 +191,7 @@ class FAQController extends Controller
             $user->username = $request->first_name . ' ' . $request->last_name;
             $user->email = $request->email;
             $user->gender = $request->gender;
-            $user->support_category_id = $request->support_category_id;
+//            $user->support_category_id = $request->support_category_id;
             $user->vehicle_type = 'car';
             $user->role = 'staff';
             $user->password = Hash::make($request->password);

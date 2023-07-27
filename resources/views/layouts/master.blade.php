@@ -74,7 +74,7 @@
         </div>
         <!-- Start Main leftbar navigation -->
         <div id="left-sidebar" class="sidebar">
-            <h5 class="brand-name"><img src="{{asset('assets/images/Safe-logo.png')}}" alt="logo"></h5>
+            <h5 class="brand-name"><img width="100px" src="{{asset('assets/images/Safe-logo.png')}}" alt="logo"></h5>
             <div class="tab-content mt-3">
                 <div class="tab-pane fade show active" id="menu-uni" role="tabpanel">
                     <nav class="sidebar-nav">
@@ -161,6 +161,10 @@
                     <div class="right">
                     <!-- <a href="notifications.html"><i class="fas fa-bell" style="font-size: 20px; color: #fff; margin-right: 20px;"></i></a>  -->
                     <div class="input-group">
+                        <a href="#" class="notification-icon">
+                            <i class="fas fa-bell" style="color: #000; font-size: 30px"></i>
+                            <span id="notification-counter">{{ queryCount() }}</span>
+                        </a>
                         <a class="btn btn-dark" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
