@@ -74,7 +74,7 @@
         </div>
         <!-- Start Main leftbar navigation -->
         <div id="left-sidebar" class="sidebar">
-            <h5 class="brand-name"><img src="{{asset('assets/images/Safe-logo.png')}}" alt="logo"></h5>
+            <h5 class="brand-name"><img width="100px" src="{{asset('assets/images/Safe-logo.png')}}" alt="logo"></h5>
             <div class="tab-content mt-3">
                 <div class="tab-pane fade show active" id="menu-uni" role="tabpanel">
                     <nav class="sidebar-nav">
