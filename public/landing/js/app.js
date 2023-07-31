@@ -34,7 +34,7 @@
         event.preventDefault();
     });
     
-    // Scrollspy
+    Scrollspy
     $("#navbarCollapse").scrollspy({ offset: 70 });
     
     // Magnific Popup
