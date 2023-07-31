@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SupportMessage;
 use App\Events\SendSupportMessage;
 use App\Models\SupportMessageDocument;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\{User,ChatList,ChatListMessage,ChatListMessageFile,Ride};
 use Illuminate\Support\Facades\Validator;
@@ -249,7 +250,7 @@ class ChatController extends Controller
     {
         try {
             $chatLists = ChatList::where('from', Auth::user()->id)->orWhere('to', Auth::user()->id)
-                ->with('toUser', 'fromUser', 'supportMessages', 'category')->orderBy('created_at', 'desc')->get();
+                ->with('toUser', 'fromUser', 'supportMessages', 'category')->orderBy('updated_at', 'desc')->get();
 
             if ($chatLists->count() > 0) {
                 $chatLists = ChatResource::collection($chatLists);
@@ -313,6 +314,8 @@ class ChatController extends Controller
             $body = $message->message;
             SendNotification($message->toUser->device_id, $title, $body);
             saveNotification($title, $body, 'message', $message->from, $message->to);
+
+            $chatList->update(['updated_at' => Carbon::now()]);
 
             return apiresponse(true, "Message sent", $message);
         } catch (Exception $e) {

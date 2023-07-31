@@ -14,7 +14,8 @@ class ChatList extends Model
     protected $fillable = [
         'to',
         'from',
-        'faq_category_id'
+        'faq_category_id',
+        'updated_at',
     ];
 
     public function messages()
