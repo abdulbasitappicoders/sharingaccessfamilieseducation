@@ -13929,3 +13929,19 @@ a {
 
 .leading-loose li{border-top: 1px solid #eee; padding: 10px 0px;}
 .leading-loose li:last-child {border-bottom: 1px solid #eee; padding: 10px 0px;}
+
+.notification-card{
+    padding: 20px;
+    background-color: #f2f2f2;
+    margin: 20px;
+
+}
+
+.notification-card .notification-title{
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.notification-card a{
+    color: #000;
+}

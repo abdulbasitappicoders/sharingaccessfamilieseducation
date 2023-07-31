@@ -152,4 +152,10 @@ class PageController extends Controller
         }
 //        dd($query);
     }
+
+
+    public function queryNotification(){
+        $queries = ContactUs::orderBy('id', 'DESC')->get();
+        return view('queries.web_queries_notification',compact('queries'));
+    }
 }

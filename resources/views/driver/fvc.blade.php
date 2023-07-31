@@ -17,7 +17,7 @@
                             <th class="text-white">Name</th>
                             <th class="text-white">IVP Number</th>
                             <th class="text-white">Expiry</th>
-                            <th class="text-white">License Image</th>
+                            <th class="text-white">IVP Image</th>
                         </tr>
                     </thead>
                     <tbody>

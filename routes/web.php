@@ -64,6 +64,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::get('admin/delete-web-query/{query}', [PageController::class, 'deleteWebInquiry'])->name('admin.delete-web-query');
     Route::get('admin/delete-query/{query}', [PageController::class, 'deleteInquiry'])->name('admin.delete-query');
     Route::get('admin/read-query/{id}', [PageController::class, 'readInquiry'])->name('admin.read-query');
+    Route::get('admin/web-query-notification', [PageController::class, 'queryNotification'])->name('admin.web-query-notification');
 
     //Payments Module
     Route::get('admin/payments', [PageController::class, 'payments'])->name('admin.payments');
