@@ -94,6 +94,11 @@ class AuthController extends Controller
             if(!$user) {
                 return apiresponse(false, 'User not found', ['data' => null]);
             }
+//            dd($user->status);
+            if($user && $user->status === 0) {
+                return apiresponse(false, 'You have been deactivated Please Contact with Admin', ['data' => null]);
+            }
+
             $stripeService = new StripeService();
             $userAccount = UserAccount::where('user_id', $user->id)->first();
             if(!$userAccount) {
