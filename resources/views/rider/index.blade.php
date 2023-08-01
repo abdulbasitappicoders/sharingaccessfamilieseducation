@@ -28,7 +28,7 @@
                         <th class="text-white">Last Name</th>
                         <th class="text-white">Email ID</th>
                         <th class="text-white">Contact Number</th>
-                        <th class="text-white">City</th>
+                        <th class="text-white">State</th>
                         <th class="text-white">Status</th>
                         <th class="text-white">Action</th>
                 </tr>
@@ -45,7 +45,7 @@
                     <td>{{$user->email??'N/A'}}</td>
 {{--                    <td> {{ $user->phone }}</td>--}}
                     <td> @if($user->phone) {{ formattedNumber(str_replace('+1','',$user->phone))}} @else {{ 'N/A' }} @endif </td>
-                    <td>{{$user->address??'N/A'}}</td>
+                    <td>{{$user->state??'N/A'}}</td>
                     <td>
                         @if($user->status == 1)
                         <button class="btn btn-success">Active</button>

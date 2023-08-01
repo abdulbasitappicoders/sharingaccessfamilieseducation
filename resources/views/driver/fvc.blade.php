@@ -33,7 +33,7 @@
                                 <?php
                                     $image = isset($fvc->image)?$fvc->image:'null';
                                 ?>
-                                @if($fvc->image)
+                                @if(isset($fvc->image))
                                 <a class="pop" href="#"> <img width="70" src="{{asset('images/'.$image)}}">
                                     @else
                                     {{ 'N/A' }}
