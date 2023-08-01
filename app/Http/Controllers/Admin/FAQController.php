@@ -262,6 +262,14 @@ class FAQController extends Controller
             $res = $user->delete();
 
             if ($res) {
+                $chats = ChatList::where("to",$id)->get();
+                dd($chats);
+                if ($chats){
+                    foreach ($chats as $chat){
+                        $chat->delete();
+                    }
+                }
+
                 return back()->with('success', 'Staff deleted');
             }
             return back()->with('error', 'Staff not deleted');
