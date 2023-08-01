@@ -283,12 +283,13 @@ class FAQController extends Controller
     {
         $faq_categories = FaqCategory::orderBy('id', 'DESC')->get();
         $baseQuery = ChatList::query()->with('supportMessages');
-
         if (isset($request->category_id) && $request->category_id != null) {
             $baseQuery = $baseQuery->where("faq_category_id", $request->category_id);
         }
 
-        $chatlists = $baseQuery->has('supportMessages')->onlyTrashed()->get();
+        $chatlists = $baseQuery->has('supportMessages')->get();
+//        $chatlists = $baseQuery->has('supportMessages')->onlyTrashed()->get();
+//        dd($chatlists);
 
         return view('faqManagement.faq_queries', compact('faq_categories', 'chatlists'));
     }
