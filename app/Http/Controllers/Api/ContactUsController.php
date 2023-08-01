@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\ContactQuery;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ContactUs;
@@ -9,6 +10,7 @@ use App\Models\WebContactUs;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use Exception;
+use Pusher\Pusher;
 
 
 class ContactUsController extends Controller
@@ -28,9 +30,12 @@ class ContactUsController extends Controller
             return apiresponse(false, implode('\n', $validate->errors()->all()));
         }
         try {
+
             $data = $request->all();
             $data['user_id'] = Auth::user()->id;
-            if (ContactUs::create($data)) {
+            if (ContactUs::create($data)) {;
+                event(new ContactQuery(queryCount()));
+
                 return apiresponse(true, 'Request has been sent successful', 1);
             } else {
                 return apiresponse(false, 'something went wrong');

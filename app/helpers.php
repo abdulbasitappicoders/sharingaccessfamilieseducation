@@ -219,7 +219,7 @@ if (!function_exists('queryCount')) {
 
     function queryCount()
     {
-        return ContactUs::where('is_read_query',null)->count();
+        return ContactUs::whereNull('is_read_query')->count();
     }
 }
 

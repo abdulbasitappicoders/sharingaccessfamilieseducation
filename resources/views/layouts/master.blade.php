@@ -201,6 +201,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+{{--    <script src="//js.pusher.com/3.1/pusher.min.js"></script>--}}
+{{--    <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>--}}
+{{--    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>--}}
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
 </body>
 <script>
     $(".sidebar-dropdown > a").click(function() {
@@ -230,6 +235,24 @@
     $("#show-sidebar").click(function() {
         $(".page-wrapper").addClass("toggled");
     });
+
+    // Initiate the Pusher JS library
+    var pusher = new Pusher('9f4d09fb5e7e6b16d88b', {
+        cluster: '{{env('PUSHER_APP_CLUSTER')}}',
+        encrypted: true
+    });
+
+    // Subscribe to the channel we specified in our Laravel Event
+    var channel = pusher.subscribe('contact-query');
+    console.log(channel,'chekakka')
+    Pusher.logToConsole = true;
+
+    // Bind a function to a Event (the full Laravel class)
+    channel.bind('App\\Events\\ContactQuery', function(data) {
+        console.log(data,'work')
+        alert(data)
+    });
+
 </script>
 
 </html>
