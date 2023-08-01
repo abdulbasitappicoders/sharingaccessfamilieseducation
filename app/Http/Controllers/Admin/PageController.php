@@ -156,7 +156,7 @@ class PageController extends Controller
 
 
     public function queryNotification(){
-        $queries = ContactUs::orderBy('id', 'DESC')->get();
+        $queries = ContactUs::with('user')->orderBy('id', 'DESC')->get();
         return view('queries.web_queries_notification',compact('queries'));
     }
 }

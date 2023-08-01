@@ -36,8 +36,8 @@
                             <td width="50%"><div class="font-15 font-weight-bold">{{ucfirst($user->gender??'N/A')}}</div></td>
                         </tr>
                         <tr>
-                            <td width="50%"><div class="font-15">Address</div></td>
-                            <td width="50%"><div class="font-15 font-weight-bold">{{$user->address??'N/A'}}</div></td>
+                            <td width="50%"><div class="font-15">State</div></td>
+                            <td width="50%"><div class="font-15 font-weight-bold">{{$user->state??'N/A'}}</div></td>
                         </tr>
                         <tr>
                             <td width="50%"><div class="font-15">Status</div></td>
