@@ -85,7 +85,8 @@ class PageController extends Controller
 
     //Queries Module
     public function queries(){
-        $queries = ContactUs::with('user')->orderBy('id','DESC')->simplePaginate(10);
+        $queries = ContactUs::with('user')->orderBy('id','DESC')->get();
+//        $queries = ContactUs::with('user')->orderBy('id','DESC')->simplePaginate(10);
         return view('queries.index',compact('queries'));
     }
 

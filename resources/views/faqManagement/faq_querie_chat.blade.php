@@ -52,6 +52,7 @@
                                         @if($chat->type == 'text')
                                         <div class="answer left">
                                             <div class="avatar">
+
                                                 <img src="{{$chat->fromUser->getProfileImage()}}" alt="User name">
                                                 <div class="status offline"></div>
                                             </div>

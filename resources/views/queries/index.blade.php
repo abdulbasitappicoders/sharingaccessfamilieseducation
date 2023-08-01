@@ -12,7 +12,7 @@
                 <div class="all-users row">
                     <h4 class="text-dark font-weight-bold col-9">Queries</h4>
                 </div>
-                <table class="table table-hover table-vcenter text-nowrap table-striped mb-0">
+                <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="contact_us_query">
                     <thead class="bg-dark">
                         <tr>
                             <th class="text-white">S.No.</th>
@@ -23,9 +23,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php $i =1; @endphp
                         @foreach ($queries as $query)
                         <tr class="mobile_app-query" data-id="{{ $query->id }}">
-                            <td>{{isset($query->id)?$query->id:"N/A"}}</td>
+                            <td>{{ $i++ }}</td>
                             <td>{{ $query->user->email??"N/A" }}</td>
                             <td>
                             <div class="font-15">
@@ -52,7 +53,7 @@
                     </tbody>
                 </table>
                 <br>
-                {{ $queries->links() }}
+{{--                {{ $queries->links() }}--}}
                 <br>
             </div>
         </div>
@@ -116,5 +117,8 @@
             e.stopPropagation();
         });
     });*/
+    $(document).ready(function() {
+        $('#contact_us_query').DataTable();
+    });
 </script>
 @endsection
