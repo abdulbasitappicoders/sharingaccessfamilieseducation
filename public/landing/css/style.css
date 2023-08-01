@@ -64,7 +64,7 @@ html {
 
 body {
   font-family: "Roboto", sans-serif;
-  overflow-x: hidden !important;
+  /*overflow-x: hidden !important;*/
   font-size: 16px;
   color: #000;
 }
@@ -553,6 +553,11 @@ p {
   }
   .home-img {
     text-align: center;
+  }
+  .login-button{
+      line-height: unset;
+      display: block;
+      margin: 20px 0;
   }
 }
 

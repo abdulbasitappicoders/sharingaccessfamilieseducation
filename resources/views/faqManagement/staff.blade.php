@@ -58,10 +58,12 @@
                     </div>
                     <div class="all-users row">
                         <h4 class="text-dark font-weight-bold col-9">Staff</h4>
+                        @if($staffs->count() == 0)
                         <button type="button" class="btn btn-primary setBtn col-3" data-toggle="modal"
                                 data-target="#exampleModal">
                             Add New Staff
                         </button>
+                        @endif
                         <br>
                         <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="faqs"
                                style="width: 1400px;">
