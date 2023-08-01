@@ -266,7 +266,8 @@ class FAQController extends Controller
 //                dd($chats);
                 if ($chats){
                     foreach ($chats as $chat){
-                        $chat->delete();
+                         ChatList::where("to",$chat->to)->delete();
+//                        $chat->delete();
                     }
                 }
 
