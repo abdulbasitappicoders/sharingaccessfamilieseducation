@@ -263,7 +263,7 @@ class FAQController extends Controller
 
             if ($res) {
                 $chats = ChatList::where("to",$id)->get();
-                dd($chats);
+//                dd($chats);
                 if ($chats){
                     foreach ($chats as $chat){
                         $chat->delete();
