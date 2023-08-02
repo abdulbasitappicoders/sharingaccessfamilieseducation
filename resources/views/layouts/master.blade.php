@@ -163,9 +163,7 @@
                     <div class="input-group">
                         <a href="{{ route('admin.web-query-notification') }}" class="notification-icon">
                             <i class="fas fa-bell" style="color: #000; font-size: 30px"></i>
-
-                                <span id="notification-counter">@if(queryCount() > 0) {{ queryCount() }} @endif</span>
-
+                                <span id="notification-counter">{{ queryCount() }}</span>
                         </a>
                         <a class="btn btn-dark" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
