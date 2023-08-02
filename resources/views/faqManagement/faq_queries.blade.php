@@ -113,9 +113,10 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @php $i=1; @endphp
                             @foreach($chatlists as $chatlist)
                                 <tr>
-                                    <td>{{$chatlist->id}}</td>
+                                    <td>{{$i++}}</td>
                                     <td>{{$chatlist->category ? $chatlist->category->name :'N/A'}}</td>
                                     <td>{{$chatlist->fromUser ? $chatlist->fromUser->username : 'N/A'}}</td>
                                     <td>{{$chatlist->toUser ? $chatlist->toUser->username : 'N/A'}}</td>
