@@ -16,8 +16,10 @@
                         <div class="notification-card">
                             <a href="{{ route('admin.queries') }}">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <p class="notification-title">{{ $notification->user->username??'N/A' }}</p>
-                                    <p class="notification-title">{{ $notification->type??'N/A' }}</p>
+                                    <div>
+                                        <p class="notification-title">{{ $notification->user->username??'N/A' }}</p>
+                                        <p class="notification-purpose">{{ $notification->type??'N/A' }}</p>
+                                    </div>
                                     <p class="notification-date">{{ formattedDate($notification->created_at) }}</p>
                                 </div>
                                 <p class="notification-desc">

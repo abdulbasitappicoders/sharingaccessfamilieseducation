@@ -136,8 +136,13 @@
 	content: "\e01c"
 }
 
-#rider_wrapper, #driver_wrapper{
+/*#rider_wrapper, #driver_wrapper{*/
+/*    padding: 18px;*/
+/*}*/
+
+.dataTables_wrapper{
     padding: 18px;
+    width: 100%;
 }
 
 #rider_status, #driver_status{
@@ -149,16 +154,32 @@
     position: relative;
 }
 
+table{
+    width: 100% !important;
+}
+
 #notification-counter{
     position: absolute;
     top: -6px;
-    left: -21px;
+    left: -28px;
     font-size: 12px;
     color: #fff;
     font-weight: bold;
     background: #000;
     padding: 3px 8px;
     border-radius: 50%;
+    font-weight: bold;
+}
+
+.notification-purpose{
+    font-size: 18px;
+    margin-top: -20px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+#contact_us_query_wrapper td:nth-child(3){
+    text-transform: capitalize;
 }
 
 .icon-eyeglasses:before {

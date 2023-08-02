@@ -70,6 +70,7 @@ class FAQController extends Controller
     {
         try {
             $faqCategory = FaqCategory::find($id);
+            dd($faqCategory);
             $res = $faqCategory->delete();
 
             if ($res) {

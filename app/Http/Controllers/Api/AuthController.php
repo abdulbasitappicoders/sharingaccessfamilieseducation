@@ -96,7 +96,7 @@ class AuthController extends Controller
             }
 //            dd($user->status);
             if($user && $user->status === 0) {
-                return apiresponse(false, 'You have been deactivated Please Contact with Admin', ['data' => null]);
+                return apiresponse(false, 'This User Has Been Deactivated By Admin', ['data' => null]);
             }
 
             $stripeService = new StripeService();

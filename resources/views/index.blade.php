@@ -387,5 +387,37 @@
         <script src="{{asset('landing/js/plugin.init.js')}}"></script>
         <!-- Main Js -->
         <script src="{{asset('landing/js/app.js')}}"></script>
+        <script>
+            // Wait for the DOM content to load
+            document.addEventListener("DOMContentLoaded", function () {
+                // Get all the navigation links
+                const navLinks = document.querySelectorAll(".navbar-nav li.nav-item");
+                // Function to check if an element is in the viewport
+                function isElementInViewport(element) {
+                    const rect = element.getBoundingClientRect();
+                    return (
+                        rect.top >= 0 &&
+                        rect.left >= 0 &&
+                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                    );
+                }
+                // Function to update the active navigation link
+                function updateActiveNavLink() {
+                    navLinks.forEach((link) => {
+                        const targetSectionId = link.querySelector("a").getAttribute("href");
+                        const targetSection = document.querySelector(targetSectionId);
+                        if (isElementInViewport(targetSection)) {
+                            navLinks.forEach((link) => link.classList.remove("active"));
+                            link.classList.add("active");
+                        }
+                    });
+                }
+                // Update the active navigation link on page load
+                updateActiveNavLink();
+                // Update the active navigation link on scroll
+                window.addEventListener("scroll", updateActiveNavLink);
+            });
+        </script>
     </body>
 </html>
