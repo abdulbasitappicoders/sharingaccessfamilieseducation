@@ -296,7 +296,7 @@
 
             });
 
-            $(document).on('click','#delete_btn',function (e) {
+            /*$(document).on('click','#delete_btn',function (e) {
                 e.preventDefault();
                 Swal.fire({
                     title: 'Are you sure?',
@@ -316,6 +316,28 @@
                         )
                     }
                 });
+        })*/
+
+        $(document).ready(function () {
+            $(document).on('click','#delete_btn',function(event){
+                var form =  $(this).closest("form");
+                var name = $(this).data("name");
+                event.preventDefault();
+                swal({
+                    title: "Are you sure?",
+                    text: "You want to Delete it!",
+                    icon: "warning",
+                    type: "warning",
+                    buttons: ["Cancel","Yes!"],
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+            });
         })
     </script>
 
