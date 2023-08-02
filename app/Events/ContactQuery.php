@@ -42,9 +42,9 @@ class ContactQuery implements ShouldBroadcast
         return new Channel('contact-query');
     }
 
-    public function broadcastAs()
+    /*public function broadcastAs()
     {
         return 'contactQuery';
-    }
+    }*/
 
 }

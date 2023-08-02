@@ -245,12 +245,13 @@
     // Subscribe to the channel we specified in our Laravel Event
     var channel = pusher.subscribe('contact-query');
     console.log(channel,'chekakka')
-    // Pusher.logToConsole = true;
+    Pusher.logToConsole = true;
 
     // Bind a function to a Event (the full Laravel class)
     channel.bind('App\\Events\\ContactQuery', function(data) {
-        console.log(data,'work')
-        alert(data)
+        console.log(data.data,'work')
+        $('#notification-counter').text(data.data);
+        // alert(data)
     });
 
 </script>
