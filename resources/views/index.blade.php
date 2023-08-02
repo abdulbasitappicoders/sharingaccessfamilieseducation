@@ -46,16 +46,16 @@
 
 			    <div class="collapse navbar-collapse" id="navbarCollapse">
 			        <ul class="navbar-nav mx-auto">
-			            <li class="nav-item active">
+			            <li class="nav-item active" id="#home">
 			                <a class="nav-link" href="#home">Home</a>
 			            </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="#about">
                             <a class="nav-link" href="#about">About Us</a>
                         </li>
-			            <li class="nav-item">
+			            <li class="nav-item" id="#features">
 			                <a class="nav-link" href="#features">Features</a>
 			            </li>
-			            <li class="nav-item">
+			            <li class="nav-item" id="#screenshots">
 			                <a class="nav-link" href="#screenshots">Screenshots</a>
 			            </li>
 
@@ -387,6 +387,20 @@
         <script src="{{asset('landing/js/plugin.init.js')}}"></script>
         <!-- Main Js -->
         <script src="{{asset('landing/js/app.js')}}"></script>
+        <script>
+            $(document).ready(function () {
 
+                //smoothscroll
+                $('li[id^="#"]').on('click', function (e) {
+                    e.preventDefault();
+
+                    $('ul li').each(function () {
+                        $(this).removeClass('active');
+                    })
+                    $(this).addClass('active');
+                });
+            });
+
+        </script>
     </body>
 </html>
