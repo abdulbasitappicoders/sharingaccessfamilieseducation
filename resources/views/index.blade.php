@@ -37,8 +37,8 @@
     		<div class="container">
 			    <a class="navbar-brand" href="#">
                     <!-- Applock -->
-                    <img src="{{asset('landing/images/logo-light.png')}}" class="l-dark" alt="logo">
-                    <img src="{{asset('landing/images/logo-light.png')}}" class="l-light" alt="logo">
+                    <img src="{{asset('landing/images/Safe_logo.png')}}" class="l-dark" alt="logo">
+                    <img src="{{asset('landing/images/Safe_logo.png')}}" class="l-light" alt="logo">
                 </a>
 			    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 			        <span class="mdi mdi-menu"></span>
@@ -53,10 +53,10 @@
                             <a class="nav-link" href="#about">About Us</a>
                         </li>
 			            <li class="nav-item">
-			                <a class="nav-link" href="#services">Features</a>
+			                <a class="nav-link" href="#features">Features</a>
 			            </li>
 			            <li class="nav-item">
-			                <a class="nav-link" href="#work">Screenshots</a>
+			                <a class="nav-link" href="#screenshots">Screenshots</a>
 			            </li>
 
                     </ul><!--end navbar nav-->
@@ -132,7 +132,7 @@
         <!-- About End -->
 
         <!-- Feature Start -->
-        <section class="section bg-light" id="services">
+        <section class="section bg-light" id="features">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -263,7 +263,7 @@
         <!-- END COUTER -->
 
         <!-- START SCREENSHORT-->
-        <section class="section" id="work">
+        <section class="section" id="screenshots">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -387,37 +387,42 @@
         <script src="{{asset('landing/js/plugin.init.js')}}"></script>
         <!-- Main Js -->
         <script src="{{asset('landing/js/app.js')}}"></script>
+
         <script>
-            // Wait for the DOM content to load
-            document.addEventListener("DOMContentLoaded", function () {
-                // Get all the navigation links
-                const navLinks = document.querySelectorAll(".navbar-nav li.nav-item");
-                // Function to check if an element is in the viewport
-                function isElementInViewport(element) {
-                    const rect = element.getBoundingClientRect();
-                    return (
-                        rect.top >= 0 &&
-                        rect.left >= 0 &&
-                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-                    );
-                }
-                // Function to update the active navigation link
-                function updateActiveNavLink() {
-                    navLinks.forEach((link) => {
-                        const targetSectionId = link.querySelector("a").getAttribute("href");
-                        const targetSection = document.querySelector(targetSectionId);
-                        if (isElementInViewport(targetSection)) {
-                            navLinks.forEach((link) => link.classList.remove("active"));
-                            link.classList.add("active");
-                        }
-                    });
-                }
-                // Update the active navigation link on page load
-                updateActiveNavLink();
-                // Update the active navigation link on scroll
-                window.addEventListener("scroll", updateActiveNavLink);
+            // Function to check if an element is in the viewport
+            function isElementInViewport(el) {
+                var rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+
+            // Function to update the active class in the navbar based on scroll position
+            function updateActiveClass() {
+                var sections = ['home', 'about', 'services', 'work'];
+
+                sections.forEach(function (section) {
+                    var el = document.getElementById(section);
+                    if (isElementInViewport(el)) {
+                        $('nav.navbar li.nav-item').removeClass('active');
+                        $('nav.navbar li.nav-item a.nav-link[href="#' + section + '"]').parent().addClass('active');
+                    }
+                });
+            }
+
+            // Attach the scroll event listener
+            $(window).on('scroll', function () {
+                updateActiveClass();
+            });
+
+            // Call the function on page load to set the initial active class
+            $(document).ready(function () {
+                updateActiveClass();
             });
         </script>
+
     </body>
 </html>
