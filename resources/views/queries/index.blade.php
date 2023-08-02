@@ -11,6 +11,32 @@
             <div class="table-responsive">
                 <div class="all-users row">
                     <h4 class="text-dark font-weight-bold col-9">Queries</h4>
+                    <div class="col-md-12 mt-3">
+                        @if(Session::has('success'))
+                            <div class="alert alert-success alert-dismissible" style="text-align:center;">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"></a>
+                                <strong>Success!</strong>
+                                <?= htmlentities(Session::get('success'))?>
+                            </div>
+                        @endif
+                        @if(Session::has('error'))
+                            <div class="alert alert-danger alert-dismissible" style="text-align:center;">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"></a>
+                                <strong>Error!</strong>
+                                <?= htmlentities(Session::get('error'))?>
+                            </div>
+                        @endif
+
+                        @if($errors->any())
+                            <div class="alert alert-danger alert-dismissible" style="text-align:center;">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"></a>
+                                <p><strong>Whoops!</strong> Please correct errors and try again!</p>
+                                @foreach ($errors->all() as $error)
+                                    <div>{{ $error }}</div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
                 </div>
                 <table class="table table-hover table-vcenter text-nowrap table-striped mb-0" id="contact_us_query">
                     <thead class="bg-dark">

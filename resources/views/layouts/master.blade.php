@@ -198,8 +198,8 @@
     <script src="{{asset('assets/js/core.js')}}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
-
+{{--    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 {{--    <script src="//js.pusher.com/3.1/pusher.min.js"></script>--}}
 {{--    <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>--}}

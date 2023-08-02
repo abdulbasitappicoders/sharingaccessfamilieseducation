@@ -98,7 +98,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::post('admin/insert_faq_categories', [FAQController::class, 'insertFaqCategories'])->name('admin.insert_faq_categories');
     Route::get('admin/edit_faq_categories{id}', [FAQController::class, 'editFaqCategories'])->name('admin.edit_faq_categories');
     Route::post('admin/update_faq_categories', [FAQController::class, 'updateFaqCategories'])->name('admin.update_faq_categories');
-    Route::delete('admin/delete_faq_categories/{id}', [FAQController::class, 'deleteFaqCategories'])->name('admin.delete_faq_categories');
+    Route::delete('admin/delete_faq_categories/{id}', [FAQController::class, 'deleteFqueriesaqCategories'])->name('admin.delete_faq_categories');
 
     Route::get('admin/faq_answers', [FAQController::class, 'faqAnswers'])->name('admin.faq_answers');
     Route::post('admin/insert_faq_answers', [FAQController::class, 'insertFaqAnswers'])->name('admin.insert_faq_answers');
