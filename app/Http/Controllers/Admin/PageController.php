@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ContactQuery;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{Page, ContactUs, User, RidePayment, WebContactUs};
@@ -149,6 +150,10 @@ class PageController extends Controller
         if ($query && $query->is_read_query == null){
             $query->is_read_query = 1;
             $query->save();
+
+            // real time update query count
+            event(new ContactQuery(queryCount()));
+
             return 'success';
         }
 //        dd($query);
