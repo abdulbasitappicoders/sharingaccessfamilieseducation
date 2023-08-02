@@ -388,41 +388,5 @@
         <!-- Main Js -->
         <script src="{{asset('landing/js/app.js')}}"></script>
 
-        <script>
-            // Function to check if an element is in the viewport
-            function isElementInViewport(el) {
-                var rect = el.getBoundingClientRect();
-                return (
-                    rect.top >= 0 &&
-                    rect.left >= 0 &&
-                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-                );
-            }
-
-            // Function to update the active class in the navbar based on scroll position
-            function updateActiveClass() {
-                var sections = ['home', 'about', 'services', 'work'];
-
-                sections.forEach(function (section) {
-                    var el = document.getElementById(section);
-                    if (isElementInViewport(el)) {
-                        $('nav.navbar li.nav-item').removeClass('active');
-                        $('nav.navbar li.nav-item a.nav-link[href="#' + section + '"]').parent().addClass('active');
-                    }
-                });
-            }
-
-            // Attach the scroll event listener
-            $(window).on('scroll', function () {
-                updateActiveClass();
-            });
-
-            // Call the function on page load to set the initial active class
-            $(document).ready(function () {
-                updateActiveClass();
-            });
-        </script>
-
     </body>
 </html>
