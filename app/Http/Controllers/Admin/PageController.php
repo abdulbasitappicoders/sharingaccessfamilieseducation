@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Events\ContactQuery;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Monolog\Handler\IFTTTHandler;
 use App\Models\{Page, ContactUs, User, RidePayment, WebContactUs};
 use Illuminate\Support\Facades\Crypt;
 
@@ -85,11 +86,11 @@ class PageController extends Controller
     }
 
     //Queries Module
-    public function queries(){
-        $queries = ContactUs::with('user')->orderBy('id','DESC')->get();
-//        $queries = ContactUs::with('user')->orderBy('id','DESC')->simplePaginate(10);
-        return view('queries.index',compact('queries'));
-    }
+        public function queries(){
+            $queries = ContactUs::with('user')->orderBy('id','DESC')->get();
+    //        $queries = ContactUs::with('user')->orderBy('id','DESC')->simplePaginate(10);
+            return view('queries.index',compact('queries'));
+        }
 
     public function query_user($id){
         $user = User::find(Crypt::decryptString($id));

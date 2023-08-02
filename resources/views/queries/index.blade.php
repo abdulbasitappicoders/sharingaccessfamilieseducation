@@ -51,7 +51,7 @@
                     <tbody>
                         @php $i =1; @endphp
                         @foreach ($queries as $query)
-                        <tr class="mobile_app-query" data-id="{{ $query->id }}">
+                        <tr class="mobile_app-query11" data-id="{{ $query->id }}">
                             <td>{{ $i++ }}</td>
                             <td>{{ $query->user->email??"N/A" }}</td>
                             <td>
@@ -118,23 +118,7 @@
         $("#contact_usLabel").text($(this).data('title'));
     });
 
-    $(document).on('click','.mobile_app-query',function () {
-        var id = $(this).data('id');
-        var url = '{{ route("admin.read-query", ":id") }}';
-        url = url.replace(':id', id);
-        $.ajax({
-            type: 'GET', //THIS NEEDS TO BE GET
-            url: url,
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-            },error:function(){
-                console.log(data);
-            }
-        });
 
-        // alert(id);
-    });
     /*$(function(){
         $('.row').click(function(){
             var $row = $(this).index();
