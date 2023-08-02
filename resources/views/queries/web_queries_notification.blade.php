@@ -23,7 +23,9 @@
                                     <p class="notification-date">{{ formattedDate($notification->created_at) }}</p>
                                 </div>
                                 <p class="notification-desc">
-                                    {{ $notification->message??"" }}
+{{--                                    {{ $notification->message??"" }}--}}
+                                    {{ (strlen($notification->message) > 100)?substr($notification->message, 0, 100)." ...
+                                    ":$notification->message??'N/A' }}
                                 </p>
                             </a>
                         </div>
