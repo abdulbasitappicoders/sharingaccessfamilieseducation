@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Events\ContactQuery;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Monolog\Handler\IFTTTHandler;
 use App\Models\{Page, ContactUs, User, RidePayment, WebContactUs};
 use Illuminate\Support\Facades\Crypt;
 
