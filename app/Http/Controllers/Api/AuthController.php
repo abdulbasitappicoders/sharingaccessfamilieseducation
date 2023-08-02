@@ -95,7 +95,7 @@ class AuthController extends Controller
                 return apiresponse(false, 'User not found', ['data' => null]);
             }
 //            dd($user->status);
-            if($user && $user->status === 0) {
+            if($user && $user->status === "0") {
                 return apiresponse(false, 'This User Has Been Deactivated By Admin', ['data' => null]);
             }
 
