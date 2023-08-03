@@ -152,7 +152,7 @@ class PageController extends Controller
             $query->save();
 
             // real time update query count
-            event(new ContactQuery(queryCount()));
+//            event(new ContactQuery(queryCount()));
 
             return 'success';
         }
