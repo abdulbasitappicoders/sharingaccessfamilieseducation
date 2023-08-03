@@ -223,6 +223,19 @@ if (!function_exists('queryCount')) {
     }
 }
 
+if (!function_exists('displayCounter')) {
+
+    function displayCounter()
+    {
+        $display = ContactUs::whereNull('is_read_query')->count();
+        if ($display){
+            return 'block';
+        }else{
+            return 'none';
+        }
+    }
+}
+
 if (!function_exists('formattedDate')) {
 
     /**
