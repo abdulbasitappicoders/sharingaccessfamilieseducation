@@ -283,7 +283,7 @@
                         <div class="swiper-slide"><img src="{{asset('landing/images/sc/4.png')}}" class="img-fluid" alt="App Screenshots"></div>
                         <div class="swiper-slide"><img src="{{asset('landing/images/sc/5.png')}}" class="img-fluid" alt="App Screenshots"></div>
                         <div class="swiper-slide"><img src="{{asset('landing/images/sc/6.png')}}" class="img-fluid" alt="App Screenshots"></div>
-                        <div class="swiper-slide"><img src="{{asset('landing/images/sc/7.png')}}" class="img-fluid" alt="App Screenshots"></div>
+{{--                        <div class="swiper-slide"><img src="{{asset('landing/images/sc/7.png')}}" class="img-fluid" alt="App Screenshots"></div>--}}
                         <div class="swiper-slide"><img src="{{asset('landing/images/sc/8.png')}}" class="img-fluid" alt="App Screenshots"></div>
                         <div class="swiper-slide"><img src="{{asset('landing/images/sc/9.png')}}" class="img-fluid" alt="App Screenshots"></div>
                         <div class="swiper-slide"><img src="{{asset('landing/images/sc/10.png')}}" class="img-fluid" alt="App Screenshots"></div>
