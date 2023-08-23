@@ -163,7 +163,7 @@
                     <div class="input-group">
                         <a href="{{ route('admin.web-query-notification') }}" class="notification-icon">
                             <i class="fas fa-bell" style="color: #000; font-size: 30px"></i>
-                                <span id="notification-counter">{{ queryCount() }}</span>
+                                <span id="notification-counter" style="display: {{displayCounter()}}">{{ queryCount() }}</span>
                         </a>
                         <a class="btn btn-dark" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
@@ -250,7 +250,8 @@
     // Bind a function to a Event (the full Laravel class)
     channel.bind('App\\Events\\ContactQuery', function(data) {
         console.log(data.data,'work')
-        $('#notification-counter').text(data.data);
+        $('#notification-counter').text(data.data).css("display","block");
+        // $('#notification-counter').css("display","block");
         // alert(data)
     });
 
